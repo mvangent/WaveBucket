@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Senken.ViewModels.SessionDateGroup>
+
+@{
+    ViewBag.Title = "Musician Stats";
+}
+
+<h2>Musician Stats</h2>
+
+<table>
+    <tr>
+        <th>
+            Session Date 
+        </th>
+        <th>
+            Musicians
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionDate) 
+            </td>
+            <td>
+                @item.MusicianCount
+            </td>
+        </tr>
+    }
+    
+     
+</table>

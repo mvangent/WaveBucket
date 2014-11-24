@@ -1,0 +1,106 @@
+﻿@model Senken.Models.Session
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Session</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.InstrumentSetup.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InstrumentSetup.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Musician.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Musician.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OscIFrequency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OscIFrequency)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OscType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OscType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LFOIFrequency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LFOIFrequency)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LFOIScale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LFOIScale)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LFOType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LFOType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CompressorRatio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompressorRatio)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CompressorKnee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompressorKnee)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CompressorThreshold)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompressorThreshold)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MasterGain)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MasterGain)
+        </dd>
+        
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SessionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

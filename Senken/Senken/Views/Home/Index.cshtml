@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+    <div class="jumbotron">
+        <h1>Senken Synth</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Welcome to the Senken Synth</h2>
+            <p>
+                At Senken musicians and listeners will meet and experience an online multitweaking experience.
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2>Make and Listen</h2>
+            <p>
+                In order to maximize the social component that the Net can offer, this
+                place offers a softSynth that can be discovered and played with in a social setting, trespessing the limits of
+                physical space.
+            </p>
+
+        </div>
+        <div class="col-md-4">
+            <h2>Demo: Sine Stacker</h2>
+            <p>Here you can experience a short demo that Senken will offer. Stack your sinewaves and start creating some noise. </p>
+            <p>
+                <div>
+                    <div>
+            <p> Welcome to Senken Synths: Sinewave Stacker </p>
+            <div>
+                <span>Osc I: frequency</span>
+                <input type="number" id="sineFreq" name="frequency" min="1" max="20000" step="1" value="330" size="5" maxlength="5">
+                <input type="button" id="sineButton" name="sineGen" value="stack Siniod">
+                <input type="button" id="sineStopButton" name="sineStop" value="remove Last Wave">
+                <select id="oscIType">
+                    <option value="sine">Sine</option>
+                    <option value="square">Square</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="sawtooth">Sawtooth</option>
+                </select>
+
+
+                <br>
+
+                <br>
+                <canvas id="oscIVisualiser" width="500" height="100"></canvas>
+                <br><br>
+
+                <span> LFO I: frequency</span>
+                <input type="number" id="LFOFreq" name="lfoFrequency" min="1" max="200" step="1" value="3" size="3" maxlength="3">
+                <span> scale:</span>
+                <input type="number" id="LFOScale" name="lfoScale" min="1" max="10" step="1" value="1" size="2" maxlength="2">
+                <input type="button" id="LFOButton" name="LFOGen" value="activate LFO">
+                <input type="button" id="LFOStopButton" name="LFOStop" value="deactivate LFO">
+
+                <select id="lfoIType">
+                    <option value="sine">Sine</option>
+                    <option value="square">Square</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="sawtooth">Sawtooth</option>
+                </select>
+
+                <br><br>
+
+
+
+                <span> Compressor: ratio </span>
+                <input type="number" id="compRatio" name="compressorRatio" min="1" max="20" step="1" value="12" size="2" maxlength="2">
+                <input type="button" id="compRationButton" name="compRatio" value="adjust Ratio">
+                <span> knee </span>
+                <input type="number" id="compKnee" name="compressorKnee" min="0" max="40" step="1" value="30" size="2" maxlength="2">
+                <input type="button" id="compKneeButton" name="compKnee" value="adjust Knee">
+                <span> threshold </span>
+                <input type="number" id="compThreshold" name="compressorThreshold" min="-100" max="0" step="1" value="-23" size="3" maxlength="3">
+                <input type="button" id="compThresholdButton" name="compThreshold" value="adjust Threshold">
+
+                <br><br>
+
+                <span> master gain: </span>
+                <input type="number" id="masterGain" name="masterGainField" min="0" max="1" step=".01" value="1" size="3" maxlength="3">
+            </div>
+                    
+
+                    <script type="text/javascript" src="~/Scripts/senkenSynth.js">
+
+                    </script>
+
+                </div>
+            </p>
+        </div>
+       
+    
+     </div>
+
+   
