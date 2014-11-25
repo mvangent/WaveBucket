@@ -60,10 +60,10 @@ namespace Senken.Models
         public int MasterGain { get; set; }
 
         /* Wave bucket */
-        public List<Wave> waveBucket = new List<Wave>();
+        public List<Wave> WaveBucket = new List<Wave>();
         
         public void addWave(int frequency, OscType form) {
-            waveBucket.Add(new Wave(frequency, form));
+            WaveBucket.Add(new Wave(frequency, form));
         }
 
 

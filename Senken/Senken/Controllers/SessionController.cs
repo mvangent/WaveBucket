@@ -19,6 +19,7 @@ namespace Senken.Controllers
         public ActionResult Index()
         {
             var sessions = db.Sessions.Include(s => s.InstrumentSetup).Include(s => s.Musician);
+           
             return View(sessions.ToList());
         }
 
@@ -50,7 +51,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SessionID,InstrumentSetupID,MusicianID,Rating,OscIFrequency,OscType,LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
+        public ActionResult Create([Bind(Include = "SessionID,InstrumentSetupID,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +62,8 @@ namespace Senken.Controllers
 
             ViewBag.InstrumentSetupID = new SelectList(db.InstrumentSetups, "InstrumentSetupID", "Name", session.InstrumentSetupID);
             ViewBag.MusicianID = new SelectList(db.Musicians, "ID", "LastName", session.MusicianID);
+            
+
             return View(session);
         }
 
@@ -78,6 +81,9 @@ namespace Senken.Controllers
             }
             ViewBag.InstrumentSetupID = new SelectList(db.InstrumentSetups, "InstrumentSetupID", "Name", session.InstrumentSetupID);
             ViewBag.MusicianID = new SelectList(db.Musicians, "ID", "LastName", session.MusicianID);
+
+            ViewData["testBucket"] = "330, square /n 440, sine";
+            
             return View(session);
         }
 
@@ -86,7 +92,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SessionID,InstrumentSetupID,MusicianID,Rating,OscIFrequency,OscType,LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
+        public ActionResult Edit([Bind(Include = "SessionID,InstrumentSetupID,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
         {
             if (ModelState.IsValid)
             {

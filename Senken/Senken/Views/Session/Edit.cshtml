@@ -59,6 +59,10 @@
             <input type="button" id="sineButton" name="sineGen" value="stack Siniod">
             <input type="button" id="sineStopButton" name="sineStop" value="remove Last Wave">
 
+           
+
+
+
             <div class="form-group">
                 @Html.LabelFor(model => model.OscType, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -68,7 +72,16 @@
             </div>
 
 
+            <div class="form-group">
+                @Html.LabelFor(model => model.WaveBucket, "WaveBucket", htmlAttributes: new { @class = "control-label col-md-2" })
 
+                <div class="col-md-10">
+                    @Html.Encode(ViewData["testBucket"])
+
+                </div>
+
+
+            </div>
 
 
             <br>
