@@ -127,9 +127,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Senken\BiPlane-Zonked.csproj">
+    <ProjectReference Include="..\Senken\zonked-biplane.csproj">
       <Project>{DBB43EF5-E797-4FA5-87B3-9C09D0B0709B}</Project>
-      <Name>BiPlane-Zonked</Name>
+      <Name>zonked-biplane</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
