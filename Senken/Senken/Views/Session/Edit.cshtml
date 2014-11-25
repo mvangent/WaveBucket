@@ -75,9 +75,10 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.WaveBucket, "WaveBucket", htmlAttributes: new { @class = "control-label col-md-2" })
 
-                <div class="col-md-10">
-                    @Html.Encode(ViewData["testBucket"])
-
+                <div id="wavebucket">
+                    <ul id="bucketlist">
+                        <li>*-- empty --#</li>
+                    </ul>
                 </div>
 
 

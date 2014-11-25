@@ -175,52 +175,31 @@ function getCompressorThreshold() {
 };
 
 
-
 /*---------------------------------------------------------------------------------------------------------
-  ------- WAVE AND WAVEBUCKET ------------------------------------------------------------------------------------
-  -----------------------------------------------------------------------------------------------------------
+------- WAVE AND WAVEBUCKET ------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
 */
 
 var waveBucket = [];
 
-function addWaveToBucket(freq, shape) {
+function updateWaveBucket(freq, shape) {
     waveBucket.push(freq);
 
     updateWaveBucketDisplay();
 
 }
 
-function removeWaveFromBucket() {
-    waveBucket.pop();
-
-    updateWaveBucketDisplay();
-}
-
 function updateWaveBucketDisplay() {
-
     var arrayLength = waveBucket.length;
-
-    var mydiv = document.getElementById("bucketlist");
-
-    mydiv.innerHTML = "";
 
     for (var i = 0; i < arrayLength; i++) {
 
-        var newcontent = document.createElement('li');
-        newcontent.innerHTML = waveBucket[i];
-
-        mydiv.appendChild(newcontent);
+        document.getElementById("wavebucket").innerHTML = "<p> " + waveBucket.pop() + " </p>" 
 
     };
 
 
-
-
 }
-
-
-
-
 
 
 /*---------------------------------------------------------------------------------------------------------
@@ -268,23 +247,18 @@ function makeSineWave(sineFrequency, oscType) {
 
 function selectOscType(oscType) {
 
-    console.log("oscType: " + typeof(oscType));
+    console.log("oscIType: " + oscType + " selected")
 
-    switch (parseInt(oscType)) {
-        case 0 : oscIType = "sine";
-            console.log("oscIType: " + oscIType + " selected")
+    switch (oscType) {
+        case "sine": oscIType = "sine";
             break;
-        case 1: oscIType = "square";
-            console.log("oscIType: " + oscIType + " selected")
+        case "square": oscIType = "square";
             break;
-        case 2: oscIType = "triangle";
-            console.log("oscIType: " + oscIType + " selected")
+        case "triangle": oscIType = "triangle";
             break;
-        case 3: oscIType = "sawtooth";
-            console.log("oscIType: " + oscIType + " selected")
+        case "sawtooth": oscIType = "sawtooth";
             break;
-        default: oscIType = "sine";
-            console.log("default");
+        default: oscIType = "square";
 
     }
 }
@@ -306,8 +280,6 @@ function getSineWaveFrequency() {
     return document.getElementById("sineFreq").value
 
 };
-
-
 
 
 
@@ -369,21 +341,16 @@ function selectLFOType(oscType) {
 
     console.log("LFOIType: " + oscType + " selected")
 
-    switch (parseInt(oscType)) {
-        case 0: lfoIType = "sine";
-            console.log("lfoIType: " + lfoIType + " selected")
+    switch (oscType) {
+        case "sine": lfoIType = "sine";
             break;
-        case 1: lfoIType = "square";
-            console.log("lfoIType: " + lfoIType + " selected")
+        case "square": lfoIType = "square";
             break;
-        case 2: lfoIType = "triangle";
-            console.log("lfoIType: " + lfoIType + " selected")
+        case "triangle": lfoIType = "triangle";
             break;
-        case 3: lfoIType = "sawtooth";
-            console.log("lfoIType: " + lfoIType + " selected")
+        case "sawtooth": lfoIType = "sawtooth";
             break;
-        default: lfoIType = "sine";
-            console.log("default");
+        default: lfoIType = "square";
 
     }
 }
@@ -403,21 +370,21 @@ function getLFOIType() {
 -----------------------------------------------------------------------------------------------------------
 */
 
+
 /* oscillator I */
 var sineLoadButtonElement;
 
 
 sineLoadButtonElement = document.getElementById("sineButton");
 sineLoadButtonElement.addEventListener("click", function () { makeSineWave(getSineWaveFrequency(), oscIType) })
-sineLoadButtonElement.addEventListener("click", function () { addWaveToBucket(getSineWaveFrequency(), getOscIType()) })
-
+sineLoadButtonElement.addEventListener("click", function () { updateWaveBucket(getSineWaveFrequency(), getOscIType()) })
+sineLoadButtonElement.addEventListener("click", function () { updateWaveBucketDisplay() })
 
 
 var sineStopButtonElement;
 
 sineStopButtonElement = document.getElementById("sineStopButton");
 sineStopButtonElement.addEventListener("click", function () { makeLastSineWaveStop() })
-sineStopButtonElement.addEventListener("click", function () { removeWaveFromBucket() })
 
 var oscITypeElement = document.getElementById("oscIType");
 oscITypeElement.addEventListener("change", function () { selectOscType(getOscIType()) })
