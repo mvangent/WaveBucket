@@ -20,6 +20,17 @@ namespace Senken.Models
         sine, square, triangle, sawtooth
     }
     
+    public struct Wave {
+        int frequency;
+        OscType type;
+
+        public Wave(int frequency, OscType type)
+        {
+            this.frequency = frequency;
+            this.type = type;
+        }
+    }
+
     public class Session
     {
        
@@ -32,6 +43,8 @@ namespace Senken.Models
         /* oscillator I */
         public int OscIFrequency { get; set; }
         public OscType OscType { get; set;}
+        
+
 
         /* LFO I */
         public int LFOIFrequency { get; set; }
@@ -45,6 +58,13 @@ namespace Senken.Models
 
         /* Master Gain */
         public int MasterGain { get; set; }
+
+        /* Wave bucket */
+        public List<Wave> waveBucket = new List<Wave>();
+        
+        public void addWave(int frequency, OscType form) {
+            waveBucket.Add(new Wave(frequency, form));
+        }
 
 
 
