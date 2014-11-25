@@ -195,13 +195,13 @@ ul#menu {
     }
 
         ul#menu li a {
-            background: none;
-            color: #deb887;
+            background: #c4f5c7;
+            color: lightgreen;
             text-decoration: none;
         }
 
         ul#menu li a:hover {
-            color: #333;
+            color: #fff;
             text-decoration: none;
         }
 
