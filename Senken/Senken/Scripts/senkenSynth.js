@@ -182,16 +182,21 @@ function getCompressorThreshold() {
 */
 
 var waveBucket = [];
+var freshlyAddedOscillation = false;
 
 function addWaveToBucket(freq, shape) {
     waveBucket.push(freq);
-
+    freshlyAddedOscillation = true;
     updateWaveBucketDisplay();
 
 }
 
 function removeWaveFromBucket() {
-    waveBucket.pop();
+
+    if (freshlyAddedOscillation) {
+        waveBucket.pop();
+        freshlyAddedOscillation = false;
+    }
 
     updateWaveBucketDisplay();
 }
