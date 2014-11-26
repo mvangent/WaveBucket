@@ -36,7 +36,7 @@ namespace Senken.Models
        
 
         public int SessionID { get; set; }
-        public int InstrumentSetupID { get; set; }
+        public string Title { get; set; }
         public int MusicianID { get; set; }
         public Rating? Rating { get; set;}
 

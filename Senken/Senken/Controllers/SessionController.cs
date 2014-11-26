@@ -41,7 +41,7 @@ namespace Senken.Controllers
         // GET: Session/Create
         public ActionResult Create()
         {
-            ViewBag.InstrumentSetupID = new SelectList(db.InstrumentSetups, "InstrumentSetupID", "Name");
+            
             ViewBag.MusicianID = new SelectList(db.Musicians, "ID", "LastName");
             return View();
         }
@@ -51,7 +51,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SessionID,InstrumentSetupID,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
+        public ActionResult Create([Bind(Include = "SessionID,Title,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace Senken.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.InstrumentSetupID = new SelectList(db.InstrumentSetups, "InstrumentSetupID", "Name", session.InstrumentSetupID);
+            
             ViewBag.MusicianID = new SelectList(db.Musicians, "ID", "LastName", session.MusicianID);
             
 
@@ -79,10 +79,10 @@ namespace Senken.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.InstrumentSetupID = new SelectList(db.InstrumentSetups, "InstrumentSetupID", "Name", session.InstrumentSetupID);
+            
             ViewBag.MusicianID = new SelectList(db.Musicians, "ID", "LastName", session.MusicianID);
 
-            ViewData["testBucket"] = "330, square /n 440, sine";
+            
             
             return View(session);
         }
@@ -92,7 +92,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SessionID,InstrumentSetupID,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
+        public ActionResult Edit([Bind(Include = "SessionID,Title,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace Senken.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.InstrumentSetupID = new SelectList(db.InstrumentSetups, "InstrumentSetupID", "Name", session.InstrumentSetupID);
+            
             ViewBag.MusicianID = new SelectList(db.Musicians, "ID", "LastName", session.MusicianID);
             return View(session);
         }

@@ -25,32 +25,21 @@ namespace Senken.DAL
 
             musicians.ForEach(s => context.Musicians.Add(s));
             context.SaveChanges();
-            var instrumentSetups = new List<InstrumentSetup>
-            {
-            new InstrumentSetup{InstrumentSetupID=1050,Name="SineStacker",Level=3,},
-            new InstrumentSetup{InstrumentSetupID=4022,Name="LFO",Level=3,},
-            new InstrumentSetup{InstrumentSetupID=4041,Name="Granular",Level=3,},
-            new InstrumentSetup{InstrumentSetupID=1045,Name="Sawvy",Level=4,},
-            new InstrumentSetup{InstrumentSetupID=3141,Name="FourierTransform",Level=4,},
-            new InstrumentSetup{InstrumentSetupID=2021,Name="SawTeeth",Level=3,},
-            new InstrumentSetup{InstrumentSetupID=2042,Name="Substractive",Level=4,}
-            };
-            instrumentSetups.ForEach(s => context.InstrumentSetups.Add(s));
-            context.SaveChanges();
+           
             var sessions = new List<Session>
             {
-            new Session{MusicianID=1,InstrumentSetupID=1050,Rating=Rating.A},
-            new Session{MusicianID=1,InstrumentSetupID=4022,Rating=Rating.C},
-            new Session{MusicianID=1,InstrumentSetupID=4041,Rating=Rating.B},
-            new Session{MusicianID=2,InstrumentSetupID=1045,Rating=Rating.B},
-            new Session{MusicianID=2,InstrumentSetupID=3141,Rating=Rating.F},
-            new Session{MusicianID=2,InstrumentSetupID=2021,Rating=Rating.F},
-            new Session{MusicianID=3,InstrumentSetupID=1050},
-            new Session{MusicianID=4,InstrumentSetupID=1050,},
-            new Session{MusicianID=4,InstrumentSetupID=4022,Rating=Rating.F},
-            new Session{MusicianID=5,InstrumentSetupID=4041,Rating=Rating.C},
-            new Session{MusicianID=6,InstrumentSetupID=1045},
-            new Session{MusicianID=7,InstrumentSetupID=3141,Rating=Rating.A},
+            new Session{MusicianID=1,Rating=Rating.A},
+            new Session{MusicianID=1,Rating=Rating.C},
+            new Session{MusicianID=1,Rating=Rating.B},
+            new Session{MusicianID=2,Rating=Rating.B},
+            new Session{MusicianID=2,Rating=Rating.F},
+            new Session{MusicianID=2,Rating=Rating.F},
+            new Session{MusicianID=3},
+            new Session{MusicianID=4},
+            new Session{MusicianID=4,Rating=Rating.F},
+            new Session{MusicianID=5,Rating=Rating.C},
+            new Session{MusicianID=6,},
+            new Session{MusicianID=7,Rating=Rating.A},
             };
             sessions.ForEach(s => context.Sessions.Add(s));
             context.SaveChanges();
