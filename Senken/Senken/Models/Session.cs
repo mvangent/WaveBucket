@@ -41,14 +41,14 @@ namespace Senken.Models
         public Rating? Rating { get; set;}
 
         /* oscillator I */
-        public int OscIFrequency { get; set; }
+        public float OscIFrequency { get; set; }
         public OscType OscType { get; set;}
         
 
 
         /* LFO I */
-        public int LFOIFrequency { get; set; }
-        public int LFOIScale { get; set; }
+        public float LFOIFrequency { get; set; }
+        public float LFOIScale { get; set; }
         public LFOType LFOType { get; set; }
 
         /* Compressor */
@@ -57,7 +57,7 @@ namespace Senken.Models
         public int CompressorThreshold { get; set; }
 
         /* Master Gain */
-        public int MasterGain { get; set; }
+        public float MasterGain { get; set; }
 
         /* Wave bucket */
         public List<int>WaveBucket { get; set; }

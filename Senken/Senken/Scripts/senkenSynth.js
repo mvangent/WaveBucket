@@ -113,7 +113,7 @@ masterGain.connect(analyser);
 masterGain.gain.value = 1;
 
 function changeMasterGain(masGain) {
-    masterGain.gain.value = masGain;
+    masterGain.gain.value = masGain/100;
 }
 
 

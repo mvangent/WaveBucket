@@ -169,7 +169,7 @@
 
                 <div class="col-md-10">
 
-                    @Html.TextBoxFor(model => model.MasterGain, new { type="number", id="masterGain", name="masterGainField", min="0", max="1", step=".01", value="1", size="3", maxlength="3" })
+                    @Html.TextBoxFor(model => model.MasterGain, new { type="number", id="masterGain", name="masterGainField", min="0", max="100", step="1", value="50", size="3", maxlength="3" })
                     @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
                 </div>
             </div>
