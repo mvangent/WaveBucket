@@ -331,29 +331,36 @@ var SCALE = .4;
 var lfo;
 var lfoIType = "sine";
 
+var lfoActive = false; 
+
 
 function activateLFO(lfoFreq, scale, lfoType) {
 
     // Create oscillator.
-    lfo = context.createOscillator();
-    lfo.type = lfoType;
-    lfo.frequency.value = lfoFreq;
-    var gain = context.createGain();
-    gain.gain.value = scale;
-    lfo.connect(gain);
+
+    if (!lfoActive) {
+        lfo = context.createOscillator();
+        lfo.type = lfoType;
+        lfo.frequency.value = lfoFreq;
+        var gain = context.createGain();
+        gain.gain.value = scale;
+        lfo.connect(gain);
+        
+        gain.connect(gainNode.gain);
+        
+        lfo.start(context.currentTime);
+
+        lfoActive = true;
+
+        console.log("lfo added");
 
 
-
-    gain.connect(gainNode.gain);
-
-
-    lfo.start(context.currentTime);
-
-    console.log("lfo added");
+    }
 };
 
 function deactivateLFO() {
     lfo.stop(context.currentTime);
+    lfoActive = false;
     console.log("lfo stopped");
 };
 
