@@ -8,11 +8,44 @@ namespace Senken.Hubs
 {
     public class JamHub : Hub
     {
-        public void Send(string OscIFrequency, string OscType)
+        public void GenerateSound(string OscIFrequency, string OscIType)
         {
-            Console.Write("reached");
+            
             // call the 
-            Clients.All.makeSineWave(OscIFrequency, OscType);
+            Clients.All.waveGenerator(OscIFrequency, OscIType);
         }
+
+        public void RemoveLastSound()
+        {
+            Clients.All.waveRemover();
+        }
+
+        public void ActivateLFO(string LfoFreq, string LfoScale, string LfoType)
+        {
+            Clients.All.lfoActivator(LfoFreq, LfoScale, LfoType);
+        }
+
+        public void DeactivateLFO()
+        {
+            Clients.All.lfoDeactivator();
+        }
+
+        public void AdjustCompRatio(string ratio)
+        {
+            Clients.All.compRatioAdjuster(ratio);
+        }
+
+        public void AdjustCompKnee(string knee)
+        {
+            Clients.All.compKneeAdjuster(knee);
+        }
+        
+
+        public void AdjustCompThreshold(string threshold)
+        {
+            Clients.All.compThresholdAdjuster(threshold);
+        }
+        
+
     }
 }
