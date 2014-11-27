@@ -1,5 +1,4 @@
 ﻿
-
 /*---------------------------------------------------------------------------------------------------------
 ------- AudioContext ----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
@@ -234,6 +233,8 @@ function updateWaveBucketDisplay() {
 */
 
 
+
+
 /* SineStacker related Code */
 var osc;
 
@@ -241,13 +242,21 @@ var oscIType = "sine";
 
 var gainNode = context.createGain();
 
+/* jamhub test impl */
+$(function () {
+    console.log("jamhub test is reached");
+    // reference the auto-generated proxy for the hub
+    var jam = $.connection.jamHub;
+    // create a function that the hub can call back to create sounds
+    jam.client.makeSineWave = function (sineFrequency, oscType) {
 
-
-function makeSineWave(sineFrequency, oscType) {
+        $('#discussion').append('test');
+    
+    console.log("makeSineWave reached");
     // Create oscillator.
     osc = context.createOscillator();
     osc.type = oscType;
-    osc.frequency.value = sineFrequency;
+    osc.frequency.value = getSineWaveFrequency();
 
     // create gainNode
     //gainNode = context.createGain();
@@ -266,9 +275,23 @@ function makeSineWave(sineFrequency, oscType) {
     // Start immediately, and stop in 2 seconds.
     osc.start(context.currentTime);
     //osc.stop(context.currentTime + DURATION);
-    console.log("Osc I: started")
+    console.log("Osc I: started at freq " + osc.frequency.value);
 
-};
+    };
+
+    $.connection.hub.start().done(function () {
+        $('#sineButton').click(function () {
+            console.log("sineButton listener works");
+            $('#discussion').append('test');
+
+            // Call the Send method on the hub. 
+            jam.server.send($('#OscIFrequency').val(), $('#oscIType').val());
+            // Clear text box and reset focus for next comment. 
+            //$('#OscIFrequency').val('').focus();
+        });
+    });
+
+});
 
 
 function selectOscType(oscType) {
@@ -420,7 +443,7 @@ var sineLoadButtonElement;
 
 
 sineLoadButtonElement = document.getElementById("sineButton");
-sineLoadButtonElement.addEventListener("click", function () { makeSineWave(getSineWaveFrequency(), oscIType) })
+//sineLoadButtonElement.addEventListener("click", function () { makeSineWave(getSineWaveFrequency(), oscIType) })
 sineLoadButtonElement.addEventListener("click", function () { addWaveToBucket(getSineWaveFrequency(), getOscIType()) })
 
 
