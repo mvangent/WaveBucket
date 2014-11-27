@@ -1,5 +1,4 @@
 ﻿
-
 /*---------------------------------------------------------------------------------------------------------
 ------- AudioContext ----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
@@ -137,9 +136,12 @@ compressor.connect(masterGain);
 
 // ratio 
 
-function setCompressorRatio(ratio) {
+var compRatioAdjusterPointer = function(ratio) {
     console.log("compressor ratio set to 1 /  " + ratio);
     compressor.ratio.value = ratio;
+
+    // change value in field
+    $('#compRatio').val(ratio);
 }
 
 function getCompressorRatio() {
@@ -150,9 +152,12 @@ function getCompressorRatio() {
 
 // knee
 
-function setCompressorKnee(knee) {
+var compKneeAdjusterPointer = function(knee) {
     console.log("compressor knee set to " + knee);
     compressor.knee.value = knee;
+
+    // change value in field
+    $('#compKnee').val(knee);
 }
 
 function getCompressorKnee() {
@@ -163,9 +168,12 @@ function getCompressorKnee() {
 
 // threshold
 
-function setCompressorThreshold(threshold) {
+var compThresholdAdjusterPointer = function(threshold) {
     console.log("compressor Threshold set to " + threshold);
     compressor.threshold.value = threshold;
+
+    // change value in field
+    $('#compThreshold').val(threshold);
 }
 
 function getCompressorThreshold() {
@@ -234,6 +242,8 @@ function updateWaveBucketDisplay() {
 */
 
 
+
+
 /* SineStacker related Code */
 var osc;
 
@@ -242,8 +252,11 @@ var oscIType = "sine";
 var gainNode = context.createGain();
 
 
+var waveGeneratorPointer = function (sineFrequency, oscType) {
 
-function makeSineWave(sineFrequency, oscType) {
+
+
+    console.log("makeSineWave reached");
     // Create oscillator.
     osc = context.createOscillator();
     osc.type = oscType;
@@ -266,9 +279,19 @@ function makeSineWave(sineFrequency, oscType) {
     // Start immediately, and stop in 2 seconds.
     osc.start(context.currentTime);
     //osc.stop(context.currentTime + DURATION);
-    console.log("Osc I: started")
+    console.log("Osc I: started at freq " + osc.frequency.value);
+
+    // add wave to the bucket
+    addWaveToBucket(sineFrequency, oscType);
+
+    // set field value to last value
+    $('#sineFreq').val(sineFrequency);
+    $('#oscIType').val(oscType);
 
 };
+
+
+
 
 
 function selectOscType(oscType) {
@@ -302,9 +325,12 @@ function getOscIType() {
 }
 
 
-function makeLastSineWaveStop() {
+var waveRemoverPointer = function() {
     osc.stop(context.currentTime);
     console.log("Osc I: stopped")
+
+    // remove wave from the bucket
+    removeWaveFromBucket();
 };
 
 function getSineWaveFrequency() {
@@ -334,7 +360,7 @@ var lfoIType = "sine";
 var lfoActive = false; 
 
 
-function activateLFO(lfoFreq, scale, lfoType) {
+var lfoActivatorPointer = function (lfoFreq, scale, lfoType) {
 
     // Create oscillator.
 
@@ -354,11 +380,17 @@ function activateLFO(lfoFreq, scale, lfoType) {
 
         console.log("lfo added");
 
+        // change value in field
+        $('#LFOFreq').val(lfoFreq);
+        $('#LFOScale').val(scale);
+        $('#lfoIType').val(lfoType);
+        
+
 
     }
 };
 
-function deactivateLFO() {
+var lfoDeactivatorPointer = function() {
     lfo.stop(context.currentTime);
     lfoActive = false;
     console.log("lfo stopped");
@@ -416,20 +448,20 @@ function getLFOIType() {
 */
 
 /* oscillator I */
-var sineLoadButtonElement;
+//var sineLoadButtonElement;
 
 
-sineLoadButtonElement = document.getElementById("sineButton");
-sineLoadButtonElement.addEventListener("click", function () { makeSineWave(getSineWaveFrequency(), oscIType) })
-sineLoadButtonElement.addEventListener("click", function () { addWaveToBucket(getSineWaveFrequency(), getOscIType()) })
+//sineLoadButtonElement = document.getElementById("sineButton");
+//sineLoadButtonElement.addEventListener("click", function () { makeSineWave(getSineWaveFrequency(), oscIType) })
+//sineLoadButtonElement.addEventListener("click", function () { addWaveToBucket(getSineWaveFrequency(), getOscIType()) })
 
 
 
-var sineStopButtonElement;
+//var sineStopButtonElement;
 
-sineStopButtonElement = document.getElementById("sineStopButton");
-sineStopButtonElement.addEventListener("click", function () { makeLastSineWaveStop() })
-sineStopButtonElement.addEventListener("click", function () { removeWaveFromBucket() })
+//sineStopButtonElement = document.getElementById("sineStopButton");
+//sineStopButtonElement.addEventListener("click", function () { makeLastSineWaveStop() })
+//sineStopButtonElement.addEventListener("click", function () { removeWaveFromBucket() })
 
 var oscITypeElement = document.getElementById("oscIType");
 oscITypeElement.addEventListener("change", function () { selectOscType(getOscIType()) })
@@ -440,12 +472,12 @@ var LFOLoadButtonElement;
 
 
 LFOLoadButtonElement = document.getElementById("LFOButton");
-LFOLoadButtonElement.addEventListener("click", function () { activateLFO(getLFOFrequency(), getLFOScale(), lfoIType) });
+//LFOLoadButtonElement.addEventListener("click", function () { activateLFO(getLFOFrequency(), getLFOScale(), lfoIType) });
 
 var LFOStopButtonElement;
 
 LFOStopButtonElement = document.getElementById("LFOStopButton");
-LFOStopButtonElement.addEventListener("click", function () { deactivateLFO() });
+//LFOStopButtonElement.addEventListener("click", function () { deactivateLFO() });
 
 var lfoITypeElement = document.getElementById("lfoIType");
 lfoITypeElement.addEventListener("change", function () { selectLFOType(getLFOIType()) })
@@ -454,21 +486,135 @@ lfoITypeElement.addEventListener("change", function () { selectLFOType(getLFOITy
 /* Compressor  */
 var compressorRatioButtonElement;
 
-compressorRatioButtonElement = document.getElementById("compRationButton");
-compressorRatioButtonElement.addEventListener("click", function () { setCompressorRatio(getCompressorRatio()) });
+compressorRatioButtonElement = document.getElementById("compRatioButton");
+//compressorRatioButtonElement.addEventListener("click", function () { setCompressorRatio(getCompressorRatio()) });
 
 var compressorKneeButtonElement;
 
 compressorKneeButtonElement = document.getElementById("compKneeButton");
-compressorKneeButtonElement.addEventListener("click", function () { setCompressorKnee(getCompressorKnee()) });
+//compressorKneeButtonElement.addEventListener("click", function () { setCompressorKnee(getCompressorKnee()) });
 
 var compressorThresholdButtonElement;
 
 compressorThresholdButtonElement = document.getElementById("compThresholdButton");
-compressorThresholdButtonElement.addEventListener("click", function () { setCompressorThreshold(getCompressorThreshold()) });
+//compressorThresholdButtonElement.addEventListener("click", function () { setCompressorThreshold(getCompressorThreshold()) });
 
 /* Master */
 var masterGainField;
 
 masterGainField = document.getElementById("masterGain");
 masterGainField.addEventListener("change", function () { changeMasterGain(getMasterGain()) });
+
+
+/*---------------------------------------------------------------------------------------------------------
+------- JAMHUB IMPLEMENTATION WITH ASP.NET SIGNALR ------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
+*/
+
+
+/* jamhub  impl */
+$(function () {
+    console.log("jamhub is reached");
+    // reference the auto-generated proxy for the hub
+    var jam = $.connection.jamHub;
+    // create a function that the hub can call back to create sounds
+    jam.client.waveGenerator = waveGeneratorPointer;
+    jam.client.waveRemover = waveRemoverPointer;
+    jam.client.lfoActivator = lfoActivatorPointer;
+    jam.client.lfoDeactivator = lfoDeactivatorPointer;
+    jam.client.compRatioAdjuster = compRatioAdjusterPointer;
+    jam.client.compKneeAdjuster = compKneeAdjusterPointer;
+    jam.client.compThresholdAdjuster = compThresholdAdjusterPointer;
+
+    $.connection.hub.start().done(function () {
+
+        /* -----------------------------
+        ---------OSCILLATOR I-----------
+        --------------------------------
+        */
+
+        // event listener stack oscillation 
+        $('#sineButton').click(function () {
+            console.log("sineButton clicked");
+            
+            
+            // Call the GenerateSound method on the hub. 
+            jam.server.generateSound(getSineWaveFrequency(), oscIType);
+
+        });
+
+        // event listener remove last oscillation 
+        $('#sineStopButton').click(function () {
+            console.log("sineStopButton clicked");
+            
+            // Call the RemoveLastSound method on the hub. 
+            jam.server.removeLastSound();
+
+        });
+
+
+        /* -----------------------------
+       ------------ LFO I --------------
+       ---------------------------------
+       */
+
+        // event listener activation LFO 
+        $('#LFOButton').click(function () {
+            console.log("LFOButton clicked");
+
+            // Call the RemoveLastSound method on the hub. 
+            jam.server.activateLFO(getLFOFrequency(), getLFOScale(), lfoIType);
+
+        });
+
+        // event listener deactivation LFO 
+        $('#LFOStopButton').click(function () {
+            console.log("LFOStopButton clicked");
+
+            // Call the RemoveLastSound method on the hub. 
+            jam.server.deactivateLFO();
+
+        });
+
+
+        /* -----------------------------
+      ------------ COMPRESSOR ----------
+      ---------------------------------
+      */
+
+        // event listener ratio Compressor 
+        $('#compRatioButton').click(function () {
+            console.log("compressor ratio adjusted");
+
+            // Call the AdjustCompRatio method on the hub. 
+            jam.server.adjustCompRatio(getCompressorRatio());
+
+        });
+
+        // event listener knee Compressor 
+        $('#compKneeButton').click(function () {
+            console.log("compressor knee adjusted");
+
+            // Call the AdjustCompKnee method on the hub.
+            jam.server.adjustCompKnee(getCompressorKnee());
+
+        });
+
+        // event listener treshold Compressor 
+        $('#compThresholdButton').click(function () {
+            console.log("compressor treshold adjusted");
+
+            // Call the AdjustCompThreshold method on the hub.
+            jam.server.adjustCompThreshold(getCompressorThreshold());
+
+        });
+
+      
+
+
+
+
+
+    });
+
+});
