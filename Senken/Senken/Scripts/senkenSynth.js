@@ -107,10 +107,55 @@ draw();
 -----------------------------------------------------------------------------------------------------------
 */
 
+var start = false;
+var stop = true;
+
 /* stop (suspend) button */
 
 sessionSuspenderPointer = function () {
-    context.suspend();
+
+    if (!stop) {
+
+        oscActivation = false;
+
+        console.log("stop function activated");
+
+        for (var i = 0; i < waveBucket.length; i++) {
+            waveBucket[i].stop();
+        }
+
+        stop = true;
+        start = false;
+    }
+}
+
+
+sessionPlayerPointer = function () {
+
+    if (!start) {
+
+        oscActivation = true;
+
+        console.log("start function activated");
+
+        var arrayLength = waveBucket.length
+
+        for (var i = 0; i < arrayLength; i++) {
+            waveGeneratorPointer(waveBucket[i].frequency.value);
+
+        }
+
+        for (var i = 0; i < arrayLength; i++) {
+            waveBucket.shift();
+
+        }
+
+        updateWaveBucketDisplay();
+
+        start = true;
+        stop = false;
+    }
+    
 }
 
 
@@ -202,10 +247,10 @@ function getCompressorThreshold() {
 var waveBucket = [];
 var freshlyAddedOscillation = false;
 
-function addWaveToBucket(freq, shape) {
-    waveBucket.push(freq);
+function addWaveToBucket(osc) {
+    waveBucket.push(osc);
     freshlyAddedOscillation = true;
-    updateWaveBucketDisplay();
+    updateWaveBucketDisplay(osc);
 
 }
 
@@ -219,7 +264,7 @@ function removeWaveFromBucket() {
     updateWaveBucketDisplay();
 }
 
-function updateWaveBucketDisplay() {
+function updateWaveBucketDisplay(osc) {
 
     var arrayLength = waveBucket.length;
 
@@ -230,7 +275,7 @@ function updateWaveBucketDisplay() {
     for (var i = 0; i < arrayLength; i++) {
 
         var newcontent = document.createElement('li');
-        newcontent.innerHTML = waveBucket[i];
+        newcontent.innerHTML = waveBucket[i].frequency.value + " " + waveBucket[i].type.value;
 
         mydiv.appendChild(newcontent);
 
@@ -255,6 +300,8 @@ function updateWaveBucketDisplay() {
 
 
 /* SineStacker related Code */
+var oscActivation = false;
+
 var osc;
 
 var oscIType = "sine";
@@ -264,38 +311,40 @@ var gainNode = context.createGain();
 
 var waveGeneratorPointer = function (sineFrequency, oscType) {
 
+    if (oscActivation) {
+
+        console.log("makeSineWave reached");
+        // Create oscillator.
+        osc = context.createOscillator();
+        osc.type = oscType;
+        osc.frequency.value = sineFrequency;
+
+        // create gainNode
+        //gainNode = context.createGain();
+
+        //gainNode.gain.value = 1;
+
+        osc.connect(gainNode);
+
+        gainNode.connect(compressor);
 
 
-    console.log("makeSineWave reached");
-    // Create oscillator.
-    osc = context.createOscillator();
-    osc.type = oscType;
-    osc.frequency.value = sineFrequency;
-
-    // create gainNode
-    //gainNode = context.createGain();
-
-    //gainNode.gain.value = 1;
-
-    osc.connect(gainNode);
-
-    gainNode.connect(compressor);
 
 
 
+        // Start immediately, and stop in 2 seconds.
+        osc.start(context.currentTime);
+        //osc.stop(context.currentTime + DURATION);
+        console.log("Osc I: started at freq " + osc.frequency.value);
 
+        // add wave to the bucket
+        addWaveToBucket(osc);
 
-    // Start immediately, and stop in 2 seconds.
-    osc.start(context.currentTime);
-    //osc.stop(context.currentTime + DURATION);
-    console.log("Osc I: started at freq " + osc.frequency.value);
+        // set field value to last value
+        $('#sineFreq').val(sineFrequency);
+        $('#oscIType').val(oscType);
 
-    // add wave to the bucket
-    addWaveToBucket(sineFrequency, oscType);
-
-    // set field value to last value
-    $('#sineFreq').val(sineFrequency);
-    $('#oscIType').val(oscType);
+    }
 
 };
 
@@ -534,7 +583,8 @@ $(function () {
     jam.client.compRatioAdjuster = compRatioAdjusterPointer;
     jam.client.compKneeAdjuster = compKneeAdjusterPointer;
     jam.client.compThresholdAdjuster = compThresholdAdjusterPointer;
-    jam.client.sessionSuspender = sessionSuspenderPointer
+    jam.client.sessionSuspender = sessionSuspenderPointer;
+    jam.client.sessionPlayer = sessionPlayerPointer;
 
     $.connection.hub.start().done(function () {
 
@@ -628,6 +678,13 @@ $(function () {
         $('#stopButton').click(function () {
 
             jam.server.stopSession();
+
+        });
+
+        // event listerner suspend button
+        $('#playButton').click(function () {
+
+            jam.server.playSession();
 
         });
 
