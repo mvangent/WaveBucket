@@ -6,198 +6,252 @@
 
 <h2>Create</h2>
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
 
-    
-
     <div class="form-horizontal">
         <h4>Session</h4>
-        
-        <input type="button" id="playButton"  value="Play">
-        <input type="button" id="stopButton"  value="Stop">
-        
-        
+
+        <input type="button" id="playButton" value="Play">
+        <input type="button" id="stopButton" value="Stop">
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
 
-            <div class="col-md-10">
 
-                @Html.TextBoxFor(model => model.Title, new { type = "text", id = "sessiontitle" })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MusicianID, "MusicianID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MusicianID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.MusicianID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.Rating, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="senkenContainer">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.OscIFrequency, "OscIFrequency",  htmlAttributes: new { @class = "control-label col-md-2" })
-                
-                <div class="col-md-10">
-                   
-                    @Html.TextBoxFor(model => model.OscIFrequency, new {type="number", id="sineFreq", name="frequency", min="1", max="20000", step="1", value="330" })
-                    @Html.ValidationMessageFor(model => model.OscIFrequency, "", new { @class = "text-danger" })
+
+            <!---LEFT COLUMN-->
+
+            <div id="senkenLeftColumn">
+
+                <!---Oscillator-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OscIFrequency, "OscIFrequency", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.OscIFrequency, new { type = "number", id = "sineFreq", name = "frequency", min = "1", max = "20000", step = "1", value = "330" })
+                        @Html.ValidationMessageFor(model => model.OscIFrequency, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-            </div>
 
 
 
-            
-            <input type="button" id="sineButton" name="sineGen" value="stack Oscillation">
-            <input type="button" id="sineStopButton" name="sineStop" value="remove Last Oscillation">
+
+                <input type="button" id="sineButton" name="sineGen" value="stack Oscillation">
+                <input type="button" id="sineStopButton" name="sineStop" value="remove Last Oscillation">
 
 
-        
-            
-            <div class="form-group">
-                @Html.LabelFor(model => model.OscType, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                     @Html.EnumDropDownListFor(model => model.OscType, htmlAttributes: new {id="oscIType", @class = "form-control" })
-                     @Html.ValidationMessageFor(model => model.OscType, "", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OscType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.OscType, htmlAttributes: new { id = "oscIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OscType, "", new { @class = "text-danger" })
+                    </div>
                 </div>
-           </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.WaveBucket, "WaveBucket", htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+
+
+
+                <br>
+                <canvas id="oscIVisualiser" width="500" height="100"></canvas>
+                <br>
+
+                <!---LFO -->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LFOIFrequency, "LFO I: frequency", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.LFOIFrequency, new { type = "number", id = "LFOFreq", name = "lfoFrequency", min = "1", max = "200", step = "1", value = "3" })
+                        @Html.ValidationMessageFor(model => model.LFOIFrequency, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LFOIScale, "scale", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.LFOIScale, new { type = "number", id = "LFOScale", name = "lfoScale", min = "1", max = "10", step = "1", value = "1" })
+                        @Html.ValidationMessageFor(model => model.LFOIScale, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br>
+
+
+
+
+
+
+                <input type="button" id="LFOButton" name="LFOGen" value="activate LFO">
+                <input type="button" id="LFOStopButton" name="LFOStop" value="deactivate LFO">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LFOType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.LFOType, htmlAttributes: new { id = "lfoIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LFOType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!---Compressor-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompressorRatio, "Compressor: ratio", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.CompressorRatio, new { type = "number", id = "compRatio", name = "compressorRatio", min = "1", max = "20", step = "1", value = "12", size = 2, maxlength = 2 })
+                        @Html.ValidationMessageFor(model => model.CompressorRatio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
                
-                <div id="wavebucket">
-                    <ul id="bucketlist">
-                        <li>*-- empty --#</li>
-                    </ul>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompressorKnee, "knee: ", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.CompressorKnee, new { type = "number", id = "compKnee", name = "compressorKnee", min = "0", max = "40", step = "1", value = "30", size = "2", maxlength = "2" })
+                        @Html.ValidationMessageFor(model => model.CompressorKnee, "", new { @class = "text-danger" })
+                    </div>
                 </div>
 
 
+
+              
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CompressorThreshold, "threshold: ", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.CompressorThreshold, new { type = "number", id = "compThreshold", name = "compressorThreshold", min = "-100", max = "0", step = "1", value = "-23", size = "3", maxlength = "3" })
+                        @Html.ValidationMessageFor(model => model.CompressorThreshold, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+              
+
+                <br>
+
+                <!---MasterGain-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MasterGain, "Master gain: ", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.MasterGain, new { type = "number", id = "masterGain", name = "masterGainField", min = "0", max = "100", step = "1", value = "50", size = "3", maxlength = "3" })
+                        @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+
+                <!---SaveButton-->
+
+
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+
+                <div>
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+
             </div>
-  
 
-    <br>
 
-    <br>
-    <canvas id="oscIVisualiser" width="500" height="100"></canvas>
-    <br><br>
-    <div class="form-group">
-        @Html.LabelFor(model => model.LFOIFrequency, "LFO I: frequency", htmlAttributes: new { @class = "control-label col-md-2" })
+            <!---RIGHT COLUMN-->
 
-        <div class="col-md-10">
 
-            @Html.TextBoxFor(model => model.LFOIFrequency, new { type="number", id="LFOFreq", name="lfoFrequency", min="1", max="200", step="1", value="3" })
-            @Html.ValidationMessageFor(model => model.LFOIFrequency, "", new { @class = "text-danger" })
+            <div id="senkenRightColumn">
+
+                <!---Title-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.Title, new { type = "text", id = "sessiontitle" })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br />
+
+                <!---Musician Selector-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MusicianID, "MusicianID", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("MusicianID", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MusicianID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br />
+
+                <!---Rating-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.Rating, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br />
+
+                <!---WaveBucket-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.WaveBucket, "WaveBucket", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div id="wavebucket">
+                        <ul id="bucketlist">
+                            <li>*-- empty --#</li>
+                        </ul>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
         </div>
-    </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.LFOIScale, "scale", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div class="col-md-10">
-
-                    @Html.TextBoxFor(model => model.LFOIScale, new { type = "number", id = "LFOScale", name = "lfoScale", min = "1", max = "10", step = "1", value = "1" })
-                    @Html.ValidationMessageFor(model => model.LFOIScale, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-   
-    <input type="button" id="LFOButton" name="LFOGen" value="activate LFO">
-    <input type="button" id="LFOStopButton" name="LFOStop" value="deactivate LFO">
-            
-            <div class="form-group">
-                @Html.LabelFor(model => model.LFOType, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EnumDropDownListFor(model => model.LFOType, htmlAttributes: new { id = "lfoIType", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.LFOType, "", new { @class = "text-danger" })
-                </div>
-            </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CompressorRatio, "Compressor: ratio", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div class="col-md-10">
-
-                    @Html.TextBoxFor(model => model.CompressorRatio, new { type="number", id="compRatio", name="compressorRatio", min="1", max="20", step="1", value="12", size="2", maxlength="2"})
-                    @Html.ValidationMessageFor(model => model.CompressorRatio, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-   
-    <input type="button" id="compRatioButton" name="compRatio" value="adjust Ratio">
-            
-            <div class="form-group">
-                @Html.LabelFor(model => model.CompressorKnee, "knee: ", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div class="col-md-10">
-
-                    @Html.TextBoxFor(model => model.CompressorKnee, new { type="number", id="compKnee", name="compressorKnee", min="0", max="40", step="1", value="30", size="2", maxlength="2"})
-                    @Html.ValidationMessageFor(model => model.CompressorKnee, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            
-            
-           
-    <input type="button" id="compKneeButton" name="compKnee" value="adjust Knee">
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.CompressorThreshold, "threshold: ", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div class="col-md-10">
-
-                    @Html.TextBoxFor(model => model.CompressorThreshold, new { type="number", id="compThreshold", name="compressorThreshold", min="-100", max="0", step="1", value="-23", size="3", maxlength="3" })
-                    @Html.ValidationMessageFor(model => model.CompressorThreshold, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            
-            
-    <input type="button" id="compThresholdButton" name="compThreshold" value="adjust Threshold">
-
-    <br><br>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.MasterGain, "Master gain: ", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                <div class="col-md-10">
-
-                    @Html.TextBoxFor(model => model.MasterGain, new { type="number", id="masterGain", name="masterGainField", min="0", max="100", step="1", value="50", size="3", maxlength="3" })
-                    @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-
-  
-
-
-</div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 
 @section Scripts {

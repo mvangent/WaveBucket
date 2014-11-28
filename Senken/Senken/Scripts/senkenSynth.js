@@ -18,6 +18,22 @@ if (contextClass) {
 }
 
 
+/*---------------------------------------------------------------------------------------------------------
+------- JQuery / CSS ----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
+*/
+
+$('.senkenContainer').css({ 'opacity': 0.4 });
+$('#senkenLeftColumn').css({ 'float': 'left' }).width('60%')
+$('#senkenRightColumn').css({ 'float': 'right' }).width('39%')
+
+// initialize fields
+$('#compRatio').val(12);
+$('#compKnee').val(30);
+$('#compThreshold').val(-23);
+$('#masterGain').val(100);
+
+
 
 
 /*---------------------------------------------------------------------------------------------------------
@@ -110,6 +126,9 @@ draw();
 var start = false;
 var stop = true;
 
+
+
+
 /* stop (suspend) button */
 
 sessionSuspenderPointer = function () {
@@ -126,6 +145,9 @@ sessionSuspenderPointer = function () {
 
         stop = true;
         start = false;
+
+        $('.senkenContainer').css({'opacity' : 0.4});
+
     }
 }
 
@@ -154,6 +176,8 @@ sessionPlayerPointer = function () {
 
         start = true;
         stop = false;
+
+        $('.senkenContainer').css({ 'opacity': 1.0 });
     }
     
 }
@@ -166,8 +190,9 @@ masterGain.connect(analyser);
 
 masterGain.gain.value = 1;
 
-function changeMasterGain(masGain) {
-    masterGain.gain.value = masGain/100;
+var masterGainPointer = function (masGain) {
+    masterGain.gain.value = masGain / 100;
+    $('#masterGain').val(masGain);
 }
 
 
@@ -558,10 +583,10 @@ compressorThresholdButtonElement = document.getElementById("compThresholdButton"
 //compressorThresholdButtonElement.addEventListener("click", function () { setCompressorThreshold(getCompressorThreshold()) });
 
 /* Master */
-var masterGainField;
+//var masterGainField;
 
-masterGainField = document.getElementById("masterGain");
-masterGainField.addEventListener("change", function () { changeMasterGain(getMasterGain()) });
+//masterGainField = document.getElementById("masterGain");
+//masterGainField.addEventListener("change", function () { changeMasterGain(getMasterGain()) });
 
 
 /*---------------------------------------------------------------------------------------------------------
@@ -585,6 +610,7 @@ $(function () {
     jam.client.compThresholdAdjuster = compThresholdAdjusterPointer;
     jam.client.sessionSuspender = sessionSuspenderPointer;
     jam.client.sessionPlayer = sessionPlayerPointer;
+    jam.client.masterGain = masterGainPointer;
 
     $.connection.hub.start().done(function () {
 
@@ -643,7 +669,7 @@ $(function () {
       */
 
         // event listener ratio Compressor 
-        $('#compRatioButton').click(function () {
+        $('#compRatio').change(function () {
             console.log("compressor ratio adjusted");
 
             // Call the AdjustCompRatio method on the hub. 
@@ -652,7 +678,7 @@ $(function () {
         });
 
         // event listener knee Compressor 
-        $('#compKneeButton').click(function () {
+        $('#compKnee').change(function () {
             console.log("compressor knee adjusted");
 
             // Call the AdjustCompKnee method on the hub.
@@ -661,7 +687,7 @@ $(function () {
         });
 
         // event listener treshold Compressor 
-        $('#compThresholdButton').click(function () {
+        $('#compThreshold').change(function () {
             console.log("compressor treshold adjusted");
 
             // Call the AdjustCompThreshold method on the hub.
@@ -674,14 +700,22 @@ $(function () {
    ------------ MASTER CONTROLS ----------
    ---------------------------------
    */
-        // event listerner suspend button
+        // event listener suspend button
+        $('#masterGain').change(function () {
+
+            jam.server.changeMasterGain(getMasterGain());
+
+
+        });
+        
+        // event listener suspend button
         $('#stopButton').click(function () {
 
             jam.server.stopSession();
 
         });
 
-        // event listerner suspend button
+        // event listener suspend button
         $('#playButton').click(function () {
 
             jam.server.playSession();

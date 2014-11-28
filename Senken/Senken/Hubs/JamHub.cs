@@ -61,6 +61,12 @@ namespace Senken.Hubs
 
         /* Master Controls */
 
+        public void ChangeMasterGain(string volume)
+        {
+            Clients.All.masterGain(volume);
+        }
+        
+        
         public void StopSession()
         {
             Clients.All.sessionSuspender();
