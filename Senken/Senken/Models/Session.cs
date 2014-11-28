@@ -21,8 +21,8 @@ namespace Senken.Models
     }
     
     public struct Wave {
-        int frequency;
-        OscType type;
+        public int frequency;
+        public OscType type;
 
         public Wave(int frequency, OscType type)
         {
@@ -60,10 +60,21 @@ namespace Senken.Models
         public float MasterGain { get; set; }
 
         /* Wave bucket */
-        public List<int>WaveBucket { get; set; }
+        public List<Wave> WaveBucket = new List<Wave>();
         
-        public void addWave(int frequency, OscType form) {
-          //  WaveBucket.Add(new Wave(frequency, form));
+        public void addWave(int frequency, OscType form)
+        {
+           WaveBucket.Add(new Wave(frequency, form));
+        }
+
+        public void addWave(Wave wave)
+        {
+            WaveBucket.Add(wave);
+        }
+
+        public Wave getWave(int index)
+        {
+            return WaveBucket[index];
         }
 
 

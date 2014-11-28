@@ -45,7 +45,12 @@ namespace Senken.Hubs
         {
             Clients.All.compThresholdAdjuster(threshold);
         }
-        
+
+        public void StopSession()
+        {
+            Clients.All.sessionSuspender();
+        }
+
 
     }
 }

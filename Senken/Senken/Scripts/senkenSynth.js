@@ -45,6 +45,8 @@ var drawVisual;
 /* Visualisation related Code */
 var analyser = context.createAnalyser();
 
+analyser.connect(context.destination);
+
 analyser.fftSize = 2048;
 var bufferLength = analyser.frequencyBinCount;
 var dataArray = new Uint8Array(bufferLength);
@@ -100,11 +102,19 @@ draw();
 
 
 
-
 /*---------------------------------------------------------------------------------------------------------
-------- MASTER GAIN ----------------------------------------------------------------------------------------
+------- MASTER CONTROLS ----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 */
+
+/* stop (suspend) button */
+
+sessionSuspenderPointer = function () {
+    context.suspend();
+}
+
+
+/* gain */
 
 var masterGain = context.createGain();
 masterGain.connect(analyser);
@@ -273,7 +283,6 @@ var waveGeneratorPointer = function (sineFrequency, oscType) {
 
 
 
-    analyser.connect(context.destination);
 
 
     // Start immediately, and stop in 2 seconds.
@@ -525,6 +534,7 @@ $(function () {
     jam.client.compRatioAdjuster = compRatioAdjusterPointer;
     jam.client.compKneeAdjuster = compKneeAdjusterPointer;
     jam.client.compThresholdAdjuster = compThresholdAdjusterPointer;
+    jam.client.sessionSuspender = sessionSuspenderPointer
 
     $.connection.hub.start().done(function () {
 
@@ -610,7 +620,16 @@ $(function () {
         });
 
       
+        /* -----------------------------
+   ------------ MASTER CONTROLS ----------
+   ---------------------------------
+   */
+        // event listerner suspend button
+        $('#stopButton').click(function () {
 
+            jam.server.stopSession();
+
+        });
 
 
 
