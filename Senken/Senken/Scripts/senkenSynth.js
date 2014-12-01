@@ -131,7 +131,7 @@ var stop = true;
 
 /* stop (suspend) button */
 
-sessionSuspenderPointer = function () {
+sessionSuspender = function () {
 
     if (!stop) {
 
@@ -152,7 +152,7 @@ sessionSuspenderPointer = function () {
 }
 
 
-sessionPlayerPointer = function () {
+sessionPlayer = function () {
 
     if (!start) {
 
@@ -163,8 +163,8 @@ sessionPlayerPointer = function () {
         var arrayLength = waveBucket.length
 
         for (var i = 0; i < arrayLength; i++) {
-            waveGeneratorPointer(waveBucket[i].frequency.value);
-
+            addWaveToBucket(waveGenerator(waveBucket[i].frequency.value, waveBucket[i].type));
+       
         }
 
         for (var i = 0; i < arrayLength; i++) {
@@ -185,13 +185,13 @@ sessionPlayerPointer = function () {
 
 /* gain */
 
-var masterGain = context.createGain();
-masterGain.connect(analyser);
+var masterVolume = context.createGain();
+masterVolume.connect(analyser);
 
-masterGain.gain.value = 1;
+masterVolume.gain.value = 1;
 
-var masterGainPointer = function (masGain) {
-    masterGain.gain.value = masGain / 100;
+var masterGain = function (masGain) {
+    masterVolume.gain.value = masGain / 100;
     $('#masterGain').val(masGain);
 }
 
@@ -212,11 +212,11 @@ function getMasterGain() {
 */
 
 var compressor = context.createDynamicsCompressor();
-compressor.connect(masterGain);
+compressor.connect(masterVolume);
 
 // ratio 
 
-var compRatioAdjusterPointer = function(ratio) {
+var compRatioAdjuster = function(ratio) {
     console.log("compressor ratio set to 1 /  " + ratio);
     compressor.ratio.value = ratio;
 
@@ -232,7 +232,7 @@ function getCompressorRatio() {
 
 // knee
 
-var compKneeAdjusterPointer = function(knee) {
+var compKneeAdjuster = function(knee) {
     console.log("compressor knee set to " + knee);
     compressor.knee.value = knee;
 
@@ -248,7 +248,7 @@ function getCompressorKnee() {
 
 // threshold
 
-var compThresholdAdjusterPointer = function(threshold) {
+var compThresholdAdjuster = function(threshold) {
     console.log("compressor Threshold set to " + threshold);
     compressor.threshold.value = threshold;
 
@@ -264,8 +264,8 @@ function getCompressorThreshold() {
 
 
 
-/*---------------------------------------------------------------------------------------------------------
-  ------- WAVE AND WAVEBUCKET ------------------------------------------------------------------------------------
+/*-----------------------------------------------------------------------------------------------------------
+  ------- WAVE AND WAVEBUCKET -------------------------------------------------------------------------------
   -----------------------------------------------------------------------------------------------------------
 */
 
@@ -300,7 +300,7 @@ function updateWaveBucketDisplay(osc) {
     for (var i = 0; i < arrayLength; i++) {
 
         var newcontent = document.createElement('li');
-        newcontent.innerHTML = waveBucket[i].frequency.value + " " + waveBucket[i].type.value;
+        newcontent.innerHTML = waveBucket[i].frequency.value + " " + waveBucket[i].type;
 
         mydiv.appendChild(newcontent);
 
@@ -333,8 +333,13 @@ var oscIType = "sine";
 
 var gainNode = context.createGain();
 
+var soundWaveStacker = function (frequency, oscType) {
 
-var waveGeneratorPointer = function (sineFrequency, oscType) {
+    addWaveToBucket(waveGenerator(frequency, oscType));
+}
+
+
+var waveGenerator = function (sineFrequency, oscType) {
 
     if (oscActivation) {
 
@@ -363,7 +368,7 @@ var waveGeneratorPointer = function (sineFrequency, oscType) {
         console.log("Osc I: started at freq " + osc.frequency.value);
 
         // add wave to the bucket
-        addWaveToBucket(osc);
+        return osc;
 
         // set field value to last value
         $('#sineFreq').val(sineFrequency);
@@ -408,7 +413,7 @@ function getOscIType() {
 }
 
 
-var waveRemoverPointer = function() {
+var waveRemover = function() {
     osc.stop(context.currentTime);
     console.log("Osc I: stopped")
 
@@ -443,7 +448,7 @@ var lfoIType = "sine";
 var lfoActive = false; 
 
 
-var lfoActivatorPointer = function (lfoFreq, scale, lfoType) {
+var lfoActivator = function (lfoFreq, scale, lfoType) {
 
     // Create oscillator.
 
@@ -466,14 +471,14 @@ var lfoActivatorPointer = function (lfoFreq, scale, lfoType) {
         // change value in field
         $('#LFOFreq').val(lfoFreq);
         $('#LFOScale').val(scale);
-        $('#lfoIType').val(lfoType);
+       
         
 
 
     }
 };
 
-var lfoDeactivatorPointer = function() {
+var lfoDeactivator = function() {
     lfo.stop(context.currentTime);
     lfoActive = false;
     console.log("lfo stopped");
@@ -494,7 +499,9 @@ function getLFOScale() {
 
 function selectLFOType(oscType) {
 
-    console.log("LFOIType: " + oscType + " selected")
+    console.log("LFOIType: " + typeof (oscType) + " selected")
+
+    $('#lfoIType').val(oscType);
 
     switch (parseInt(oscType)) {
         case 0: lfoIType = "sine";
@@ -601,16 +608,16 @@ $(function () {
     // reference the auto-generated proxy for the hub
     var jam = $.connection.jamHub;
     // create a function that the hub can call back to create sounds
-    jam.client.waveGenerator = waveGeneratorPointer;
-    jam.client.waveRemover = waveRemoverPointer;
-    jam.client.lfoActivator = lfoActivatorPointer;
-    jam.client.lfoDeactivator = lfoDeactivatorPointer;
-    jam.client.compRatioAdjuster = compRatioAdjusterPointer;
-    jam.client.compKneeAdjuster = compKneeAdjusterPointer;
-    jam.client.compThresholdAdjuster = compThresholdAdjusterPointer;
-    jam.client.sessionSuspender = sessionSuspenderPointer;
-    jam.client.sessionPlayer = sessionPlayerPointer;
-    jam.client.masterGain = masterGainPointer;
+    jam.client.soundWaveStackerPointer = soundWaveStacker;
+    jam.client.waveRemoverPointer = waveRemover;
+    jam.client.lfoActivatorPointer = lfoActivator;
+    jam.client.lfoDeactivatorPointer = lfoDeactivator;
+    jam.client.compRatioAdjusterPointer = compRatioAdjuster;
+    jam.client.compKneeAdjusterPointer = compKneeAdjuster;
+    jam.client.compThresholdAdjusterPointer = compThresholdAdjuster;
+    jam.client.sessionSuspenderPointer = sessionSuspender;
+    jam.client.sessionPlayerPointer = sessionPlayer;
+    jam.client.masterGainPointer = masterGain;
 
     $.connection.hub.start().done(function () {
 
@@ -625,7 +632,7 @@ $(function () {
             
             
             // Call the GenerateSound method on the hub. 
-            jam.server.generateSound(getSineWaveFrequency(), oscIType);
+            jam.server.stackSoundWave(getSineWaveFrequency(), oscIType);
 
         });
 

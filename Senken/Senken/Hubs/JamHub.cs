@@ -17,45 +17,45 @@ namespace Senken.Hubs
         
         /* OscillatorI */
         
-        public void GenerateSound(string OscIFrequency, string OscIType)
+        public void StackSoundWave(string OscIFrequency, string OscIType)
         {
                         
-            Clients.All.waveGenerator(OscIFrequency, OscIType);
+            Clients.All.soundWaveStackerPointer(OscIFrequency, OscIType);
         }
 
         public void RemoveLastSound()
         {
-            Clients.All.waveRemover();
+            Clients.All.waveRemoverPointer();
         }
 
         /* LFO I */
 
         public void ActivateLFO(string LfoFreq, string LfoScale, string LfoType)
         {
-            Clients.All.lfoActivator(LfoFreq, LfoScale, LfoType);
+            Clients.All.lfoActivatorPointer(LfoFreq, LfoScale, LfoType);
         }
 
         public void DeactivateLFO()
         {
-            Clients.All.lfoDeactivator();
+            Clients.All.lfoDeactivatorPointer();
         }
 
         /* Compressor */
 
         public void AdjustCompRatio(string ratio)
         {
-            Clients.All.compRatioAdjuster(ratio);
+            Clients.All.compRatioAdjusterPointer(ratio);
         }
 
         public void AdjustCompKnee(string knee)
         {
-            Clients.All.compKneeAdjuster(knee);
+            Clients.All.compKneeAdjusterPointer(knee);
         }
         
 
         public void AdjustCompThreshold(string threshold)
         {
-            Clients.All.compThresholdAdjuster(threshold);
+            Clients.All.compThresholdAdjusterPointer(threshold);
         }
 
 
@@ -63,18 +63,18 @@ namespace Senken.Hubs
 
         public void ChangeMasterGain(string volume)
         {
-            Clients.All.masterGain(volume);
+            Clients.All.masterGainPointer(volume);
         }
         
         
         public void StopSession()
         {
-            Clients.All.sessionSuspender();
+            Clients.All.sessionSuspenderPointer();
         }
 
         public void PlaySession()
         {
-            Clients.All.sessionPlayer();
+            Clients.All.sessionPlayerPointer();
         }
 
 
