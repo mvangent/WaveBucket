@@ -4,18 +4,22 @@
 -----------------------------------------------------------------------------------------------------------
 */
 
-var contextClass = (window.AudioContext ||
+var context;
+
+
+    var contextClass = (window.AudioContext ||
     window.webkitAudioContext ||
     window.mozAudioContext ||
     window.oAudioContext ||
     window.msAudioContext);
-if (contextClass) {
-    // Web Audio API is available.
-    var context = new contextClass();
-} else {
-    // Web Audio API is not available. Ask the user to use a supported browser.
-    alert("no webapi was found for your browser")
-}
+    if (contextClass) {
+        // Web Audio API is available.
+         context = new contextClass();
+    } else {
+        // Web Audio API is not available. Ask the user to use a supported browser.
+        alert("no webapi was found for your browser");
+
+    }
 
 
 /*---------------------------------------------------------------------------------------------------------
@@ -24,10 +28,8 @@ if (contextClass) {
 */
 
 $('.senkenContainer').css({ 'opacity': 0.4 });
-$('#senkenLeftColumn').css({ 'float': 'left' }).width('60%')
-$('#senkenRightColumn').css({ 'float': 'right' }).width('39%')
-
-// initialize fields
+$('#senkenLeftColumn').css({ 'float': 'left' }).width('60%');
+$('#senkenRightColumn').css({ 'float': 'right' }).width('39%'); // initialize fields
 $('#compRatio').val(12);
 $('#compKnee').val(30);
 $('#compThreshold').val(-23);
@@ -92,7 +94,7 @@ function draw() {
     var position = 0;
 
     for (var i = 0; i < bufferLength; i++) {
-        var v = dataArray[i] / 128.0
+        var v = dataArray[i] / 128.0;
         var y = v * HEIGHT / 2;
 
         if (i == 0) {
@@ -126,7 +128,9 @@ draw();
 var start = false;
 var stop = true;
 
-
+function sendOne() {
+    return 1;
+}
 
 
 /* stop (suspend) button */
@@ -149,9 +153,7 @@ sessionSuspender = function () {
         $('.senkenContainer').css({'opacity' : 0.4});
 
     }
-}
-
-
+};
 sessionPlayer = function () {
 
     if (!start) {
@@ -160,14 +162,14 @@ sessionPlayer = function () {
 
         console.log("start function activated");
 
-        var arrayLength = waveBucket.length
-
-        for (var i = 0; i < arrayLength; i++) {
+        var arrayLength = waveBucket.length;
+        var i;
+        for (i = 0; i < arrayLength; i++) {
             addWaveToBucket(waveGenerator(waveBucket[i].frequency.value, waveBucket[i].type));
        
         }
 
-        for (var i = 0; i < arrayLength; i++) {
+        for (i = 0; i < arrayLength; i++) {
             waveBucket.shift();
 
         }
@@ -180,10 +182,7 @@ sessionPlayer = function () {
         $('.senkenContainer').css({ 'opacity': 1.0 });
     }
     
-}
-
-
-/* gain */
+}; /* gain */
 
 var masterVolume = context.createGain();
 masterVolume.connect(analyser);
@@ -193,12 +192,11 @@ masterVolume.gain.value = 1;
 var masterGain = function (masGain) {
     masterVolume.gain.value = masGain / 100;
     $('#masterGain').val(masGain);
-}
-
+};
 
 function getMasterGain() {
     console.log("Master Gain change: " + document.getElementById("masterGain").value);
-    var master = (parseFloat(document.getElementById("masterGain").value))
+    var master = (parseFloat(document.getElementById("masterGain").value));
     return master;
 };
 
@@ -222,11 +220,11 @@ var compRatioAdjuster = function(ratio) {
 
     // change value in field
     $('#compRatio').val(ratio);
-}
+};
 
 function getCompressorRatio() {
     console.log("compressor Ratio request: " + document.getElementById("compRatio").value);
-    var compressorRatio = (parseFloat(document.getElementById("compRatio").value))
+    var compressorRatio = (parseFloat(document.getElementById("compRatio").value));
     return compressorRatio;
 };
 
@@ -238,11 +236,11 @@ var compKneeAdjuster = function(knee) {
 
     // change value in field
     $('#compKnee').val(knee);
-}
+};
 
 function getCompressorKnee() {
     console.log("compressor Knee request: " + document.getElementById("compKnee").value);
-    var compressorKnee = (parseFloat(document.getElementById("compKnee").value))
+    var compressorKnee = (parseFloat(document.getElementById("compKnee").value));
     return compressorKnee;
 };
 
@@ -254,11 +252,11 @@ var compThresholdAdjuster = function(threshold) {
 
     // change value in field
     $('#compThreshold').val(threshold);
-}
+};
 
 function getCompressorThreshold() {
     console.log("compressor Threshold request: " + document.getElementById("compThreshold").value);
-    var compressorThreshold = (parseFloat(document.getElementById("compThreshold").value))
+    var compressorThreshold = (parseFloat(document.getElementById("compThreshold").value));
     return compressorThreshold;
 };
 
@@ -289,7 +287,7 @@ function removeWaveFromBucket() {
     updateWaveBucketDisplay();
 }
 
-function updateWaveBucketDisplay(osc) {
+function updateWaveBucketDisplay() {
 
     var arrayLength = waveBucket.length;
 
@@ -336,19 +334,19 @@ var gainNode = context.createGain();
 var soundWaveStacker = function (frequency, oscType) {
 
     addWaveToBucket(waveGenerator(frequency, oscType));
-}
+};
 
-
-var waveGenerator = function (sineFrequency, oscType) {
+function waveGenerator(sineFrequency, oscType) {
 
     if (oscActivation) {
+
+        
 
         console.log("makeSineWave reached");
         // Create oscillator.
         osc = context.createOscillator();
         osc.type = oscType;
         osc.frequency.value = sineFrequency;
-
         // create gainNode
         //gainNode = context.createGain();
 
@@ -388,16 +386,16 @@ function selectOscType(oscType) {
 
     switch (parseInt(oscType)) {
         case 0 : oscIType = "sine";
-            console.log("oscIType: " + oscIType + " selected")
+            console.log("oscIType: " + oscIType + " selected");
             break;
         case 1: oscIType = "square";
-            console.log("oscIType: " + oscIType + " selected")
+            console.log("oscIType: " + oscIType + " selected");
             break;
         case 2: oscIType = "triangle";
-            console.log("oscIType: " + oscIType + " selected")
+            console.log("oscIType: " + oscIType + " selected");
             break;
         case 3: oscIType = "sawtooth";
-            console.log("oscIType: " + oscIType + " selected")
+            console.log("oscIType: " + oscIType + " selected");
             break;
         default: oscIType = "sine";
             console.log("default");
@@ -415,15 +413,12 @@ function getOscIType() {
 
 var waveRemover = function() {
     osc.stop(context.currentTime);
-    console.log("Osc I: stopped")
-
-    // remove wave from the bucket
+    console.log("Osc I: stopped"); // remove wave from the bucket
     removeWaveFromBucket();
 };
 
 function getSineWaveFrequency() {
-    return document.getElementById("sineFreq").value
-
+    return document.getElementById("sineFreq").value;
 };
 
 
@@ -486,35 +481,34 @@ var lfoDeactivator = function() {
 
 function getLFOFrequency() {
     console.log("LFO freq request: " + document.getElementById("LFOFreq").value);
-    var lfoF = (parseFloat(document.getElementById("LFOFreq").value))
+    var lfoF = (parseFloat(document.getElementById("LFOFreq").value));
     return lfoF;
 };
 
 function getLFOScale() {
     console.log("LFO scale request: " + document.getElementById("LFOScale").value);
-    var lfoS = (parseFloat(document.getElementById("LFOScale").value))
+    var lfoS = (parseFloat(document.getElementById("LFOScale").value));
     return lfoS;
 };
 
 
 function selectLFOType(oscType) {
 
-    console.log("LFOIType: " + typeof (oscType) + " selected")
-
+    console.log("LFOIType: " + typeof (oscType) + " selected");
     $('#lfoIType').val(oscType);
 
     switch (parseInt(oscType)) {
         case 0: lfoIType = "sine";
-            console.log("lfoIType: " + lfoIType + " selected")
+            console.log("lfoIType: " + lfoIType + " selected");
             break;
         case 1: lfoIType = "square";
-            console.log("lfoIType: " + lfoIType + " selected")
+            console.log("lfoIType: " + lfoIType + " selected");
             break;
         case 2: lfoIType = "triangle";
-            console.log("lfoIType: " + lfoIType + " selected")
+            console.log("lfoIType: " + lfoIType + " selected");
             break;
         case 3: lfoIType = "sawtooth";
-            console.log("lfoIType: " + lfoIType + " selected")
+            console.log("lfoIType: " + lfoIType + " selected");
             break;
         default: lfoIType = "sine";
             console.log("default");
@@ -553,11 +547,8 @@ function getLFOIType() {
 //sineStopButtonElement.addEventListener("click", function () { makeLastSineWaveStop() })
 //sineStopButtonElement.addEventListener("click", function () { removeWaveFromBucket() })
 
-var oscITypeElement = document.getElementById("oscIType");
-oscITypeElement.addEventListener("change", function () { selectOscType(getOscIType()) })
-
-
-/* LFO I */
+var oscITypeElement = document.getElementById('oscIType');
+oscITypeElement.addEventListener("change", function () { selectOscType(getOscIType()); }); /* LFO I */
 var LFOLoadButtonElement;
 
 
@@ -570,10 +561,7 @@ LFOStopButtonElement = document.getElementById("LFOStopButton");
 //LFOStopButtonElement.addEventListener("click", function () { deactivateLFO() });
 
 var lfoITypeElement = document.getElementById("lfoIType");
-lfoITypeElement.addEventListener("change", function () { selectLFOType(getLFOIType()) })
-
-
-/* Compressor  */
+lfoITypeElement.addEventListener("change", function () { selectLFOType(getLFOIType()); }); /* Compressor  */
 var compressorRatioButtonElement;
 
 compressorRatioButtonElement = document.getElementById("compRatioButton");
@@ -735,3 +723,7 @@ $(function () {
     });
 
 });
+
+
+
+
