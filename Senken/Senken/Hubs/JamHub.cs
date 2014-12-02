@@ -21,11 +21,14 @@ namespace Senken.Hubs
         {
                         
             Clients.All.soundWaveStackerPointer(OscIFrequency, OscIType);
+
+            Clients.All.updateConnectionsPointer();
         }
 
         public void RemoveLastSound()
         {
             Clients.All.waveRemoverPointer();
+            Clients.All.updateConnectionsPointer();
         }
 
         /* LFO I */
@@ -33,11 +36,13 @@ namespace Senken.Hubs
         public void ActivateLFO(string LfoFreq, string LfoScale, string LfoType)
         {
             Clients.All.lfoActivatorPointer(LfoFreq, LfoScale, LfoType);
+            Clients.All.updateConnectionsPointer();
         }
 
         public void DeactivateLFO()
         {
             Clients.All.lfoDeactivatorPointer();
+            Clients.All.updateConnectionsPointer();
         }
 
         /* Compressor */
@@ -45,17 +50,20 @@ namespace Senken.Hubs
         public void AdjustCompRatio(string ratio)
         {
             Clients.All.compRatioAdjusterPointer(ratio);
+            Clients.All.updateConnectionsPointer();
         }
 
         public void AdjustCompKnee(string knee)
         {
             Clients.All.compKneeAdjusterPointer(knee);
+            Clients.All.updateConnectionsPointer();
         }
         
 
         public void AdjustCompThreshold(string threshold)
         {
             Clients.All.compThresholdAdjusterPointer(threshold);
+            Clients.All.updateConnectionsPointer();
         }
 
 
@@ -63,18 +71,21 @@ namespace Senken.Hubs
 
         public void ChangeMasterGain(string volume)
         {
-            Clients.All.masterGainPointer(volume);
+            Clients.All.masterGainAdjusterPointer(volume);
+            Clients.All.updateConnectionsPointer();
         }
         
         
         public void StopSession()
         {
             Clients.All.sessionSuspenderPointer();
+            Clients.All.updateConnectionsPointer();
         }
 
         public void PlaySession()
         {
             Clients.All.sessionPlayerPointer();
+            Clients.All.updateConnectionsPointer();
         }
 
 

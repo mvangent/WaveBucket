@@ -126,80 +126,57 @@ draw();
 -----------------------------------------------------------------------------------------------------------
 */
 
-var start = false;
-var stop = true;
 
-function sendOne() {
-    return 1;
+function MasterController(context)
+{
+     /* gain */
+    var masterVolume = context.createGain();
+
+    /* start/stop */
+    var active = false;
+    
+    
+
+    this.gainAdjuster = function (masGain) {
+        masterVolume.gain.value = masGain / 100;
+        $('#masterGain').val(masGain);
+    };
+
+    this.readGain = function() {
+        return masterVolume.gain.value;
+    }
+
+    // outputTo
+    this.outputTo = function (destination) {
+        masterVolume.connect(destination);
+        
+    }
+
+    // input
+    this.input = function () {
+        return masterVolume;
+    }
+
+    // activateSession
+    this.startSession = function ()
+    {
+        active = true;
+    }
+
+    this.stopSession = function () {
+
+        active = false;
+    }
+  
+    this.isActive = function() {
+        return active;
+    }
+    
 }
 
 
-/* stop (suspend) button */
 
-sessionSuspender = function () {
 
-    if (!stop) {
-
-        oscActivation = false;
-
-        console.log("stop function activated");
-
-        for (var i = 0; i < waveBucket.length; i++) {
-            waveBucket[i].stop();
-        }
-
-        stop = true;
-        start = false;
-
-        $('.senkenContainer').css({'opacity' : 0.4});
-
-    }
-};
-sessionPlayer = function () {
-
-    if (!start) {
-
-        oscActivation = true;
-
-        console.log("start function activated");
-
-        var arrayLength = waveBucket.length;
-        var i;
-        for (i = 0; i < arrayLength; i++) {
-            addWaveToBucket(waveGenerator(waveBucket[i].frequency.value, waveBucket[i].type));
-       
-        }
-
-        for (i = 0; i < arrayLength; i++) {
-            waveBucket.shift();
-
-        }
-
-        updateWaveBucketDisplay();
-
-        start = true;
-        stop = false;
-
-        $('.senkenContainer').css({ 'opacity': 1.0 });
-    }
-    
-}; /* gain */
-
-var masterVolume = context.createGain();
-masterVolume.connect(analyser);
-
-masterVolume.gain.value = 1;
-
-var masterGain = function (masGain) {
-    masterVolume.gain.value = masGain / 100;
-    $('#masterGain').val(masGain);
-};
-
-function getMasterGain() {
-    console.log("Master Gain change: " + document.getElementById("masterGain").value);
-    var master = (parseFloat(document.getElementById("masterGain").value));
-    return master;
-};
 
 
 
@@ -210,104 +187,145 @@ function getMasterGain() {
 -----------------------------------------------------------------------------------------------------------
 */
 
-var compressor = {
+function Compressor(context)
+{
+    var compressorInstance = context.createDynamicsCompressor();
 
-    function compressor(context) 
+  
+    // ratio 
 
-var compressor = context.createDynamicsCompressor();
-compressor.connect(masterVolume);
+    this.ratioAdjuster = function (ratio) {
+        console.log("compressor ratio set to 1 /  " + ratio);
+        compressorInstance.ratio.value = ratio;
 
-// ratio 
+        // change value in field
+        $('#compRatio').val(ratio);
+    };
 
-var compRatioAdjuster = function(ratio) {
-    console.log("compressor ratio set to 1 /  " + ratio);
-    compressor.ratio.value = ratio;
+    this.readRatio = function() {
+        return compressorInstance.ratio.value;
+    }
+ 
 
-    // change value in field
-    $('#compRatio').val(ratio);
-};
+    // knee
 
-function getCompressorRatio() {
-    console.log("compressor Ratio request: " + document.getElementById("compRatio").value);
-    var compressorRatio = (parseFloat(document.getElementById("compRatio").value));
-    return compressorRatio;
-};
+    this.kneeAdjuster = function (knee) {
+        console.log("compressor knee set to " + knee);
+        compressorInstance.knee.value = knee;
 
-// knee
+        // change value in field
+        $('#compKnee').val(knee);
+    };
 
-var compKneeAdjuster = function(knee) {
-    console.log("compressor knee set to " + knee);
-    compressor.knee.value = knee;
+    this.readKnee = function () {
+        return compressorInstance.knee.value;
+    }
+   
 
-    // change value in field
-    $('#compKnee').val(knee);
-};
+    // threshold
 
-function getCompressorKnee() {
-    console.log("compressor Knee request: " + document.getElementById("compKnee").value);
-    var compressorKnee = (parseFloat(document.getElementById("compKnee").value));
-    return compressorKnee;
-};
+    this.thresholdAdjuster = function (threshold) {
+        console.log("compressor Threshold set to " + threshold);
+        compressorInstance.threshold.value = threshold;
 
-// threshold
+        // change value in field
+        $('#compThreshold').val(threshold);
+    };
 
-var compThresholdAdjuster = function(threshold) {
-    console.log("compressor Threshold set to " + threshold);
-    compressor.threshold.value = threshold;
+    this.readThreshold = function () {
+        return compressorInstance.threshold.value;
+    }
 
-    // change value in field
-    $('#compThreshold').val(threshold);
-};
 
-function getCompressorThreshold() {
-    console.log("compressor Threshold request: " + document.getElementById("compThreshold").value);
-    var compressorThreshold = (parseFloat(document.getElementById("compThreshold").value));
-    return compressorThreshold;
-};
-
+    // outputTo
+    this.outputTo = function(destination) {
+        compressorInstance.connect(destination);
+        console.log(destination.toString());
+    }
+    
+    // input
+    this.input = function() {
+        return compressorInstance;
+    }
 
 }
+
+
+
+
 /*-----------------------------------------------------------------------------------------------------------
-  ------- WAVE AND WAVEBUCKET -------------------------------------------------------------------------------
+  -------  WAVEBUCKET --------------------------------------------------------------------------------------
   -----------------------------------------------------------------------------------------------------------
 */
 
-var waveBucket = [];
-var freshlyAddedOscillation = false;
 
-function addWaveToBucket(osc) {
-    waveBucket.push(osc);
-    freshlyAddedOscillation = true;
-    updateWaveBucketDisplay(osc);
+function WaveBucket()
+{
+    var waveBucket = [];
 
-}
-
-function removeWaveFromBucket() {
-
-    if (freshlyAddedOscillation) {
-        waveBucket.pop();
-        freshlyAddedOscillation = false;
+    waveBucketActive = false;
+    
+    this.addWaveToBucket = function(osc) {
+        waveBucket.push(osc);
+        
+       // this.updateWaveBucketDisplay(osc);
     }
 
-    updateWaveBucketDisplay();
+    this.removeWaveFromBucket = function(index) {
+
+         
+            waveBucket.pop();
+        
+
+        this.updateWaveBucketDisplay();
+    }
+
+    this.updateWaveBucketDisplay = function() {
+
+        var arrayLength = waveBucket.length;
+
+        var mydiv = document.getElementById("bucketlist");
+
+        mydiv.innerHTML = "";
+
+        for (var i = 0; i < arrayLength; i++) {
+
+            var newcontent = document.createElement('li');
+            newcontent.innerHTML = waveBucket[i].frequency.value + " " + waveBucket[i].type;
+
+            mydiv.appendChild(newcontent);
+
+        };
+
+    this.length = function() {
+        return waveBucket.length
+    }
+
+    this.select = function(i) {
+        return waveBucket[i];
+    }
+
+
+    this.isShining = function() {
+        waveBucketActive = true;
+        console.log("bucket active true");
+    }
+
+    this.isSilent = function() {
+        waveBucketActive = false;
+    }
+
+    this.isActive = function() {
+        return waveBucketActive;
+    }
+
 }
 
-function updateWaveBucketDisplay() {
 
-    var arrayLength = waveBucket.length;
 
-    var mydiv = document.getElementById("bucketlist");
 
-    mydiv.innerHTML = "";
 
-    for (var i = 0; i < arrayLength; i++) {
 
-        var newcontent = document.createElement('li');
-        newcontent.innerHTML = waveBucket[i].frequency.value + " " + waveBucket[i].type;
-
-        mydiv.appendChild(newcontent);
-
-    };
 
 
 
@@ -320,114 +338,173 @@ function updateWaveBucketDisplay() {
 
 
 /*---------------------------------------------------------------------------------------------------------
-------- OSCILLATOR NO. ONE ------------------------------------------------------------------------------------
+------- OSCILLATOR // has a WAVEBUCKET --------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 */
 
 
+function Oscillator(context, endController) {
+
+    // member variables
+
+    var osc = context.createOscillator();
+    var oscIType = "sine";
+    var gainNode = context.createGain();
+    /* wavebucket */
+    var wavebucket = new WaveBucket();
+    
 
 
-/* SineStacker related Code */
-var oscActivation = false;
+    function waveGenerator(sineFrequency, oscType) {
 
-var osc;
+        if (true) { // checken
 
-var oscIType = "sine";
+            console.log("makeSineWave reached");
+            
+            osc = context.createOscillator();
+            osc.type = oscType;
+            osc.frequency.value = sineFrequency;
+            // create gainNode
+            //gainNode = context.createGain();
 
-var gainNode = context.createGain();
+            //gainNode.gain.value = 1;
 
-var soundWaveStacker = function (frequency, oscType) {
+            
+            
+            // Start immediately, and stop in 2 seconds.
+            osc.start(context.currentTime);
+            //osc.stop(context.currentTime + DURATION);
+            console.log("Osc I: started at freq " + osc.frequency.value);
 
-    addWaveToBucket(waveGenerator(frequency, oscType));
-};
+            // add wave to the bucket
+            return osc;
 
-function waveGenerator(sineFrequency, oscType) {
+            // set field value to last value
+            $('#sineFreq').val(sineFrequency);
+            $('#oscIType').val(oscType);
 
-    if (oscActivation) {
+        }
 
-        
+    };
 
-        console.log("makeSineWave reached");
-        // Create oscillator.
-        osc = context.createOscillator();
-        osc.type = oscType;
-        osc.frequency.value = sineFrequency;
-        // create gainNode
-        //gainNode = context.createGain();
 
-        //gainNode.gain.value = 1;
+    this.waveRemover = function (index) { // set index
+        osc.stop(context.currentTime);
+        console.log("Osc I: stopped"); // remove wave from the bucket
+        wavebucket.removeWaveFromBucket();
+    };
+
+
+
+    this.soundWaveStacker = function (frequency, oscType) {
+
+        wavebucket.addWaveToBucket(waveGenerator(frequency, oscType));
+    };
+
+    this.selectOscType = function (oscType) {
+
+        console.log("oscType: " + typeof(oscType));
+
+        switch (parseInt(oscType)) {
+            case 0 : oscIType = "sine";
+                console.log("oscIType: " + oscIType + " selected");
+                break;
+            case 1: oscIType = "square";
+                console.log("oscIType: " + oscIType + " selected");
+                break;
+            case 2: oscIType = "triangle";
+                console.log("oscIType: " + oscIType + " selected");
+                break;
+            case 3: oscIType = "sawtooth";
+                console.log("oscIType: " + oscIType + " selected");
+                break;
+            default: oscIType = "sine";
+                console.log("default");
+
+        }
+    }
+
+    /* start stacking */
+
+    this.startStacking = function () {
+
+        if (!(wavebucket.isActive)) {
+
+            //  oscActive = true;
+
+            console.log("start function activated");
+
+            var arrayLength = wavebucket.length;
+            var i;
+            for (i = 0; i < arrayLength; i++) {
+                wavebucket.push(this.waveGenerator(wavebucket.select(i).frequency.value, wavebucket.select(i).type));
+
+            }
+
+            for (i = 0; i < arrayLength; i++) {
+                wavebucket.shift();
+
+            }
+
+            waveBucket.updateWaveBucketDisplay();
+
+            wavebucket.waveBucketActive = true;
+            
+
+            $('.senkenContainer').css({ 'opacity': 1.0 });
+        }
+
+    };
+
+
+
+    /* stop stacking */
+
+    this.freezeBucket = function () {
+
+        if (wavebucket.isActive) {
+
+            // oscActive = false;
+
+            console.log("stop function activated,");
+
+            for (var i = 0; i < wavebucket.length; i++) {
+                console.log(i + " " + typeof wavebucket.select(i));
+                wavebucket.select(i).stop();
+            }
+
+            wavebucket.waveBucketActive = false;
+
+            console.log(wavebucket.waveBucketActive);
+            
+
+            $('.senkenContainer').css({ 'opacity': 0.4 });
+
+        }
+    };
+
+    this.sessionOscillations = function () {
+        return wavebucket.length;
+
+
+
+
+    }
+
+    // outputTo
+    this.outputTo = function (destination) {
+        console.log("osc output refreshed");
 
         osc.connect(gainNode);
 
-        gainNode.connect(compressor);
-
-
-
-
-
-        // Start immediately, and stop in 2 seconds.
-        osc.start(context.currentTime);
-        //osc.stop(context.currentTime + DURATION);
-        console.log("Osc I: started at freq " + osc.frequency.value);
-
-        // add wave to the bucket
-        return osc;
-
-        // set field value to last value
-        $('#sineFreq').val(sineFrequency);
-        $('#oscIType').val(oscType);
-
+        gainNode.connect(destination);
     }
 
-};
-
-
-
-
-
-function selectOscType(oscType) {
-
-    console.log("oscType: " + typeof(oscType));
-
-    switch (parseInt(oscType)) {
-        case 0 : oscIType = "sine";
-            console.log("oscIType: " + oscIType + " selected");
-            break;
-        case 1: oscIType = "square";
-            console.log("oscIType: " + oscIType + " selected");
-            break;
-        case 2: oscIType = "triangle";
-            console.log("oscIType: " + oscIType + " selected");
-            break;
-        case 3: oscIType = "sawtooth";
-            console.log("oscIType: " + oscIType + " selected");
-            break;
-        default: oscIType = "sine";
-            console.log("default");
-
+    this.gainNodeInputForLfo = function() {
+        return gainNode.gain;
     }
-}
-
-
-function getOscIType() {
-    var oscType = document.getElementById("oscIType").value;
-    return oscType;
 
 }
-
-
-var waveRemover = function() {
-    osc.stop(context.currentTime);
-    console.log("Osc I: stopped"); // remove wave from the bucket
-    removeWaveFromBucket();
-};
-
-function getSineWaveFrequency() {
-    return document.getElementById("sineFreq").value;
-};
-
-
-
 
 
 
@@ -436,124 +513,165 @@ function getSineWaveFrequency() {
 -----------------------------------------------------------------------------------------------------------
 */
 
+function Lfo(context) {
+    
+    /* LFO */
+    var DURATION = 20;
+    var FREQUENCY = 4;
+    var SCALE = .4;
 
-/* LFO */
-var DURATION = 20;
-var FREQUENCY = 4;
-var SCALE = .4;
+    var lfo;
 
-var lfo;
-var lfoIType = "sine";
+    lfo = context.createOscillator();
 
-var lfoActive = false; 
+    var gain = context.createGain();
+
+    var lfoIType = "sine";
+
+    var lfoActive = false;
 
 
-var lfoActivator = function (lfoFreq, scale, lfoType) {
+    this.lfoActivator = function (lfoFreq, scale, lfoType) {
 
-    // Create oscillator.
+        // Create oscillator.
 
-    if (!lfoActive) {
-        lfo = context.createOscillator();
-        lfo.type = lfoType;
-        lfo.frequency.value = lfoFreq;
-        var gain = context.createGain();
-        gain.gain.value = scale;
+        if (!lfoActive) {
+            lfo = context.createOscillator();
+            lfo.type = lfoType;
+            lfo.frequency.value = lfoFreq;
+            gain = context.createGain();
+            gain.gain.value = scale;
+           
+
+            lfo.start(context.currentTime);
+
+            lfoActive = true;
+
+            console.log("lfo added");
+
+            // change value in field
+            $('#LFOFreq').val(lfoFreq);
+            $('#LFOScale').val(scale);
+
+
+
+
+        }
+    };
+
+    this.lfoDeactivator = function () {
+        lfo.stop(context.currentTime);
+        lfoActive = false;
+        console.log("lfo stopped");
+    };
+
+    this.getLFOFrequency = function() {
+        console.log("LFO freq request: " + document.getElementById("LFOFreq").value);
+        var lfoF = (parseFloat(document.getElementById("LFOFreq").value));
+        return lfoF;
+    };
+
+    this.getLFOScale = function() {
+        console.log("LFO scale request: " + document.getElementById("LFOScale").value);
+        var lfoS = (parseFloat(document.getElementById("LFOScale").value));
+        return lfoS;
+    };
+
+
+    this.selectLFOType = function(oscType) {
+
+        console.log("LFOIType: " + typeof (oscType) + " selected");
+        $('#lfoIType').val(oscType);
+
+        switch (parseInt(oscType)) {
+            case 0: lfoIType = "sine";
+                console.log("lfoIType: " + lfoIType + " selected");
+                break;
+            case 1: lfoIType = "square";
+                console.log("lfoIType: " + lfoIType + " selected");
+                break;
+            case 2: lfoIType = "triangle";
+                console.log("lfoIType: " + lfoIType + " selected");
+                break;
+            case 3: lfoIType = "sawtooth";
+                console.log("lfoIType: " + lfoIType + " selected");
+                break;
+            default: lfoIType = "sine";
+                console.log("default");
+
+        }
+    }
+
+
+    this.getLFOIType = function() {
+        var lfoType = document.getElementById("lfoIType").value;
+        return lfoType;
+
+    }
+
+
+   
+    // (gain)OutputTo
+    this.outputTo = function (destination) {
+        console.log("lfo output refreshed");
+
         lfo.connect(gain);
+
+        gain.connect(destination);
         
-        gain.connect(gainNode.gain);
-        
-        lfo.start(context.currentTime);
-
-        lfoActive = true;
-
-        console.log("lfo added");
-
-        // change value in field
-        $('#LFOFreq').val(lfoFreq);
-        $('#LFOScale').val(scale);
-       
-        
-
-
     }
-};
-
-var lfoDeactivator = function() {
-    lfo.stop(context.currentTime);
-    lfoActive = false;
-    console.log("lfo stopped");
-};
-
-function getLFOFrequency() {
-    console.log("LFO freq request: " + document.getElementById("LFOFreq").value);
-    var lfoF = (parseFloat(document.getElementById("LFOFreq").value));
-    return lfoF;
-};
-
-function getLFOScale() {
-    console.log("LFO scale request: " + document.getElementById("LFOScale").value);
-    var lfoS = (parseFloat(document.getElementById("LFOScale").value));
-    return lfoS;
-};
 
 
-function selectLFOType(oscType) {
-
-    console.log("LFOIType: " + typeof (oscType) + " selected");
-    $('#lfoIType').val(oscType);
-
-    switch (parseInt(oscType)) {
-        case 0: lfoIType = "sine";
-            console.log("lfoIType: " + lfoIType + " selected");
-            break;
-        case 1: lfoIType = "square";
-            console.log("lfoIType: " + lfoIType + " selected");
-            break;
-        case 2: lfoIType = "triangle";
-            console.log("lfoIType: " + lfoIType + " selected");
-            break;
-        case 3: lfoIType = "sawtooth";
-            console.log("lfoIType: " + lfoIType + " selected");
-            break;
-        default: lfoIType = "sine";
-            console.log("default");
-
-    }
-}
 
 
-function getLFOIType() {
-    var lfoType = document.getElementById("lfoIType").value;
-    return lfoType;
+
 
 }
 
 
 
+/*---------------------------------------------------------------------------------------------------------
+------- ARCHITECTURAL SETUP // WIRING----------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------
+*/
+
+var endController = new MasterController(context);
+//endController.outputTo(analyser);
+
+var finalCompressor = new Compressor(context);
+//finalCompressor.outputTo(endController.input());
+
+var oscillatorI = new Oscillator(context, endController);
+//oscillatorI.outputTo(finalCompressor.input());
+
+var lfoI = new Lfo(context);
+//lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+
+var waveBucket = new WaveBucket(context);
+
+var updateConnections = function() {
+    endController.outputTo(analyser);
+    finalCompressor.outputTo(endController.input());
+    oscillatorI.outputTo(finalCompressor.input());
+    lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+
+}
 
 /*---------------------------------------------------------------------------------------------------------
 ------- EVENT HANDLERS ------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 */
 
-/* oscillator I */
-//var sineLoadButtonElement;
 
-
-//sineLoadButtonElement = document.getElementById("sineButton");
-//sineLoadButtonElement.addEventListener("click", function () { makeSineWave(getSineWaveFrequency(), oscIType) })
-//sineLoadButtonElement.addEventListener("click", function () { addWaveToBucket(getSineWaveFrequency(), getOscIType()) })
-
-
-
-//var sineStopButtonElement;
-
-//sineStopButtonElement = document.getElementById("sineStopButton");
-//sineStopButtonElement.addEventListener("click", function () { makeLastSineWaveStop() })
-//sineStopButtonElement.addEventListener("click", function () { removeWaveFromBucket() })
 
 var oscITypeElement = document.getElementById('oscIType');
-oscITypeElement.addEventListener("change", function () { selectOscType(getOscIType()); }); /* LFO I */
+oscITypeElement.addEventListener("change", function () { oscillatorI.selectOscType($('#oscIType').val()); });
+
+
+
+/* LFO I */
+
+
 var LFOLoadButtonElement;
 
 
@@ -567,26 +685,9 @@ LFOStopButtonElement = document.getElementById("LFOStopButton");
 
 var lfoITypeElement = document.getElementById("lfoIType");
 lfoITypeElement.addEventListener("change", function () { selectLFOType(getLFOIType()); }); /* Compressor  */
-var compressorRatioButtonElement;
 
-compressorRatioButtonElement = document.getElementById("compRatioButton");
-//compressorRatioButtonElement.addEventListener("click", function () { setCompressorRatio(getCompressorRatio()) });
 
-var compressorKneeButtonElement;
 
-compressorKneeButtonElement = document.getElementById("compKneeButton");
-//compressorKneeButtonElement.addEventListener("click", function () { setCompressorKnee(getCompressorKnee()) });
-
-var compressorThresholdButtonElement;
-
-compressorThresholdButtonElement = document.getElementById("compThresholdButton");
-//compressorThresholdButtonElement.addEventListener("click", function () { setCompressorThreshold(getCompressorThreshold()) });
-
-/* Master */
-//var masterGainField;
-
-//masterGainField = document.getElementById("masterGain");
-//masterGainField.addEventListener("change", function () { changeMasterGain(getMasterGain()) });
 
 
 /*---------------------------------------------------------------------------------------------------------
@@ -596,21 +697,27 @@ compressorThresholdButtonElement = document.getElementById("compThresholdButton"
 
 
 /* jamhub  impl */
-$(function () {
+$(function() {
     console.log("jamhub is reached");
     // reference the auto-generated proxy for the hub
     var jam = $.connection.jamHub;
-    // create a function that the hub can call back to create sounds
-    jam.client.soundWaveStackerPointer = soundWaveStacker;
-    jam.client.waveRemoverPointer = waveRemover;
-    jam.client.lfoActivatorPointer = lfoActivator;
-    jam.client.lfoDeactivatorPointer = lfoDeactivator;
-    jam.client.compRatioAdjusterPointer = compRatioAdjuster;
-    jam.client.compKneeAdjusterPointer = compKneeAdjuster;
-    jam.client.compThresholdAdjusterPointer = compThresholdAdjuster;
-    jam.client.sessionSuspenderPointer = sessionSuspender;
-    jam.client.sessionPlayerPointer = sessionPlayer;
-    jam.client.masterGainPointer = masterGain;
+
+
+// create a function that the hub can call back to create sounds
+    jam.client.soundWaveStackerPointer = oscillatorI.soundWaveStacker, 
+    jam.client.waveRemoverPointer = oscillatorI.waveRemover;
+    jam.client.lfoActivatorPointer = lfoI.lfoActivator;
+    jam.client.lfoDeactivatorPointer = lfoI.lfoDeactivator;
+    jam.client.compRatioAdjusterPointer = finalCompressor.ratioAdjuster;
+    jam.client.compKneeAdjusterPointer = finalCompressor.kneeAdjuster;
+    jam.client.compThresholdAdjusterPointer = finalCompressor.thresholdAdjuster;
+    jam.client.sessionSuspenderPointer = oscillatorI.freezeBucket;
+    jam.client.sessionPlayerPointer = oscillatorI.startStacking, updateConnections();
+    jam.client.masterGainAdjusterPointer = endController.gainAdjuster;
+
+    // update connection
+    jam.client.updateConnectionsPointer = updateConnections;
+
 
     $.connection.hub.start().done(function () {
 
@@ -625,7 +732,7 @@ $(function () {
             
             
             // Call the GenerateSound method on the hub. 
-            jam.server.stackSoundWave(getSineWaveFrequency(), oscIType);
+            jam.server.stackSoundWave($('#sineFreq').val(), oscillatorI.oscIType);
 
         });
 
@@ -649,7 +756,7 @@ $(function () {
             console.log("LFOButton clicked");
 
             // Call the RemoveLastSound method on the hub. 
-            jam.server.activateLFO(getLFOFrequency(), getLFOScale(), lfoIType);
+            jam.server.activateLFO(lfoI.getLFOFrequency(), lfoI.getLFOScale(), lfoI.lfoIType);
 
         });
 
@@ -673,7 +780,7 @@ $(function () {
             console.log("compressor ratio adjusted");
 
             // Call the AdjustCompRatio method on the hub. 
-            jam.server.adjustCompRatio(getCompressorRatio());
+            jam.server.adjustCompRatio($('#compRatio').val());
 
         });
 
@@ -682,7 +789,7 @@ $(function () {
             console.log("compressor knee adjusted");
 
             // Call the AdjustCompKnee method on the hub.
-            jam.server.adjustCompKnee(getCompressorKnee());
+            jam.server.adjustCompKnee($('#compKnee').val());
 
         });
 
@@ -691,7 +798,7 @@ $(function () {
             console.log("compressor treshold adjusted");
 
             // Call the AdjustCompThreshold method on the hub.
-            jam.server.adjustCompThreshold(getCompressorThreshold());
+            jam.server.adjustCompThreshold($('#compThreshold').val());
 
         });
 
@@ -703,7 +810,7 @@ $(function () {
         // event listener suspend button
         $('#masterGain').change(function () {
 
-            jam.server.changeMasterGain(getMasterGain());
+            jam.server.changeMasterGain($('#masterGain').val());
 
 
         });

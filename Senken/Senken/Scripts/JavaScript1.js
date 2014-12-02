@@ -132,14 +132,14 @@ function getMasterGain() {
 -----------------------------------------------------------------------------------------------------------
 */
 
-var compressor = context.createDynamicsCompressor();
-compressor.connect(masterGain);
+var Compressor = context.createDynamicsCompressor();
+Compressor.connect(masterGain);
 
 // ratio 
 
 function setCompressorRatio(ratio) {
     console.log("compressor ratio set to 1 /  " + ratio);
-    compressor.ratio.value = ratio;
+    Compressor.ratio.value = ratio;
 }
 
 function getCompressorRatio() {
@@ -152,7 +152,7 @@ function getCompressorRatio() {
 
 function setCompressorKnee(knee) {
     console.log("compressor knee set to " + knee);
-    compressor.knee.value = knee;
+    Compressor.knee.value = knee;
 }
 
 function getCompressorKnee() {
@@ -165,7 +165,7 @@ function getCompressorKnee() {
 
 function setCompressorThreshold(threshold) {
     console.log("compressor Threshold set to " + threshold);
-    compressor.threshold.value = threshold;
+    Compressor.threshold.value = threshold;
 }
 
 function getCompressorThreshold() {
@@ -230,7 +230,7 @@ function makeSineWave(sineFrequency, oscType) {
 
     osc.connect(gainNode);
 
-    gainNode.connect(compressor);
+    gainNode.connect(Compressor);
 
 
 
