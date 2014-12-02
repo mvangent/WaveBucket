@@ -4,7 +4,7 @@
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=016332D4FDDD4905803DA36C44951144/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;Elements /&gt;&lt;/Session&gt;</s:String>
 	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=AC2D6C8DD5C844C48DADB3156A631011/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=AC2D6C8DD5C844C48DADB3156A631011/Name/@EntryValue">stackWave #2</s:String>
-	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=AC2D6C8DD5C844C48DADB3156A631011/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;Elements&gt;&lt;UnitTestElement Provider="QUnit" Id="QUnit::context class was found" type="QUnitTestElement" FileName="D:\Melvin van Gent\Google Drive\Sogyo\WebProject_Senken\zonked-biplane\Senken\Senken\Scripts\senkenSynthTests.js" TestName="context class was found" RangeStart="142" RangeEnd="972" Project="DBB43EF5-E797-4FA5-87B3-9C09D0B0709B" /&gt;&lt;/Elements&gt;&lt;/Session&gt;</s:String>
+	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=AC2D6C8DD5C844C48DADB3156A631011/XmlSerializedElements/@EntryValue">&lt;Session&gt;&lt;Elements&gt;&lt;UnitTestElement Provider="QUnit" Id="QUnit::senkenSynth: class was found" type="QUnitTestElement" FileName="D:\Melvin van Gent\Google Drive\Sogyo\WebProject_Senken\zonked-biplane\Senken\Senken\Scripts\senkenSynthTests.js" TestName="senkenSynth: class was found" RangeStart="142" RangeEnd="959" Project="DBB43EF5-E797-4FA5-87B3-9C09D0B0709B" /&gt;&lt;/Elements&gt;&lt;/Session&gt;</s:String>
 	
 	
 	

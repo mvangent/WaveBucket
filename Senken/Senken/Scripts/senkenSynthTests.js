@@ -9,7 +9,7 @@
 
 
 
-test("context class was found", function () {
+test("senkenSynth: class was found", function () {
     
 
     var context;
@@ -47,3 +47,35 @@ test("context class was found", function () {
 
 });
 
+
+test("senkenSynth: sets Oscillator to correct frequency", function () {
+
+
+    var context;
+    function init() {
+
+        var contextClass = (window.AudioContext ||
+            window.webkitAudioContext ||
+            window.mozAudioContext ||
+            window.oAudioContext ||
+            window.msAudioContext);
+        if (contextClass) {
+            // Web Audio API is available.
+            context = new contextClass();
+        } else {
+            // Web Audio API is not available. Ask the user to use a supported browser.
+            alert("no webapi was found for your browser");
+
+        }
+
+    }
+    init();
+
+    
+
+
+    equals(isContext, true, "frequency");
+
+
+
+});
