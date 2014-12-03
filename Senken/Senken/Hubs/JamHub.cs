@@ -17,18 +17,23 @@ namespace Senken.Hubs
         
         /* OscillatorI */
         
-        public void StackSoundWave(string OscIFrequency, string OscIType)
+        public void StackSoundWave(string OscIFrequency, string OscIType, bool updateConnectionsBool)
         {
-                        
-            Clients.All.soundWaveStackerPointer(OscIFrequency, OscIType);
-
+                      
+            
+            Clients.All.soundWaveStackerPointer(OscIFrequency, OscIType, updateConnectionsBool);
             Clients.All.updateConnectionsPointer();
+            Clients.All.updateWaveBucketDisplayPointer();
+            Clients.All.updateOscillatorDisplayPointer();
+
+
         }
 
         public void RemoveLastSound()
         {
             Clients.All.waveRemoverPointer();
             Clients.All.updateConnectionsPointer();
+            Clients.All.updateOscillatorDisplayPointer();
         }
 
         /* LFO I */
@@ -50,20 +55,24 @@ namespace Senken.Hubs
         public void AdjustCompRatio(string ratio)
         {
             Clients.All.compRatioAdjusterPointer(ratio);
-            Clients.All.updateConnectionsPointer();
+
+            Clients.All.updateCompressorDisplayPointer();
+
         }
 
         public void AdjustCompKnee(string knee)
         {
             Clients.All.compKneeAdjusterPointer(knee);
-            Clients.All.updateConnectionsPointer();
+            Clients.All.updateCompressorDisplayPointer();
+            
         }
         
 
         public void AdjustCompThreshold(string threshold)
         {
             Clients.All.compThresholdAdjusterPointer(threshold);
-            Clients.All.updateConnectionsPointer();
+            Clients.All.updateCompressorDisplayPointer();
+           
         }
 
 
@@ -72,20 +81,26 @@ namespace Senken.Hubs
         public void ChangeMasterGain(string volume)
         {
             Clients.All.masterGainAdjusterPointer(volume);
-            Clients.All.updateConnectionsPointer();
+            Clients.All.updateEndControlDisplayPointer();
         }
         
         
         public void StopSession()
         {
-            Clients.All.sessionSuspenderPointer();
+            Clients.All.stopSessionPointer();
+            Clients.All.freezeBucketPointer();
             Clients.All.updateConnectionsPointer();
+            Clients.All.updateEndControlDisplayPointer();
+            Clients.All.updateWaveBucketDisplayPointer();
         }
 
         public void PlaySession()
         {
-            Clients.All.sessionPlayerPointer();
+            Clients.All.startSessionPointer();  
+            Clients.All.startBucketPointer();
             Clients.All.updateConnectionsPointer();
+            Clients.All.updateEndControlDisplayPointer();
+            Clients.All.updateWaveBucketDisplayPointer();
         }
 
 

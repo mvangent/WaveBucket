@@ -1,6 +1,6 @@
 ﻿
 /*---------------------------------------------------------------------------------------------------------
-------- AudioContext ----------------------------------------------------------------------------------------
+------- AudioContext // Global vars----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 */
 
@@ -21,9 +21,10 @@ var context;
 
     }
 
+var appActive = false;
 
 /*---------------------------------------------------------------------------------------------------------
-------- JQuery / CSS ----------------------------------------------------------------------------------------
+------- JQuery / CSS => Starting Display-------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 */
 
@@ -112,8 +113,6 @@ function draw() {
 
     canvasCtx.stroke();
 
-
-
 }
 
 draw();
@@ -133,13 +132,13 @@ function MasterController(context)
     var masterVolume = context.createGain();
 
     /* start/stop */
-    var active = false;
-    
-    
+    this.active = false;
+
+    var self = this;
 
     this.gainAdjuster = function (masGain) {
         masterVolume.gain.value = masGain / 100;
-        $('#masterGain').val(masGain);
+        
     };
 
     this.readGain = function() {
@@ -160,18 +159,38 @@ function MasterController(context)
     // activateSession
     this.startSession = function ()
     {
-        active = true;
+        self.active = true;
+
+        console.log("start session reached " + self.isActive());
+
     }
 
-    this.stopSession = function () {
+    this.stopSession = function ()
+    {
 
-        active = false;
+        self.active = false;
+
+        console.log("stop session reached, active = " + self.active);
+    }
+
+    this.isActive = function() {
+
+        return self.active;
     }
   
-    this.isActive = function() {
-        return active;
+  
+    this.updateDisplay = function () {
+        console.log("update display mastercontrols is reached");
+
+        if (self.isActive()) {
+            $('.senkenContainer').css({ 'opacity': 1.0 });
+        } else {
+            $('.senkenContainer').css({ 'opacity': 0.4 });
+        }
+
+        $('#masterGain').val(parseInt((masterVolume.gain.value) * 100));
     }
-    
+
 }
 
 
@@ -190,16 +209,12 @@ function MasterController(context)
 function Compressor(context)
 {
     var compressorInstance = context.createDynamicsCompressor();
-
-  
+    
     // ratio 
 
     this.ratioAdjuster = function (ratio) {
         console.log("compressor ratio set to 1 /  " + ratio);
         compressorInstance.ratio.value = ratio;
-
-        // change value in field
-        $('#compRatio').val(ratio);
     };
 
     this.readRatio = function() {
@@ -208,28 +223,20 @@ function Compressor(context)
  
 
     // knee
-
     this.kneeAdjuster = function (knee) {
         console.log("compressor knee set to " + knee);
         compressorInstance.knee.value = knee;
-
-        // change value in field
-        $('#compKnee').val(knee);
     };
 
     this.readKnee = function () {
         return compressorInstance.knee.value;
     }
    
-
     // threshold
 
     this.thresholdAdjuster = function (threshold) {
         console.log("compressor Threshold set to " + threshold);
         compressorInstance.threshold.value = threshold;
-
-        // change value in field
-        $('#compThreshold').val(threshold);
     };
 
     this.readThreshold = function () {
@@ -248,6 +255,17 @@ function Compressor(context)
         return compressorInstance;
     }
 
+    this.updateDisplay = function () {
+        // change value in field
+        $('#compRatio').val(compressorInstance.ratio.value);
+
+        // change value in field
+        $('#compKnee').val(compressorInstance.knee.value);
+
+        // change value in field
+        $('#compThreshold').val(compressorInstance.threshold.value);
+    }
+
 }
 
 
@@ -261,26 +279,57 @@ function Compressor(context)
 
 function WaveBucket()
 {
+    // member variables
     var waveBucket = [];
+    this.activated = false;
 
-    waveBucketActive = false;
-    
-    this.addWaveToBucket = function(osc) {
+    // methods
+    this.addWave = function (osc) {
+
         waveBucket.push(osc);
-        
-       // this.updateWaveBucketDisplay(osc);
     }
 
-    this.removeWaveFromBucket = function(index) {
-
-         
-            waveBucket.pop();
-        
-
-        this.updateWaveBucketDisplay();
+    this.removeLastWave = function() {
+        waveBucket.pop();
     }
 
-    this.updateWaveBucketDisplay = function() {
+
+    this.remove = function (index) {
+        
+        waveBucket.splice(index, 1);
+    }
+
+    this.removeFirstElement = function() {
+
+        waveBucket.shift();
+    }
+
+    this.getSize = function() {
+        
+        return waveBucket.length;
+    }
+
+    this.select = function(i) {
+
+        return waveBucket[i];
+    }
+
+    this.activate = function()
+    {
+        self.activated = true;
+    }
+
+    this.deactivate = function()
+    {
+        self.activated = false;
+    }
+
+    this.isActive = function()
+    {
+        return self.activated;
+    }
+
+    this.updateDisplay = function () {
 
         var arrayLength = waveBucket.length;
 
@@ -296,29 +345,7 @@ function WaveBucket()
             mydiv.appendChild(newcontent);
 
         };
-
-    this.length = function() {
-        return waveBucket.length
     }
-
-    this.select = function(i) {
-        return waveBucket[i];
-    }
-
-
-    this.isShining = function() {
-        waveBucketActive = true;
-        console.log("bucket active true");
-    }
-
-    this.isSilent = function() {
-        waveBucketActive = false;
-    }
-
-    this.isActive = function() {
-        return waveBucketActive;
-    }
-
 }
 
 
@@ -326,182 +353,170 @@ function WaveBucket()
 
 
 
-
-
-
-
-}
-
-
-
-
-
-
-/*---------------------------------------------------------------------------------------------------------
-------- OSCILLATOR // has a WAVEBUCKET --------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------------
+** OBJECT: Oscillator(contextClass, MasterController) : prototype                                           **
+--------------------------------------------------------------------------------------------------------------
+** UML: has a WaveBucket, references MasterController and AudioContextClass                                 **
+** This object is responsible for generating sine, square, triangle and sawtooths waveforms and saves the   **
+** generatad sounds in a wavebucket                                                                         **
+--------------------------------------------------------------------------------------------------------------
 */
 
 
 function Oscillator(context, endController) {
 
-    // member variables
-
+    // member variables oscillatorNode
     var osc = context.createOscillator();
-    var oscIType = "sine";
+    // enums: 0, 1, 2, 3 are valid. They correspond with sine, triangle, square and sawtooth. 
+    this.oscTypeEnum = 0;
     var gainNode = context.createGain();
+
     /* wavebucket */
-    var wavebucket = new WaveBucket();
+    this.wavebucket = new WaveBucket();
+    var self = this;
+    var lastWaveRemoved = false;
+
+
+    /* Method: this.waveGenerator = function (frequency, oscType, updateConnectionsBool) 
+    ------------------------------------------------------------------------------------------------------------------------
+    IMPORTANT => this function has an dependency outside the object: global method updateConnections() is called  everytime
+    a newly generated wave is added. Through this functionality the wavebucket feature becomes possible in an object oriented
+    setting. The dependency is activated by setting the third parameter to true. 
+    -----------------------------------------------------------------------------------------------------------------------*/
+
+    this.waveGenerator = function (frequency, oscType, updateConnectionsBool) {
     
-
-
-    function waveGenerator(sineFrequency, oscType) {
-
-        if (true) { // checken
-
             console.log("makeSineWave reached");
-            
+            lastWaveRemoved = false;
             osc = context.createOscillator();
             osc.type = oscType;
-            osc.frequency.value = sineFrequency;
+            osc.frequency.value = frequency;
+
             // create gainNode
             //gainNode = context.createGain();
-
             //gainNode.gain.value = 1;
-
-            
-            
-            // Start immediately, and stop in 2 seconds.
+           
             osc.start(context.currentTime);
             //osc.stop(context.currentTime + DURATION);
-            console.log("Osc I: started at freq " + osc.frequency.value);
+            console.log("Osc I: started at freq " + osc.frequency.value + ", with shape " + oscType);
 
-            // add wave to the bucket
-            return osc;
-
-            // set field value to last value
-            $('#sineFreq').val(sineFrequency);
-            $('#oscIType').val(oscType);
-
+        /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE*/
+        if (updateConnectionsBool === true) {
+            updateConnections();
         }
 
+        // add wave to the bucket
+            return osc;
     };
 
 
-    this.waveRemover = function (index) { // set index
-        osc.stop(context.currentTime);
-        console.log("Osc I: stopped"); // remove wave from the bucket
-        wavebucket.removeWaveFromBucket();
+    this.removeWave = function (index) { // set index
+        
+        self.freezeBucket()
+        self.wavebucket.remove(2);
+        self.startBucket()
     };
 
+    this.removeLastWave = function() {
+        if (!lastWaveRemoved) {
+            osc.stop();
+            self.wavebucket.removeLastWave();
+            lastWaveRemoved = true;
+        }
+    }
 
+    this.soundWaveStacker = function (frequency, oscTypeEnum, updateConnectionsBool) {
 
-    this.soundWaveStacker = function (frequency, oscType) {
+        self.oscTypeEnum = oscTypeEnum;
 
-        wavebucket.addWaveToBucket(waveGenerator(frequency, oscType));
+        var oscType = self.translateOscTypeEnumToString(oscTypeEnum);
+
+        console.log("osctype is NOWWW: " + oscType);
+
+        if (endController.isActive()) {
+            self.wavebucket.addWave(self.waveGenerator(frequency, oscType, updateConnectionsBool));
+           
+        }
     };
 
-    this.selectOscType = function (oscType) {
+    this.translateOscTypeEnumToString = function (oscType) {
 
         console.log("oscType: " + typeof(oscType));
 
         switch (parseInt(oscType)) {
-            case 0 : oscIType = "sine";
-                console.log("oscIType: " + oscIType + " selected");
-                break;
-            case 1: oscIType = "square";
-                console.log("oscIType: " + oscIType + " selected");
-                break;
-            case 2: oscIType = "triangle";
-                console.log("oscIType: " + oscIType + " selected");
-                break;
-            case 3: oscIType = "sawtooth";
-                console.log("oscIType: " + oscIType + " selected");
-                break;
-            default: oscIType = "sine";
-                console.log("default");
-
+            case 0 : return "sine";
+            case 1: return "square";
+            case 2: return "triangle";
+            case 3: return "sawtooth";
+            default: return "sine";
         }
     }
 
-    /* start stacking */
+    /* startBucket */
 
-    this.startStacking = function () {
-
-        if (!(wavebucket.isActive)) {
-
-            //  oscActive = true;
-
+    this.startBucket = function () {
+        
+        if (!self.wavebucket.isActive()) {
             console.log("start function activated");
+            var arrayLength = self.wavebucket.getSize();
+            console.log(arrayLength);
 
-            var arrayLength = wavebucket.length;
             var i;
-            for (i = 0; i < arrayLength; i++) {
-                wavebucket.push(this.waveGenerator(wavebucket.select(i).frequency.value, wavebucket.select(i).type));
 
+            for (i = 0; i < arrayLength; i++) {
+                console.log("i = " + i)
+                self.wavebucket.addWave(self.waveGenerator(self.wavebucket.select(i).frequency.value, self.wavebucket.select(i).type, true));
             }
 
             for (i = 0; i < arrayLength; i++) {
-                wavebucket.shift();
-
+                self.wavebucket.removeFirstElement();
             }
 
-            waveBucket.updateWaveBucketDisplay();
-
-            wavebucket.waveBucketActive = true;
-            
-
-            $('.senkenContainer').css({ 'opacity': 1.0 });
+            self.wavebucket.activate();
         }
-
     };
 
-
-
-    /* stop stacking */
+    
+    /* freezeBucket */
 
     this.freezeBucket = function () {
+        
+        if (self.wavebucket.isActive()) {
 
-        if (wavebucket.isActive) {
+            console.log("stop function wavebucket activated,");
 
-            // oscActive = false;
-
-            console.log("stop function activated,");
-
-            for (var i = 0; i < wavebucket.length; i++) {
-                console.log(i + " " + typeof wavebucket.select(i));
-                wavebucket.select(i).stop();
+            for (var i = 0; i < self.wavebucket.getSize(); i++) {
+                console.log(i + " " + typeof self.wavebucket.select(i));
+                self.wavebucket.select(i).stop();
             }
 
-            wavebucket.waveBucketActive = false;
+            console.log(self.wavebucket.waveBucketActive);
 
-            console.log(wavebucket.waveBucketActive);
-            
-
-            $('.senkenContainer').css({ 'opacity': 0.4 });
-
+            self.wavebucket.deactivate();
         }
     };
-
-    this.sessionOscillations = function () {
-        return wavebucket.length;
-
-
-
-
-    }
 
     // outputTo
     this.outputTo = function (destination) {
         console.log("osc output refreshed");
 
         osc.connect(gainNode);
-
         gainNode.connect(destination);
     }
 
+    // gainNodeInputForLfo
     this.gainNodeInputForLfo = function() {
         return gainNode.gain;
+    }
+
+ 
+    // updateDisplay(Oscillator)
+    this.updateDisplay = function() {
+        self.wavebucket.updateDisplay();
+
+        // set field value to last value
+        $('#sineFreq').val(osc.frequency.value);
+        $('#oscIType').val(self.oscTypeEnum);
     }
 
 }
@@ -653,7 +668,7 @@ var updateConnections = function() {
     endController.outputTo(analyser);
     finalCompressor.outputTo(endController.input());
     oscillatorI.outputTo(finalCompressor.input());
-    lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+        lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
 
 }
 
@@ -664,8 +679,8 @@ var updateConnections = function() {
 
 
 
-var oscITypeElement = document.getElementById('oscIType');
-oscITypeElement.addEventListener("change", function () { oscillatorI.selectOscType($('#oscIType').val()); });
+//var oscITypeElement = document.getElementById('oscIType');
+//oscITypeElement.addEventListener("change", function () { oscillatorI.selectOscType($('#oscIType').val()); });
 
 
 
@@ -705,18 +720,25 @@ $(function() {
 
 // create a function that the hub can call back to create sounds
     jam.client.soundWaveStackerPointer = oscillatorI.soundWaveStacker, 
-    jam.client.waveRemoverPointer = oscillatorI.waveRemover;
+    jam.client.waveRemoverPointer = oscillatorI.removeLastWave;
     jam.client.lfoActivatorPointer = lfoI.lfoActivator;
     jam.client.lfoDeactivatorPointer = lfoI.lfoDeactivator;
     jam.client.compRatioAdjusterPointer = finalCompressor.ratioAdjuster;
     jam.client.compKneeAdjusterPointer = finalCompressor.kneeAdjuster;
     jam.client.compThresholdAdjusterPointer = finalCompressor.thresholdAdjuster;
-    jam.client.sessionSuspenderPointer = oscillatorI.freezeBucket;
-    jam.client.sessionPlayerPointer = oscillatorI.startStacking, updateConnections();
+    jam.client.freezeBucketPointer = oscillatorI.freezeBucket;
+    jam.client.startBucketPointer = oscillatorI.startBucket; 
     jam.client.masterGainAdjusterPointer = endController.gainAdjuster;
+    jam.client.startSessionPointer = endController.startSession;
+    jam.client.stopSessionPointer = endController.stopSession;
 
-    // update connection
+    // update connections between sound modules
     jam.client.updateConnectionsPointer = updateConnections;
+
+    // update displays
+    jam.client.updateEndControlDisplayPointer = endController.updateDisplay;
+    jam.client.updateCompressorDisplayPointer = finalCompressor.updateDisplay;
+    jam.client.updateOscillatorDisplayPointer = oscillatorI.updateDisplay
 
 
     $.connection.hub.start().done(function () {
@@ -732,7 +754,7 @@ $(function() {
             
             
             // Call the GenerateSound method on the hub. 
-            jam.server.stackSoundWave($('#sineFreq').val(), oscillatorI.oscIType);
+            jam.server.stackSoundWave($('#sineFreq').val(), $('#oscIType').val(), true);
 
         });
 

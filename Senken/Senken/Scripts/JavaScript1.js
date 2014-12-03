@@ -185,11 +185,11 @@ var waveBucket = [];
 function updateWaveBucket(freq, shape) {
     waveBucket.push(freq);
 
-    updateWaveBucketDisplay();
+    updateDisplay();
 
 }
 
-function updateWaveBucketDisplay() {
+function updateDisplay() {
     var arrayLength = waveBucket.length;
 
     for (var i = 0; i < arrayLength; i++) {
@@ -378,7 +378,7 @@ var sineLoadButtonElement;
 sineLoadButtonElement = document.getElementById("sineButton");
 sineLoadButtonElement.addEventListener("click", function () { makeSineWave(getSineWaveFrequency(), oscIType) })
 sineLoadButtonElement.addEventListener("click", function () { updateWaveBucket(getSineWaveFrequency(), getOscIType()) })
-sineLoadButtonElement.addEventListener("click", function () { updateWaveBucketDisplay() })
+sineLoadButtonElement.addEventListener("click", function () { updateDisplay() })
 
 
 var sineStopButtonElement;

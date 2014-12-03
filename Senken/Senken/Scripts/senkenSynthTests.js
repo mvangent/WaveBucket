@@ -128,30 +128,19 @@ test("senkenSynth: masterController", function() {
     equals(0.5, testController.readGain(), "gain functionality");
 
 
-    // test wavebucket contents after start
+    // test activation
 
-    var oscArray = [];
-    var testOscillation = context.createOscillator();
-    testOscillation.frequency.value = 200;
+    testController.startSession();
 
-    console.log(typeof testOscillation);
+    equals(true, testController.isActive(), "starting session works")
 
-    oscArray.push(testOscillation);
-
-    testControllerWithWaveBucket = new MasterController(context, oscArray);
-
-    testControllerWithWaveBucket.sessionPlayer();
-
-    equal(1, testControllerWithWaveBucket.sessionOscillations(), "correct amount of waves are started");
-
-    // test  wavebucket contents after stop
-    testControllerWithWaveBucket.sessionSuspender();
-    equal(1, testControllerWithWaveBucket.sessionOscillations(), "correct amount of waves are ready to be reincarnated");
-
+    // test  deactivation
+    testController.stopSession();
+    equals(false, testController.isActive(), "pauzing session works")
 
 });
 
-test("senkenSynth: LFO", function() {
+test("senkenSynth: WaveBucket", function() {
 
 
     var context;
@@ -176,8 +165,70 @@ test("senkenSynth: LFO", function() {
 
     init();
 
+    var testBucket = new WaveBucket();
 
-    equals(thresholdValue, -10, "threshold functionality works");
+    // add wave
+
+    var testWave = context.createOscillator();
+
+    testBucket.addWave(testWave);
+
+    var length = testBucket.getSize();
+
+    equals(length, 1, "adding wave");
+
+    // remove wave (by pop())
+
+    testBucket.remove();
+
+    equals(0, testBucket.getSize(), "removing wave")
+
+    // remove wave (by index) 
+
+});
+
+test("senkenSynth: Oscillator", function() {
+
+
+    var context;
+
+    function init() {
+
+        var contextClass = (window.AudioContext ||
+            window.webkitAudioContext ||
+            window.mozAudioContext ||
+            window.oAudioContext ||
+            window.msAudioContext);
+        if (contextClass) {
+            // Web Audio API is available.
+            context = new contextClass();
+        } else {
+            // Web Audio API is not available. Ask the user to use a supported browser.
+            alert("no webapi was found for your browser");
+
+        }
+
+    }
+
+    init();
+
+    var endController = new MasterController(context);
+
+    var testOscillator = new Oscillator(context, endController);
+
+    // simulation of GUI
+    var enumWaveType = 1 // triangle wave
+    endController.startSession();
+    testOscillator.startBucket();
+
+    // generate triangleWave, and stack it to the wavebucket 
+
+    testOscillator.soundWaveStacker(200, enumWaveType, false);
+    var testWaveI = testOscillator.wavebucket.select(0);
+
+    equals(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
+
+    equals(testWaveI.type, "square", "type is set and stored in wavebucket")
 
 
 });
