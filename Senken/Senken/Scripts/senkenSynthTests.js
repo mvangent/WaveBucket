@@ -228,7 +228,9 @@ test("senkenSynth: Oscillator", function() {
 
     equals(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
 
-    equals(testWaveI.type, "square", "type is set and stored in wavebucket")
+    equals(testWaveI.type, "square", "type is set and stored in wavebucket");
+
+    
 
 
 });

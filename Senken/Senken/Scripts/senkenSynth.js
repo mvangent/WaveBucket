@@ -21,7 +21,7 @@ var context;
 
     }
 
-var appActive = false;
+
 
 /*---------------------------------------------------------------------------------------------------------
 ------- JQuery / CSS => Starting Display-------------------------------------------------------------------
@@ -128,14 +128,14 @@ draw();
 
 function MasterController(context)
 {
-     /* gain */
+    // member variables
     var masterVolume = context.createGain();
-
-    /* start/stop */
     this.active = false;
 
+    // self reference
     var self = this;
 
+    // gain methods
     this.gainAdjuster = function (masGain) {
         masterVolume.gain.value = masGain / 100;
         
@@ -145,18 +145,8 @@ function MasterController(context)
         return masterVolume.gain.value;
     }
 
-    // outputTo
-    this.outputTo = function (destination) {
-        masterVolume.connect(destination);
-        
-    }
-
-    // input
-    this.input = function () {
-        return masterVolume;
-    }
-
-    // activateSession
+   
+    // activation methods
     this.startSession = function ()
     {
         self.active = true;
@@ -178,7 +168,18 @@ function MasterController(context)
         return self.active;
     }
   
-  
+    // connector methods: outputTo
+    this.outputTo = function (destination) {
+        masterVolume.connect(destination);
+
+    }
+
+    // : input
+    this.input = function () {
+        return masterVolume;
+    }
+
+    // display method: updateDisplay
     this.updateDisplay = function () {
         console.log("update display mastercontrols is reached");
 
@@ -255,14 +256,13 @@ function Compressor(context)
         return compressorInstance;
     }
 
+    // displayMethod 
     this.updateDisplay = function () {
-        // change value in field
+        /
         $('#compRatio').val(compressorInstance.ratio.value);
 
-        // change value in field
         $('#compKnee').val(compressorInstance.knee.value);
-
-        // change value in field
+        
         $('#compThreshold').val(compressorInstance.threshold.value);
     }
 
@@ -279,56 +279,66 @@ function Compressor(context)
 
 function WaveBucket()
 {
-    // member variables
+    // member variables: 
     var waveBucket = [];
     this.activated = false;
 
-    // methods
+    // methods: 
+    
+    //addWave()
     this.addWave = function (osc) {
 
         waveBucket.push(osc);
     }
-
+    
+    // removeLastWave()
     this.removeLastWave = function() {
         waveBucket.pop();
     }
 
-
+    // remove(index) - wave will be removed from wavebucket by index
     this.remove = function (index) {
         
         waveBucket.splice(index, 1);
     }
 
+    // removeFirstElement() -> wrapper for array.shift()
     this.removeFirstElement = function() {
 
         waveBucket.shift();
     }
-
+        
+    // getSize() -> wrapper for array.length 
     this.getSize = function() {
         
         return waveBucket.length;
     }
-
+    
+    // select(elementbyIndex) 
     this.select = function(i) {
 
         return waveBucket[i];
     }
 
+    // activate()
     this.activate = function()
     {
         self.activated = true;
     }
 
+    // deactivate()
     this.deactivate = function()
     {
         self.activated = false;
     }
 
+    // isActive();
     this.isActive = function()
     {
         return self.activated;
     }
 
+    // updateDisplay()
     this.updateDisplay = function () {
 
         var arrayLength = waveBucket.length;
@@ -354,9 +364,9 @@ function WaveBucket()
 
 
 /*------------------------------------------------------------------------------------------------------------
-** OBJECT: Oscillator(contextClass, MasterController) : prototype                                           **
+** OBJECT: Oscillator(ContextClass, MasterController) : prototype                                           **
 --------------------------------------------------------------------------------------------------------------
-** UML: has a WaveBucket, references MasterController and AudioContextClass                                 **
+** UML: has a WaveBucket, references MasterController(object) and AudioContextClass                                 **
 ** This object is responsible for generating sine, square, triangle and sawtooths waveforms and saves the   **
 ** generatad sounds in a wavebucket                                                                         **
 --------------------------------------------------------------------------------------------------------------
@@ -367,21 +377,23 @@ function Oscillator(context, endController) {
 
     // member variables oscillatorNode
     var osc = context.createOscillator();
-    // enums: 0, 1, 2, 3 are valid. They correspond with sine, triangle, square and sawtooth. 
-    this.oscTypeEnum = 0;
+    this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
     var gainNode = context.createGain();
 
     /* wavebucket */
     this.wavebucket = new WaveBucket();
-    var self = this;
     var lastWaveRemoved = false;
+
+    // self reference
+    var self = this;
 
 
     /* Method: this.waveGenerator = function (frequency, oscType, updateConnectionsBool) 
     ------------------------------------------------------------------------------------------------------------------------
     IMPORTANT => this function has an dependency outside the object: global method updateConnections() is called  everytime
     a newly generated wave is added. Through this functionality the wavebucket feature becomes possible in an object oriented
-    setting. The dependency is activated by setting the third parameter to true. 
+    setting. The dependency is activated by setting the third parameter to true, otherwise generated sound won't stack when
+    the wavebucket is loaded.
     -----------------------------------------------------------------------------------------------------------------------*/
 
     this.waveGenerator = function (frequency, oscType, updateConnectionsBool) {
@@ -548,6 +560,7 @@ function Lfo(context) {
 
     this.lfoActivator = function (lfoFreq, scale, lfoType) {
 
+        
         // Create oscillator.
 
         if (!lfoActive) {
