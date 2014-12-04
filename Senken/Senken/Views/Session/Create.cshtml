@@ -90,12 +90,7 @@
                 </div>
 
                 <br>
-
-
-
-
-
-
+                
                 <input type="button" id="LFOButton" name="LFOGen" value="activate LFO">
                 <input type="button" id="LFOStopButton" name="LFOStop" value="deactivate LFO">
 
@@ -227,6 +222,48 @@
                 </div>
 
                 <br />
+                
+                <!---FilterI -->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LFOType, "Filter I", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.BiquadFilterTypeOne, htmlAttributes: new { id = "filterTypeOne", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.BiquadFilterFrequencyOne, "frequency", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { type = "number", id = "filterFrequencyOne",  min = "10", max = "22000", step = "1", value = "3" })
+                        @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LFOIScale, "Q", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.BiquadFilterQOne, new { type = "number", id = "filterQOne", min = "1", max = "1000", step = "1", value = "1" })
+                        @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LFOIScale, "gain", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { type = "number", id = "filterGainOne", min = "-40", max = "40", step = "1", value = "1" })
+                        @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br>
+
+
 
                 <!---WaveBucket-->
 

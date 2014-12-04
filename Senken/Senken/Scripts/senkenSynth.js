@@ -1,47 +1,79 @@
 ﻿
-/*---------------------------------------------------------------------------------------------------------
-------- AudioContext // Global vars----------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------
+** Object: ContextClass() : imported from WebAudioApi 
+--------------------------------------------------------------------------------------------------------
+** Documentation: http://webaudio.github.io/web-audio-api/
+--------------------------------------------------------------------------------------------------------
 */
 
 var context;
 
-
-    var contextClass = (window.AudioContext ||
+    var ContextClass = (window.AudioContext ||
     window.webkitAudioContext ||
     window.mozAudioContext ||
     window.oAudioContext ||
     window.msAudioContext);
-    if (contextClass) {
+    if (ContextClass) {
         // Web Audio API is available.
-         context = new contextClass();
+         context = new ContextClass();
     } else {
         // Web Audio API is not available. Ask the user to use a supported browser.
-        alert("no webapi was found for your browser");
+        alert("no WebApi was found for your browser, try Chrome");
 
     }
 
+/*------------------------------------------------------------------------------------------------------
+** Init: initialising wiring class and connections. 
+--------------------------------------------------------------------------------------------------------
+*/
+    
+    var analyser = new Analyser(context);
+
+        analyser.draw();
+
+    var filterI = new BiquadFilter(context);
+
+        
+
+    var endController = new MasterController(context);
+    var finalCompressor = new Compressor(context);
+    var oscillatorI = new Oscillator(context, endController);
+    var lfoI = new Lfo(context);
 
 
-/*---------------------------------------------------------------------------------------------------------
-------- JQuery / CSS => Starting Display-------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+    var wiring = new Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI);
+    // because passing pointer variables in methods is not possible in js.:
+    function updateWiringCallBack() { wiring.updateConnections();}
+
+/*------------------------------------------------------------------------------------------------------
+** Object: Wiring([] soundmodules) : prototype 
+--------------------------------------------------------------------------------------------------------
 */
 
-$('.senkenContainer').css({ 'opacity': 0.4 });
-$('#senkenLeftColumn').css({ 'float': 'left' }).width('60%');
-$('#senkenRightColumn').css({ 'float': 'right' }).width('39%'); // initialize fields
-$('#compRatio').val(12);
-$('#compKnee').val(30);
-$('#compThreshold').val(-23);
-$('#masterGain').val(100);
+    function Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI) {
+        
+        //endController.outputTo(analyser.input());
+        //finalCompressor.outputTo(endController.input());
+        //oscillatorI.outputTo(finalCompressor.input());
+        //lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+
+        this.updateConnections = function () {
+
+            console.log("update connection reached");
+
+            analyser.outputTo(context.destination);
+            filterI.outputTo(analyser.input());
+            endController.outputTo(filterI.input());
+            finalCompressor.outputTo(endController.input());
+            oscillatorI.outputTo(finalCompressor.input());
+            lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+        }
+    }
 
 
-
-
-/*---------------------------------------------------------------------------------------------------------
-------- Analyser NO. ONE ----------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------
+** Object: Analyser(context) : prototype 
+--------------------------------------------------------------------------------------------------------
 */
 
 function Analyser(context) {
@@ -54,8 +86,8 @@ function Analyser(context) {
 
 
 
-    var WIDTH = canvas.width;
-    var HEIGHT = canvas.height;
+    var canvasWidth = canvas.width;
+    var canvasHeight = canvas.height;
     
     //var intendedWidth = document.querySelector('.wrapper').clientWidth;
     //canvas.setAttribute('width', intendedWidth);
@@ -69,25 +101,25 @@ function Analyser(context) {
     var bufferLength = analyser.frequencyBinCount;
     var dataArray = new Uint8Array(bufferLength);
 
-
+    var self = this;
 
     // clear canvas
-    canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+    canvasCtx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     
     /* Method: draw()
     ------------------------------------------------------------------------
     ** Call this function once, and it will keep updating itself 
     ------------------------------------------------------------------------*/
-    function draw() {
+    this.draw = function() {
         //console.log("draw OscI function entered");
 
-        drawVisual = requestAnimationFrame(draw);
+        drawVisual = requestAnimationFrame(self.draw);
         analyser.getByteTimeDomainData(dataArray);
 
         //set canvas background
         canvasCtx.fillStyle = 'rgb(190, 230, 180)';
-        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+        canvasCtx.fillRect(0, 0, canvasWidth, canvasHeight);
         // set canvas linewidth and stroke
         canvasCtx.lineWidth = 2;
         canvasCtx.strokeStyle = 'rgb(90, 205, 90)';
@@ -95,12 +127,12 @@ function Analyser(context) {
         canvasCtx.beginPath();
 
         // slice canvas width segments according to number of bins from FFT
-        var sliceWidth = WIDTH * 1.0 / bufferLength;
+        var sliceWidth = canvasWidth * 1.0 / bufferLength;
         var position = 0;
 
         for (var i = 0; i < bufferLength; i++) {
             var v = dataArray[i] / 128.0;
-            var y = v * HEIGHT / 2;
+            var y = v * canvasHeight / 2;
 
             if (i == 0) {
                 canvasCtx.moveTo(position, y);
@@ -130,17 +162,89 @@ function Analyser(context) {
         return analyser;
     }
 
-    draw();
+    
 }
 
+/*------------------------------------------------------------------------------------------------------
+** Object: BiQuadFilter(context) : prototype 
+--------------------------------------------------------------------------------------------------------
+** This filter consists of the following 8 types[enums]: "lowpass"[0], "highpass"[1], "bandpass"[2], "lowshelf"[3],
+** "highshelf"[4], "peaking"[5], "notch"[6],"allpass"[7]. Frequency and q can be manipulated in all types. 
+**  Gain except for lowpass, highpass and bandpass. 
+*/
 
+function BiquadFilter(context) {
+    this.biQuadFilter = context.createBiquadFilter();
+    console.log("filter created");
+    
+    var self = this;
 
+    this.setType = function (enumType) {
+        self.biQuadFilter.type = self.translateTypeEnumToString(enumType);
+        console.log(self.biQuadFilter.type);
+    }
 
+    this.readType = function() {
+        return self.biQuadFilter.type;
+    }
 
+    this.translateTypeEnumToString = function (typeEnum) {
 
-/*---------------------------------------------------------------------------------------------------------
-------- MASTER CONTROLS ----------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+        console.log("biQuadFilter type: " + typeof (typeEnum));
+
+        switch (parseInt(typeEnum)) {
+            case 0: return "lowpass";
+            case 1: return "highpass";
+            case 2: return "bandpass";
+            case 3: return "lowshelf";
+            case 4: return "highshelf";
+            case 5: return "peaking";
+            case 6: return "notch";
+            case 7: return "allpass";
+            
+            default: return "lowpass";
+        }
+    }
+
+    this.setFrequency = function (frequency) {
+        self.biQuadFilter.frequency.value = frequency;
+    }
+
+    this.readFrequency = function () {
+        return self.biQuadFilter.frequency.value;
+    }
+
+    this.setQ = function (q) {
+        self.biQuadFilter.Q.value = q;
+    }
+
+    this.readQ = function () {
+        return self.biQuadFilter.Q.value;
+    }
+
+    this.setGain = function (gain) {
+        self.biQuadFilter.gain.value = gain;
+    }
+
+    this.readGain = function () {
+        return self.biQuadFilter.gain.value;
+    }
+
+    // connector methods: outputTo
+    this.outputTo = function (destination) {
+        self.biQuadFilter.connect(destination);
+    }
+
+    // : input
+    this.input = function () {
+        return self.biQuadFilter;
+    }
+
+}
+
+/*------------------------------------------------------------------------------------------------------
+** Object: MasterController(context) : prototype 
+--------------------------------------------------------------------------------------------------------
 */
 
 
@@ -214,15 +318,9 @@ function MasterController(context)
 
 
 
-
-
-
-
-
-
-/*---------------------------------------------------------------------------------------------------------
-------- DYNAMIC COMPRESSOR ----------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------
+** Object: Compressor(context) : prototype 
+--------------------------------------------------------------------------------------------------------
 */
 
 function Compressor(context)
@@ -230,7 +328,6 @@ function Compressor(context)
     var compressorInstance = context.createDynamicsCompressor();
     
     // ratio 
-
     this.ratioAdjuster = function (ratio) {
         console.log("compressor ratio set to 1 /  " + ratio);
         compressorInstance.ratio.value = ratio;
@@ -240,7 +337,6 @@ function Compressor(context)
         return compressorInstance.ratio.value;
     }
  
-
     // knee
     this.kneeAdjuster = function (knee) {
         console.log("compressor knee set to " + knee);
@@ -252,7 +348,6 @@ function Compressor(context)
     }
    
     // threshold
-
     this.thresholdAdjuster = function (threshold) {
         console.log("compressor Threshold set to " + threshold);
         compressorInstance.threshold.value = threshold;
@@ -261,7 +356,6 @@ function Compressor(context)
     this.readThreshold = function () {
         return compressorInstance.threshold.value;
     }
-
 
     // outputTo
     this.outputTo = function(destination) {
@@ -286,12 +380,9 @@ function Compressor(context)
 
 }
 
-
-
-
-/*-----------------------------------------------------------------------------------------------------------
-  -------  WAVEBUCKET --------------------------------------------------------------------------------------
-  -----------------------------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------
+** Object: WaveBucket() : prototype 
+--------------------------------------------------------------------------------------------------------
 */
 
 
@@ -377,10 +468,6 @@ function WaveBucket()
 }
 
 
-
-
-
-
 /*------------------------------------------------------------------------------------------------------------
 ** OBJECT: Oscillator(ContextClass, MasterController) : prototype                                           **
 --------------------------------------------------------------------------------------------------------------
@@ -400,7 +487,7 @@ function Oscillator(context, endController) {
 
     /* wavebucket */
     this.wavebucket = new WaveBucket();
-    var lastWaveRemoved = false;
+    var lastWaveRemoved = true;
 
     // self reference
     var self = this;
@@ -408,16 +495,16 @@ function Oscillator(context, endController) {
 
     /* Method: this.waveGenerator = function (frequency, oscType, updateConnectionsBool) 
     ------------------------------------------------------------------------------------------------------------------------
-    IMPORTANT => this function has an dependency outside the object: global method updateConnections() is called  everytime
+    IMPORTANT => this function has an dependency outside the object: global callbackfunction updateWiringCallback() is called  everytime
     a newly generated wave is added. Through this functionality the wavebucket feature becomes possible in an object oriented
     setting. The dependency is activated by setting the third parameter to true, otherwise generated sound won't stack when
-    the wavebucket is loaded.
+    the wavebucket is loaded, and instead only the last sound is generated. 
     -----------------------------------------------------------------------------------------------------------------------*/
 
     this.waveGenerator = function (frequency, oscType, updateConnectionsBool) {
     
             console.log("makeSineWave reached");
-            lastWaveRemoved = false;
+            
             osc = context.createOscillator();
             osc.type = oscType;
             osc.frequency.value = frequency;
@@ -432,7 +519,8 @@ function Oscillator(context, endController) {
 
         /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE*/
         if (updateConnectionsBool === true) {
-            updateConnections();
+            console.log("update connections called");
+            updateWiringCallBack();
         }
 
         // add wave to the bucket
@@ -441,10 +529,10 @@ function Oscillator(context, endController) {
 
 
     this.removeWave = function (index) { // set index
-        
-        self.freezeBucket()
-        self.wavebucket.remove(2);
-        self.startBucket()
+
+        self.freezeBucket();
+        self.wavebucket.remove(index);
+        self.startBucket();
     };
 
     this.removeLastWave = function() {
@@ -465,7 +553,7 @@ function Oscillator(context, endController) {
 
         if (endController.isActive()) {
             self.wavebucket.addWave(self.waveGenerator(frequency, oscType, updateConnectionsBool));
-           
+            lastWaveRemoved = false;
         }
     };
 
@@ -482,7 +570,7 @@ function Oscillator(context, endController) {
         }
     }
 
-    /* startBucket */
+    // Method: startBucket()
 
     this.startBucket = function () {
         
@@ -494,7 +582,7 @@ function Oscillator(context, endController) {
             var i;
 
             for (i = 0; i < arrayLength; i++) {
-                console.log("i = " + i)
+                console.log("i = " + i);
                 self.wavebucket.addWave(self.waveGenerator(self.wavebucket.select(i).frequency.value, self.wavebucket.select(i).type, true));
             }
 
@@ -507,7 +595,7 @@ function Oscillator(context, endController) {
     };
 
     
-    /* freezeBucket */
+    // Method: freezeBucket()
 
     this.freezeBucket = function () {
         
@@ -526,7 +614,7 @@ function Oscillator(context, endController) {
         }
     };
 
-    // outputTo
+    // Method: outputTo(destination)
     this.outputTo = function (destination) {
         console.log("osc output refreshed");
 
@@ -534,28 +622,27 @@ function Oscillator(context, endController) {
         gainNode.connect(destination);
     }
 
-    // gainNodeInputForLfo
+    // Method: gainNodeInputForLfo() -> return gainNode.gain
     this.gainNodeInputForLfo = function() {
         return gainNode.gain;
     }
 
  
-    // updateDisplay(Oscillator)
+    // Method: updateDisplay(Oscillator)
     this.updateDisplay = function() {
         self.wavebucket.updateDisplay();
 
         // set field value to last value
         $('#sineFreq').val(osc.frequency.value);
         $('#oscIType').val(self.oscTypeEnum);
+
     }
 
 }
 
-
-
-/*---------------------------------------------------------------------------------------------------------
-------- LFO NO. ONE ----------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+/*------------------------------------------------------------------------------------------------------
+** Object: Lfo(context) : prototype 
+--------------------------------------------------------------------------------------------------------
 */
 
 function Lfo(context) {
@@ -563,10 +650,16 @@ function Lfo(context) {
     var lfo;
     lfo = context.createOscillator();
     var gain = context.createGain();
-    var lfoIType = "sine";
+    var lfoType = "sine";
     var lfoActive = false;
-    this.lfoActivator = function (lfoFreq, scale, lfoType) {
-        
+    var self = this;
+
+    var gain = context.createGain();
+
+    this.lfoActivator = function (lfoFreq, scale, lfoTypeEnum) {
+
+        lfoType = self.translateLfoTypeEnumToString(lfoTypeEnum);
+
         // Create oscillator.
 
         if (!lfoActive) {
@@ -575,19 +668,14 @@ function Lfo(context) {
             lfo.frequency.value = lfoFreq;
             gain = context.createGain();
             gain.gain.value = scale;
-           
-
+                  
             lfo.start(context.currentTime);
 
             lfoActive = true;
 
             console.log("lfo added");
-
-            // change value in field
-            $('#LFOFreq').val(lfoFreq);
-            $('#LFOScale').val(scale);
-
-        }
+       
+       }
     };
 
     this.lfoDeactivator = function () {
@@ -596,46 +684,32 @@ function Lfo(context) {
         console.log("lfo stopped");
     };
 
-    this.getLFOFrequency = function() {
-        console.log("LFO freq request: " + document.getElementById("LFOFreq").value);
-        var lfoF = (parseFloat(document.getElementById("LFOFreq").value));
-        return lfoF;
-    };
+  
+    this.translateLfoTypeEnumToString = function (lfoTypeEnum) {
 
-    this.getLFOScale = function() {
-        console.log("LFO scale request: " + document.getElementById("LFOScale").value);
-        var lfoS = (parseFloat(document.getElementById("LFOScale").value));
-        return lfoS;
-    };
+        console.log("oscType: " + typeof (lfoTypeEnum));
 
-    this.selectLFOType = function(oscType) {
-        console.log("LFOIType: " + typeof (oscType) + " selected");
-        $('#lfoIType').val(oscType);
-        switch (parseInt(oscType)) {
-            case 0: lfoIType = "sine";
-                console.log("lfoIType: " + lfoIType + " selected");
-                break;
-            case 1: lfoIType = "square";
-                console.log("lfoIType: " + lfoIType + " selected");
-                break;
-            case 2: lfoIType = "triangle";
-                console.log("lfoIType: " + lfoIType + " selected");
-                break;
-            case 3: lfoIType = "sawtooth";
-                console.log("lfoIType: " + lfoIType + " selected");
-                break;
-            default: lfoIType = "sine";
-                console.log("default");
-
+        switch (parseInt(lfoTypeEnum)) {
+            case 0: return "sine";
+            case 1: return "square";
+            case 2: return "triangle";
+            case 3: return "sawtooth";
+            default: return "sine";
         }
     }
 
-    this.getLFOIType = function() {
-        var lfoType = document.getElementById("lfoIType").value;
-        return lfoType;
+    this.readFrequency = function() {
+        return lfo.frequency.value;
     }
 
- 
+    this.readScale = function() {
+        return gain.gain.value;
+    }
+
+    this.readType = function() {
+        return self.oscTypeEnum;
+    }
+    
     // (gain)OutputTo
     this.outputTo = function (destination) {
         console.log("lfo output refreshed");
@@ -646,73 +720,29 @@ function Lfo(context) {
        
     }
 
-}
-
-
-
-/*---------------------------------------------------------------------------------------------------------
-------- ARCHITECTURAL SETUP // WIRING----------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
-*/
-var analyser = new Analyser(context);
-analyser.outputTo(context.destination);
-
-var endController = new MasterController(context);
-endController.outputTo(analyser.input());
-
-var finalCompressor = new Compressor(context);
-//finalCompressor.outputTo(endController.input());
-
-var oscillatorI = new Oscillator(context, endController);
-//oscillatorI.outputTo(finalCompressor.input());
-
-var lfoI = new Lfo(context);
-//lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
-
-var waveBucket = new WaveBucket(context);
-
-var updateConnections = function() {
-    //endController.outputTo(analyser.input());
-    finalCompressor.outputTo(endController.input());
-    oscillatorI.outputTo(finalCompressor.input());
-        lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+    this.updateDisplay = function() {
+        $('#LFOFreq').val(lfo.frequency.value);
+        $('#LFOScale').val(gain.gain.value);
+        $('#lfoIType').val(self.oscTypeEnum);
+    }
+    
 
 }
 
-/*---------------------------------------------------------------------------------------------------------
-------- EVENT HANDLERS ------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
+
+
+
+/*------------------------------------------------------------------------------------------------------
+** SignalR ControllerHub: implementation of event listeners through a WebSocket, based on seperation of 
+** concerns model. 
+--------------------------------------------------------------------------------------------------------
 */
-
-/* LFO I */
-
-var LFOLoadButtonElement;
-
-
-LFOLoadButtonElement = document.getElementById("LFOButton");
-//LFOLoadButtonElement.addEventListener("click", function () { activateLFO(getLFOFrequency(), getLFOScale(), lfoIType) });
-
-var LFOStopButtonElement;
-
-LFOStopButtonElement = document.getElementById("LFOStopButton");
-//LFOStopButtonElement.addEventListener("click", function () { deactivateLFO() });
-
-var lfoITypeElement = document.getElementById("lfoIType");
-lfoITypeElement.addEventListener("change", function () { selectLFOType(getLFOIType()); }); /* Compressor  */
-
-
-/*---------------------------------------------------------------------------------------------------------
-------- JAMHUB IMPLEMENTATION WITH ASP.NET SIGNALR ------------------------------------------------------------------------------------
------------------------------------------------------------------------------------------------------------
-*/
-
 
 /* jamhub  impl */
 $(function() {
     console.log("jamhub is reached");
     // reference the auto-generated proxy for the hub
     var jam = $.connection.jamHub;
-
 
 // create a function that the hub can call back to create sounds
     jam.client.soundWaveStackerPointer = oscillatorI.soundWaveStacker, 
@@ -728,132 +758,125 @@ $(function() {
     jam.client.startSessionPointer = endController.startSession;
     jam.client.stopSessionPointer = endController.stopSession;
 
+    jam.client.changeFilterTypeOnePointer = filterI.setType;
+    jam.client.changeFilterFrequencyOnePointer = filterI.setFrequency;
+    jam.client.changeFilterQOnePointer = filterI.setQ;
+    jam.client.changeFilterGainOnePointer = filterI.setGain;
+
+
     // update connections between sound modules
-    jam.client.updateConnectionsPointer = updateConnections;
+    jam.client.updateConnectionsPointer = wiring.updateConnections;
 
     // update displays
+    jam.client.updateLfoDisplayPointer = lfoI.updateDisplay();
     jam.client.updateEndControlDisplayPointer = endController.updateDisplay;
     jam.client.updateCompressorDisplayPointer = finalCompressor.updateDisplay;
-    jam.client.updateOscillatorDisplayPointer = oscillatorI.updateDisplay
+    jam.client.updateOscillatorDisplayPointer = oscillatorI.updateDisplay;
 
 
     $.connection.hub.start().done(function () {
 
-        /* -----------------------------
-        ---------OSCILLATOR I-----------
-        --------------------------------
-        */
+    /* Oscillator Event Listeners */
 
-        // event listener stack oscillation 
         $('#sineButton').click(function () {
             console.log("sineButton clicked");
-            
-            
-            // Call the GenerateSound method on the hub. 
             jam.server.stackSoundWave($('#sineFreq').val(), $('#oscIType').val(), true);
-
         });
 
-        // event listener remove last oscillation 
+    
         $('#sineStopButton').click(function () {
             console.log("sineStopButton clicked");
-            
-            // Call the RemoveLastSound method on the hub. 
             jam.server.removeLastSound();
-
         });
 
-
-        /* -----------------------------
-       ------------ LFO I --------------
-       ---------------------------------
-       */
+    /* Lfo Event Listeners */
 
         // event listener activation LFO 
         $('#LFOButton').click(function () {
             console.log("LFOButton clicked");
-
-            // Call the RemoveLastSound method on the hub. 
-            jam.server.activateLFO(lfoI.getLFOFrequency(), lfoI.getLFOScale(), lfoI.lfoIType);
-
+            jam.server.activateLFO($('#LFOFreq').val(), $('#LFOScale').val(), $('#lfoIType').val());
         });
 
         // event listener deactivation LFO 
         $('#LFOStopButton').click(function () {
-            console.log("LFOStopButton clicked");
-
-            // Call the RemoveLastSound method on the hub. 
+            console.log("LFOStopButton clicked");     
             jam.server.deactivateLFO();
-
         });
 
 
-        /* -----------------------------
-      ------------ COMPRESSOR ----------
-      ---------------------------------
-      */
-
+    /* Compressor Event Listeners */
         // event listener ratio Compressor 
         $('#compRatio').change(function () {
             console.log("compressor ratio adjusted");
-
-            // Call the AdjustCompRatio method on the hub. 
             jam.server.adjustCompRatio($('#compRatio').val());
-
         });
 
         // event listener knee Compressor 
         $('#compKnee').change(function () {
             console.log("compressor knee adjusted");
-
-            // Call the AdjustCompKnee method on the hub.
             jam.server.adjustCompKnee($('#compKnee').val());
-
         });
 
         // event listener treshold Compressor 
         $('#compThreshold').change(function () {
             console.log("compressor treshold adjusted");
-
-            // Call the AdjustCompThreshold method on the hub.
             jam.server.adjustCompThreshold($('#compThreshold').val());
-
         });
 
-      
-        /* -----------------------------
-   ------------ MASTER CONTROLS ----------
-   ---------------------------------
-   */
-        // event listener suspend button
+    /* Master Controller Event Listeners */
+        // event listener gain field
         $('#masterGain').change(function () {
-
             jam.server.changeMasterGain($('#masterGain').val());
-
-
         });
         
         // event listener suspend button
         $('#stopButton').click(function () {
-
             jam.server.stopSession();
-
         });
 
-        // event listener suspend button
+        // event listener start button
         $('#playButton').click(function () {
-
             jam.server.playSession();
-
         });
 
+    /* BiquadFilter I Event Listeners */
+        // event listener type box
+        $('#filterTypeOne').change(function () {
+            jam.server.changeFilterTypeOne($('#filterTypeOne').val());
+        });
 
+        // event listener frequency field
+        $('#filterFrequencyOne').change(function () {
+            jam.server.changeFilterFrequencyOne($('#filterFrequencyOne').val());
+        });
+
+        // event listener Q field
+        $('#filterQOne').change(function () {
+            jam.server.changeFilterQOne($('#filterQOne').val());
+        });
+
+        // event listener gain field
+        $('#filterGainOne').change(function () {
+            jam.server.changeFilterGainOne($('#filterGainOne').val());
+        });
 
 
     });
 
 });
 
+/*------------------------------------------------------------------------------------------------------
+** View: Initialising values in the view
+--------------------------------------------------------------------------------------------------------
+*/
+
+$('.senkenContainer').css({ 'opacity': 0.4 });
+$('#senkenLeftColumn').css({ 'float': 'left' }).width('60%');
+$('#senkenRightColumn').css({ 'float': 'right' }).width('39%'); // initialize fields
+$('#compRatio').val(12);
+$('#compKnee').val(30);
+$('#compThreshold').val(-23);
+$('#masterGain').val(100);
 
 
 

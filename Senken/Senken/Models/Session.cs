@@ -31,6 +31,11 @@ namespace Senken.Models
         }
     }
 
+    public enum BiquadFilterType
+    {
+        lowpass, highpass, bandpass, lowshelf, highshelf, peaking, notch, allpass
+    }
+
     public class Session
     {
        
@@ -44,13 +49,16 @@ namespace Senken.Models
         public float OscIFrequency { get; set; }
         public OscType OscType { get; set;}
         
-
-
         /* LFO I */
         public float LFOIFrequency { get; set; }
         public float LFOIScale { get; set; }
         public LFOType LFOType { get; set; }
 
+        public BiquadFilterType BiquadFilterTypeOne { get; set; }
+        public float BiquadFilterFrequencyOne { get; set; }
+        public float BiquadFilterQOne { get; set; }
+        public float BiquadFilterGainOne { get; set; } 
+        
         /* Compressor */
         public int CompressorRatio { get; set; }
         public int CompressorKnee { get; set; }

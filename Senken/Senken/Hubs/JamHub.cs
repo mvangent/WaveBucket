@@ -32,7 +32,7 @@ namespace Senken.Hubs
         public void RemoveLastSound()
         {
             Clients.All.waveRemoverPointer();
-            Clients.All.updateConnectionsPointer();
+            //Clients.All.updateConnectionsPointer();
             Clients.All.updateOscillatorDisplayPointer();
         }
 
@@ -42,6 +42,7 @@ namespace Senken.Hubs
         {
             Clients.All.lfoActivatorPointer(LfoFreq, LfoScale, LfoType);
             Clients.All.updateConnectionsPointer();
+            Clients.All.updateLfoDisplayPointer();
         }
 
         public void DeactivateLFO()
@@ -75,6 +76,8 @@ namespace Senken.Hubs
            
         }
 
+        
+
 
         /* Master Controls */
 
@@ -103,6 +106,29 @@ namespace Senken.Hubs
             Clients.All.updateWaveBucketDisplayPointer();
         }
 
+        /* BiQuadFilter */
 
+        public void changeFilterTypeOne(string type)
+        {
+            Clients.All.changeFilterTypeOnePointer(type);
+        }
+
+        public void changeFilterFrequencyOne(string frequency)
+        {
+            Clients.All.changeFilterFrequencyOnePointer(frequency);
+        }
+
+        public void changeFilterQOne(string q)
+        {
+            Clients.All.changeFilterQOnePointer(q);
+        }
+
+        public void changeFilterGainOne(string gain)
+        {
+            Clients.All.changeFilterGainOnePointer(gain);
+        }
+        
     }
+
+   
 }
