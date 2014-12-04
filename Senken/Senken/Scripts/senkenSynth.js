@@ -40,82 +40,100 @@ $('#masterGain').val(100);
 
 
 /*---------------------------------------------------------------------------------------------------------
-------- VISUALISER NO. ONE ----------------------------------------------------------------------------------
+------- Analyser NO. ONE ----------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 */
 
-/* canvas related code */
-var canvas;
-var canvasCtx;
+function Analyser(context) {
+    /* canvas related code */
+    var canvas;
+    var canvasCtx;
 
-canvas = document.getElementById("oscIVisualiser");
-canvasCtx = canvas.getContext("2d");
-
-
-
-var WIDTH = canvas.width;
-var HEIGHT = canvas.height;
-//var intendedWidth = document.querySelector('.wrapper').clientWidth;
-//canvas.setAttribute('width', intendedWidth);
-//var visualSelect = document.getElementById("visual");
-
-var drawVisual;
-
-/* Visualisation related Code */
-var analyser = context.createAnalyser();
-
-analyser.connect(context.destination);
-
-analyser.fftSize = 2048;
-var bufferLength = analyser.frequencyBinCount;
-var dataArray = new Uint8Array(bufferLength);
+    canvas = document.getElementById("oscIVisualiser");
+    canvasCtx = canvas.getContext("2d");
 
 
 
-// clear canvas
-canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+    var WIDTH = canvas.width;
+    var HEIGHT = canvas.height;
+    
+    //var intendedWidth = document.querySelector('.wrapper').clientWidth;
+    //canvas.setAttribute('width', intendedWidth);
+    //var visualSelect = document.getElementById("visual");
 
-function draw() {
-    //console.log("draw OscI function entered");
+    var drawVisual;
+    var analyser = context.createAnalyser();
+    
 
-    drawVisual = requestAnimationFrame(draw);
-    analyser.getByteTimeDomainData(dataArray);
+    analyser.fftSize = 2048;
+    var bufferLength = analyser.frequencyBinCount;
+    var dataArray = new Uint8Array(bufferLength);
 
-    //set canvas background
-    canvasCtx.fillStyle = 'rgb(190, 230, 180)';
-    canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-    // set canvas linewidth and stroke
-    canvasCtx.lineWidth = 2;
-    canvasCtx.strokeStyle = 'rgb(90, 205, 90)';
-    // begin drawing a path
-    canvasCtx.beginPath();
 
-    // slice canvas width segments according to number of bins from FFT
-    var sliceWidth = WIDTH * 1.0 / bufferLength;
-    var position = 0;
 
-    for (var i = 0; i < bufferLength; i++) {
-        var v = dataArray[i] / 128.0;
-        var y = v * HEIGHT / 2;
+    // clear canvas
+    canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
-        if (i == 0) {
-            canvasCtx.moveTo(position, y);
+    
+    /* Method: draw()
+    ------------------------------------------------------------------------
+    ** Call this function once, and it will keep updating itself 
+    ------------------------------------------------------------------------*/
+    function draw() {
+        //console.log("draw OscI function entered");
 
-        } else {
-            canvasCtx.lineTo(position, y);
+        drawVisual = requestAnimationFrame(draw);
+        analyser.getByteTimeDomainData(dataArray);
+
+        //set canvas background
+        canvasCtx.fillStyle = 'rgb(190, 230, 180)';
+        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+        // set canvas linewidth and stroke
+        canvasCtx.lineWidth = 2;
+        canvasCtx.strokeStyle = 'rgb(90, 205, 90)';
+        // begin drawing a path
+        canvasCtx.beginPath();
+
+        // slice canvas width segments according to number of bins from FFT
+        var sliceWidth = WIDTH * 1.0 / bufferLength;
+        var position = 0;
+
+        for (var i = 0; i < bufferLength; i++) {
+            var v = dataArray[i] / 128.0;
+            var y = v * HEIGHT / 2;
+
+            if (i == 0) {
+                canvasCtx.moveTo(position, y);
+
+            } else {
+                canvasCtx.lineTo(position, y);
+            }
+
+            position += sliceWidth;
+
+
         }
+        canvasCtx.lineTo(canvas.width, canvas.height / 2);
 
-        position += sliceWidth;
+        canvasCtx.stroke();
+   
+    }
 
+    // connector methods: outputTo
+    this.outputTo = function (destination) {
+        analyser.connect(destination);
 
     }
-    canvasCtx.lineTo(canvas.width, canvas.height / 2);
 
-    canvasCtx.stroke();
+    // : input
+    this.input = function () {
+        return analyser;
+    }
 
+    draw();
 }
 
-draw();
+
 
 
 
@@ -258,7 +276,7 @@ function Compressor(context)
 
     // displayMethod 
     this.updateDisplay = function () {
-        /
+        
         $('#compRatio').val(compressorInstance.ratio.value);
 
         $('#compKnee').val(compressorInstance.knee.value);
@@ -542,24 +560,12 @@ function Oscillator(context, endController) {
 
 function Lfo(context) {
     
-    /* LFO */
-    var DURATION = 20;
-    var FREQUENCY = 4;
-    var SCALE = .4;
-
     var lfo;
-
     lfo = context.createOscillator();
-
     var gain = context.createGain();
-
     var lfoIType = "sine";
-
     var lfoActive = false;
-
-
     this.lfoActivator = function (lfoFreq, scale, lfoType) {
-
         
         // Create oscillator.
 
@@ -580,9 +586,6 @@ function Lfo(context) {
             // change value in field
             $('#LFOFreq').val(lfoFreq);
             $('#LFOScale').val(scale);
-
-
-
 
         }
     };
@@ -605,12 +608,9 @@ function Lfo(context) {
         return lfoS;
     };
 
-
     this.selectLFOType = function(oscType) {
-
         console.log("LFOIType: " + typeof (oscType) + " selected");
         $('#lfoIType').val(oscType);
-
         switch (parseInt(oscType)) {
             case 0: lfoIType = "sine";
                 console.log("lfoIType: " + lfoIType + " selected");
@@ -630,15 +630,12 @@ function Lfo(context) {
         }
     }
 
-
     this.getLFOIType = function() {
         var lfoType = document.getElementById("lfoIType").value;
         return lfoType;
-
     }
 
-
-   
+ 
     // (gain)OutputTo
     this.outputTo = function (destination) {
         console.log("lfo output refreshed");
@@ -646,13 +643,8 @@ function Lfo(context) {
         lfo.connect(gain);
 
         gain.connect(destination);
-        
+       
     }
-
-
-
-
-
 
 }
 
@@ -662,9 +654,11 @@ function Lfo(context) {
 ------- ARCHITECTURAL SETUP // WIRING----------------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------------
 */
+var analyser = new Analyser(context);
+analyser.outputTo(context.destination);
 
 var endController = new MasterController(context);
-//endController.outputTo(analyser);
+endController.outputTo(analyser.input());
 
 var finalCompressor = new Compressor(context);
 //finalCompressor.outputTo(endController.input());
@@ -678,7 +672,7 @@ var lfoI = new Lfo(context);
 var waveBucket = new WaveBucket(context);
 
 var updateConnections = function() {
-    endController.outputTo(analyser);
+    //endController.outputTo(analyser.input());
     finalCompressor.outputTo(endController.input());
     oscillatorI.outputTo(finalCompressor.input());
         lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
@@ -690,15 +684,7 @@ var updateConnections = function() {
 -----------------------------------------------------------------------------------------------------------
 */
 
-
-
-//var oscITypeElement = document.getElementById('oscIType');
-//oscITypeElement.addEventListener("change", function () { oscillatorI.selectOscType($('#oscIType').val()); });
-
-
-
 /* LFO I */
-
 
 var LFOLoadButtonElement;
 
@@ -713,9 +699,6 @@ LFOStopButtonElement = document.getElementById("LFOStopButton");
 
 var lfoITypeElement = document.getElementById("lfoIType");
 lfoITypeElement.addEventListener("change", function () { selectLFOType(getLFOIType()); }); /* Compressor  */
-
-
-
 
 
 /*---------------------------------------------------------------------------------------------------------
