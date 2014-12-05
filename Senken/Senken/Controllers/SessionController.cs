@@ -51,7 +51,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SessionID,Title,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
+        public ActionResult Create([Bind(Include = "SessionID,Title,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session session)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SessionID,Title,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session session)
+        public ActionResult Edit([Bind(Include = "SessionID,Title,MusicianID,Rating,OscIFrequency,OscType, WaveBucket, LFOIFrequency,LFOIScale,LFOType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session session)
         {
             if (ModelState.IsValid)
             {

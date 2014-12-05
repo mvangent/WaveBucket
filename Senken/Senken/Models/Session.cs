@@ -39,7 +39,6 @@ namespace Senken.Models
     public class Session
     {
        
-
         public int SessionID { get; set; }
         public string Title { get; set; }
         public int MusicianID { get; set; }
@@ -48,6 +47,9 @@ namespace Senken.Models
         /* oscillator I */
         public float OscIFrequency { get; set; }
         public OscType OscType { get; set;}
+
+        /* wavebucket (hiddenField) */
+        public string hiddenWaveBucket { get; set; }
         
         /* LFO I */
         public float LFOIFrequency { get; set; }
