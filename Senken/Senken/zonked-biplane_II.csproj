@@ -306,8 +306,7 @@
     </None>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="phantomjs-license.txt" />
-    <Content Include="ScriptsTests\senkenSynthTests.js" />
-    <Content Include="Scripts\JavaScript1.js" />
+    <Content Include="Scripts\hub.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.1.js" />
@@ -388,6 +387,7 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="ScriptsTests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

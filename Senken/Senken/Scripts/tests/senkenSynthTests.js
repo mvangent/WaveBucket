@@ -1,4 +1,4 @@
-﻿/// <reference path="senkenSynth.js" />
+﻿/// <reference path="../app/senkenSynth.js" />
 /// <reference path="jquery-2.1.1.min.js" />
 /// <reference path="jquery-2.1.1.js" />
 
@@ -19,7 +19,7 @@ var context;
         alert("no webapi was found for your browser");
     }
 
-test("senkenSynth: class was found", function() {
+QUnit.test("senkenSynth: class was found", function(assert) {
 
     var isContext;
     if (context) {
@@ -28,14 +28,14 @@ test("senkenSynth: class was found", function() {
         isContext = false;
     }
 
-    equals(isContext, true, "WEB AUDIO API is found");
+    assert.equal(isContext, true, "WEB AUDIO API is found");
 
 });
 
 
 // Compressor tests
 
-test("senkenSynth: compressor functionality", function() {
+QUnit.test("senkenSynth: compressor functionality", function (assert) {
 
     // create testCompressor
     var testCompressor = new Compressor(context);
@@ -43,39 +43,39 @@ test("senkenSynth: compressor functionality", function() {
 // test ratio
     testCompressor.ratioAdjuster(4);
     var ratioValue = testCompressor.readRatio();
-    equals(ratioValue, 4, "ratio functionality works");
+    assert.equal(ratioValue, 4, "ratio functionality works");
 
     // test knee
     testCompressor.kneeAdjuster(5);
     var kneeValue = testCompressor.readKnee();
-    equals(kneeValue, 5, "knee functionality works");
+    assert.equal(kneeValue, 5, "knee functionality works");
     
     // test treshold
     testCompressor.thresholdAdjuster(-10);
     var thresholdValue = testCompressor.readThreshold();
-    equals(thresholdValue, -10, "threshold functionality works");
+    assert.equal(thresholdValue, -10, "threshold functionality works");
 
 
 });
 
-test("senkenSynth: masterController", function() {
+QUnit.test("senkenSynth: masterController", function (assert) {
 
     var testController = new MasterController(context);
     // test gainlevels
     testController.gainAdjuster(50);
-    equals(0.5, testController.readGain(), "gain functionality");
+    assert.equal(0.5, testController.readGain(), "gain functionality");
 
     // test activation
     testController.startSession();
-    equals(true, testController.isActive(), "starting session works")
+    assert.equal(true, testController.isActive(), "starting session works")
 
     // test  deactivation
     testController.stopSession();
-    equals(false, testController.isActive(), "pauzing session works")
+    assert.equal(false, testController.isActive(), "pauzing session works")
 
 });
 
-test("senkenSynth: WaveBucket", function() {
+QUnit.test("senkenSynth: WaveBucket", function (assert) {
 
     var testBucket = new WaveBucket();
 
@@ -83,17 +83,17 @@ test("senkenSynth: WaveBucket", function() {
     var testWave = context.createOscillator();
     testBucket.addWave(testWave);
     var length = testBucket.getSize();
-    equals(length, 1, "adding wave");
+    assert.equal(length, 1, "adding wave");
 
     // remove wave (by pop())
     testBucket.remove();
-    equals(0, testBucket.getSize(), "removing wave")
+    assert.equal(0, testBucket.getSize(), "removing wave")
 
     // remove wave (by index) 
 
 });
 
-test("senkenSynth: Oscillator", function() {
+QUnit.test("senkenSynth: Oscillator", function (assert) {
 
     var endController = new MasterController(context);
     var testOscillator = new Oscillator(context, endController);
@@ -107,12 +107,12 @@ test("senkenSynth: Oscillator", function() {
 
     testOscillator.soundWaveStacker(200, enumWaveType, false);
     var testWaveI = testOscillator.wavebucket.select(0);
-    equals(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
-    equals(testWaveI.type, "square", "type is set and stored in wavebucket");
+    assert.equal(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
+    assert.equal(testWaveI.type, "square", "type is set and stored in wavebucket");
 
 });
 
-test("senkenSynth: Lfo", function() {
+QUnit.test("senkenSynth: Lfo", function (assert) {
   
     var endController = new MasterController(context);
 
@@ -127,15 +127,15 @@ test("senkenSynth: Lfo", function() {
     // generate triangleWave, and stack it to the wavebucket 
     testLfo.lfoActivator(1, 2, enumLfoWaveType);
   
-    equals(testLfo.readFrequency(), 1, "Lfo frequency set");
-    equals(testLfo.readScale(), 2, "Lfo scale set");
-    equals(testLfo.translateLfoTypeEnumToString(enumLfoWaveType), "sawtooth", "Lfo type is translated and set");
+    assert.equal(testLfo.readFrequency(), 1, "Lfo frequency set");
+    assert.equal(testLfo.readScale(), 2, "Lfo scale set");
+    assert.equal(testLfo.translateLfoTypeEnumToString(enumLfoWaveType), "sawtooth", "Lfo type is translated and set");
 
 });
 
 
 
-test("senkenSynth: BiQuadFilter", function () {
+QUnit.test("senkenSynth: BiQuadFilter", function (assert) {
 
     var testbiQuadFilter = new BiquadFilter(context);
 
@@ -149,10 +149,10 @@ test("senkenSynth: BiQuadFilter", function () {
     testbiQuadFilter.setQ(2);
     testbiQuadFilter.setGain(-20);
 
-    equals(testbiQuadFilter.readType(), "lowshelf", "BiQuadFilter type set")
-    equals(testbiQuadFilter.readFrequency(), 100, "BiQuadFilter frequency set")
-    equals(testbiQuadFilter.readQ(), 2, "BiQuadFilter Q set")
-    equals(testbiQuadFilter.readGain(), -20, "BiQuadFilter gain set")
+    assert.equal(testbiQuadFilter.readType(), "lowshelf", "BiQuadFilter type set")
+    assert.equal(testbiQuadFilter.readFrequency(), 100, "BiQuadFilter frequency set")
+    assert.equal(testbiQuadFilter.readQ(), 2, "BiQuadFilter Q set")
+    assert.equal(testbiQuadFilter.readGain(), -20, "BiQuadFilter gain set")
 
 
    
