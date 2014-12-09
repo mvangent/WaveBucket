@@ -149,7 +149,30 @@ QUnit.test("senkenSynth: BiQuadFilter", function (assert) {
     testbiQuadFilter.setQ(2);
     testbiQuadFilter.setGain(-20);
 
-    assert.equal(testbiQuadFilter.readType(), "lowshelf", "BiQuadFilter type set")
+    assert.equal(testbiQuadFilter.readType(), "lowshelf", "BiQuadFilter type set");
+
+    testbiQuadFilter.setType(0);
+    assert.equal(testbiQuadFilter.readType(), "lowpass", "BiQuadFilter type set");
+
+    testbiQuadFilter.setType(1);
+    assert.equal(testbiQuadFilter.readType(), "highpass", "BiQuadFilter type set");
+
+    testbiQuadFilter.setType(2);
+    assert.equal(testbiQuadFilter.readType(), "bandpass", "BiQuadFilter type set");
+
+    testbiQuadFilter.setType(4);
+    assert.equal(testbiQuadFilter.readType(), "highshelf", "BiQuadFilter type set");
+
+    testbiQuadFilter.setType(5);
+    assert.equal(testbiQuadFilter.readType(), "peaking", "BiQuadFilter type set");
+
+    testbiQuadFilter.setType(6);
+    assert.equal(testbiQuadFilter.readType(), "notch", "BiQuadFilter type set");
+
+    testbiQuadFilter.setType(7);
+    assert.equal(testbiQuadFilter.readType(), "allpass", "BiQuadFilter type set");
+
+
     assert.equal(testbiQuadFilter.readFrequency(), 100, "BiQuadFilter frequency set")
     assert.equal(testbiQuadFilter.readQ(), 2, "BiQuadFilter Q set")
     assert.equal(testbiQuadFilter.readGain(), -20, "BiQuadFilter gain set")
