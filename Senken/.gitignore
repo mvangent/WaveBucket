@@ -104,6 +104,10 @@ _TeamCity*
 _NCrunch_*
 .*crunch*.local.xml
 
+# Nuget
+packages*/
+
+
 # MightyMoose
 *.mm.*
 AutoTest.Net/
