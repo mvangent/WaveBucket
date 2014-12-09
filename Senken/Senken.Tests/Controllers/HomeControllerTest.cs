@@ -35,7 +35,8 @@ namespace Senken.Tests.Controllers
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual( "This is a place that tries to add to Adam Harper's definition of inifite musical possibilties. Created with variables," +
+                "and waiting for variables that simultanously can be inputted to create music with sound synthesis, I invite you to jam with your friend(s), wherever they might be.", result.ViewBag.Message);
         }
 
         [TestMethod]

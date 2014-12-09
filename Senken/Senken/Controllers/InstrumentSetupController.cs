@@ -14,6 +14,7 @@ namespace Senken.Controllers
     public class InstrumentSetupController : Controller
     {
         private SenkenContext db = new SenkenContext();
+            
 
         // GET: InstrumentSetup
         public ActionResult Index()

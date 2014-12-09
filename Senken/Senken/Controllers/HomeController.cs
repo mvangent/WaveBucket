@@ -8,6 +8,7 @@ using Senken.ViewModels;
 
 namespace Senken.Controllers
 {
+   
     public class HomeController : Controller
     {
         private SenkenContext db = new SenkenContext();
@@ -21,16 +22,11 @@ namespace Senken.Controllers
 
         public ActionResult About()
         {
-            IQueryable<SessionDateGroup> data = from musician in db.Musicians
-                    group musician by musician.SessionDate into dateGroup
-                    select new SessionDateGroup()
-                    {
-                        SessionDate = dateGroup.Key,
-                        MusicianCount = dateGroup.Count()
+            ViewBag.Message =
+                "This is a place that tries to add to Adam Harper's definition of inifite musical possibilties. Created with variables," +
+                "and waiting for variables that simultanously can be inputted to create music with sound synthesis, I invite you to jam with your friend(s), wherever they might be.";
 
-                    };
-
-            return View(data.ToList());
+            return View();
         }
 
         public ActionResult Contact()
