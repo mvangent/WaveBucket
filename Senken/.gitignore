@@ -104,9 +104,6 @@ _TeamCity*
 _NCrunch_*
 .*crunch*.local.xml
 
-# Nuget
-packages*/
-!packages/Microsoft.Bcl.Build.1.0.21/build/Microsoft.Bcl.Build.targets
 
 
 # MightyMoose
