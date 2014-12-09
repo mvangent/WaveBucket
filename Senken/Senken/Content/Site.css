@@ -432,12 +432,12 @@ input, textarea {
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
-    width: 300px;
+    /* width: 300px; */
 }
 
 textarea {
     font-family: inherit;
-    width: 500px;
+    /*width: 500px; */
 }
 
     input:focus, textarea:focus {
@@ -754,4 +754,16 @@ tr.pager td {
         footer p {
             margin: 0;
         }
+}
+
+
+/* custom
+    -------------------------------------------------------
+*/
+
+/* home index view*/
+
+.homeButton {
+    text-align: center;
+    
 }
