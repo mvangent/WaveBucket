@@ -106,6 +106,7 @@ _NCrunch_*
 
 # Nuget
 packages*/
+!packages/Microsoft.Bcl.Build.1.0.21/build/Microsoft.Bcl.Build.targets
 
 
 # MightyMoose
