@@ -10,7 +10,7 @@ using Senken.DAL;
 using Senken.Models;
 
 namespace Senken.Controllers
-{
+{   [Authorize]
     public class SessionController : Controller
     {
         private SenkenContext db = new SenkenContext();
