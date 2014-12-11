@@ -36,17 +36,17 @@ namespace Senken.Models
         lowpass, highpass, bandpass, lowshelf, highshelf, peaking, notch, allpass
     }
 
-    public class Session
+    public class Session 
     {
        
         public int SessionID { get; set; }
         public string Title { get; set; }
-        public int MusicianID { get; set; }
+        //public int MusicianID { get; set; }
         public Rating? Rating { get; set;}
 
         /* oscillator I */
         public float OscIFrequency { get; set; }
-        public OscType OscType { get; set;}
+        public OscType OscIType { get; set;}
 
         /* wavebucket (hiddenField) */
         public string hiddenWaveBucket { get; set; }
@@ -54,7 +54,7 @@ namespace Senken.Models
         /* LFO I */
         public float LFOIFrequency { get; set; }
         public float LFOIScale { get; set; }
-        public LFOType LFOType { get; set; }
+        public LFOType LFOIType { get; set; }
 
         public BiquadFilterType BiquadFilterTypeOne { get; set; }
         public float BiquadFilterFrequencyOne { get; set; }
@@ -89,8 +89,7 @@ namespace Senken.Models
 
 
 
-        public virtual InstrumentSetup InstrumentSetup { get; set; }
-        public virtual Musician Musician { get; set; }
+    
 
     }
 }

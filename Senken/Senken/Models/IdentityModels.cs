@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,12 +17,17 @@ namespace Senken.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+         public List<Session> sessions = new List<Session>();
+
+        
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("SenkenConnection", throwIfV1Schema: false)
         {
         }
 
@@ -29,5 +35,9 @@ namespace Senken.Models
         {
             return new ApplicationDbContext();
         }
+
+       // public DbSet<Session> Sessions { get; set; }
+
+
     }
 }

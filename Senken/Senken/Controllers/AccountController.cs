@@ -134,6 +134,8 @@ namespace Senken.Controllers
             }
         }
 
+      
+
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -422,6 +424,14 @@ namespace Senken.Controllers
 
             base.Dispose(disposing);
         }
+
+        //GET: /Account/ExternalLogin
+        [AllowAnonymous]
+        public ActionResult ExternalLogin()
+        {
+            return View();
+        }
+
 
         #region Helpers
         // Used for XSRF protection when adding external logins

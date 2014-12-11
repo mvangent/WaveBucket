@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Senken.DAL;
+
+using Senken.Models;
 using Senken.ViewModels;
 
 namespace Senken.Controllers
@@ -11,7 +12,7 @@ namespace Senken.Controllers
    
     public class HomeController : Controller
     {
-        private SenkenContext db = new SenkenContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
         
         public ActionResult Index()
         {

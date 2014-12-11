@@ -51,10 +51,10 @@
 
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.OscType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.OscIType, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.OscType, htmlAttributes: new { id = "oscIType", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OscType, "", new { @class = "text-danger" })
+                        @Html.EnumDropDownListFor(model => model.OscIType, htmlAttributes: new { id = "oscIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OscIType, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -100,10 +100,10 @@
                 <input type="button" id="LFOStopButton" name="LFOStop" value="deactivate LFO">
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.LFOType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.LFOIType, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.LFOType, htmlAttributes: new { id = "lfoIType", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LFOType, "", new { @class = "text-danger" })
+                        @Html.EnumDropDownListFor(model => model.LFOIType, htmlAttributes: new { id = "lfoIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LFOIType, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -204,17 +204,7 @@
 
                 <br />
 
-                <!---Musician Selector-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MusicianID, "MusicianID", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("MusicianID", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.MusicianID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <br />
+          
 
                 <!---Rating-->
 
@@ -231,7 +221,7 @@
                 <!---FilterI -->
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.LFOType, "Filter I", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.BiquadFilterTypeOne, "Filter I", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EnumDropDownListFor(model => model.BiquadFilterTypeOne, htmlAttributes: new { id = "filterTypeOne", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
