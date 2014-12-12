@@ -190,6 +190,21 @@
 
             <div id="senkenRightColumn">
 
+                <!---ArtistAlias-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ArtistAlias, "Artist Alias", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.ArtistAlias, new { type = "text", id = "artistAlias" })
+                        @Html.ValidationMessageFor(model => model.ArtistAlias, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br />
+
+                
                 <!---Title-->
 
                 <div class="form-group">
@@ -308,6 +323,6 @@
 
 </script>
 
-<script type="text/javascript" src="~/Scripts/hub.js">
+<script type="text/javascript" src="~/Scripts/app/hub.js">
 
 </script>

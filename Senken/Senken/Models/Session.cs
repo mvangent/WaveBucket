@@ -39,9 +39,13 @@ namespace Senken.Models
     public class Session 
     {
        
+        public virtual ApplicationUser User_Id { get; set; }
+
+        
+
         public int SessionID { get; set; }
         public string Title { get; set; }
-        //public int MusicianID { get; set; }
+        public string ArtistAlias { get; set; }
         public Rating? Rating { get; set;}
 
         /* oscillator I */

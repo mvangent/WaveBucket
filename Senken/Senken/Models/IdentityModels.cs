@@ -18,8 +18,7 @@ namespace Senken.Models
             return userIdentity;
         }
 
-         public List<Session> sessions = new List<Session>();
-
+        public virtual List<Session> sessions { get; set; }
         
 
     }
@@ -36,7 +35,7 @@ namespace Senken.Models
             return new ApplicationDbContext();
         }
 
-       // public DbSet<Session> Sessions { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
 
     }

@@ -1,24 +1,56 @@
-﻿@model IEnumerable<Senken.Models.Session>
+﻿@using Senken.Models
+@model IEnumerable<Senken.Models.Session>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Sessions</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="jumbotron" align="center">
+    <div class="col-md-4" align="center">
+        <div class="homeButton">
+            <a href="~/Session/Create">
+
+                <input type="button" value="Start Session" class="homeButton" />
+
+            </a>
+        </div>
+    </div>
+</div>
+
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
-       
+
         <th>
-            @Html.DisplayNameFor(model => model.Rating)
+            @Html.DisplayNameFor(model => model.User_Id.UserName)
         </th>
-        <th></th>
-    </tr><p>@Html.ActionLink("Edit Session", "Edit", new{id = 1})</p>
-    	
+        <th>
+
+        </th>
+    </tr>
+
+
+    @foreach (var item in ApplicationDbContext.Create().Sessions)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtistAlias)
+            </td>
+
+            <td>
+                @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
+
+            </td>
+        </tr>
+
+
+    }
+
 </table>

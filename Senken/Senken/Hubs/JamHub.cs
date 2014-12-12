@@ -33,7 +33,7 @@ namespace Senken.Hubs
         {
             Clients.All.waveRemoverPointer();
             //Clients.All.updateConnectionsPointer();
-            Clients.All.updateOscillatorDisplayPointer();
+            //Clients.All.updateOscillatorDisplayPointer();
         }
 
         /* LFO I */

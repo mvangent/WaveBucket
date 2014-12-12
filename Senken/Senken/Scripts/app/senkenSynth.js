@@ -498,7 +498,7 @@ function Oscillator(context, endController) {
     var self = this;
 
 
-    /* Method: this.waveGenerator = function (frequency, oscType, updateConnectionsBool) 
+    /* Method: this.waveGenerator = function (frequency, oscType, updateConnectionsBool) : OscillatorNode
     ------------------------------------------------------------------------------------------------------------------------
     IMPORTANT => this function has an dependency outside the object: global callbackfunction updateWiringCallback() is called  everytime
     a newly generated wave is added. Through this functionality the wavebucket feature becomes possible in an object oriented
@@ -550,7 +550,7 @@ function Oscillator(context, endController) {
 
     this.soundWaveStacker = function (frequency, oscTypeEnum, updateConnectionsBool) {
 
-        self.oscTypeEnum = oscTypeEnum;
+     /*!!!! */   self.oscTypeEnum = oscTypeEnum;
 
         var oscType = self.translateOscTypeEnumToString(oscTypeEnum);
 
@@ -655,7 +655,7 @@ function Lfo(context) {
     var lfo;
     lfo = context.createOscillator();
     var gain = context.createGain();
-    var lfoType = "sine";
+    this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
     var lfoActive = false;
     var self = this;
 
@@ -745,10 +745,10 @@ function Lfo(context) {
 $('.senkenContainer').css({ 'opacity': 0.4 });
 $('#senkenLeftColumn').css({ 'float': 'left' }).width('60%');
 $('#senkenRightColumn').css({ 'float': 'right' }).width('39%'); // initialize fields
-$('#compRatio').val(12);
-$('#compKnee').val(30);
-$('#compThreshold').val(-23);
-$('#masterGain').val(100);
+//$('#compRatio').val(12);
+//$('#compKnee').val(30);
+//$('#compThreshold').val(-23);
+//$('#masterGain').val(100);
 
 
 

@@ -18,6 +18,14 @@ namespace Senken.Controllers
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
+            using (ApplicationDbContext db = ApplicationDbContext.Create())
+            {
+                var model = db.Sessions;
+
+
+                return View(model);
+            }
+
             return View();
         }
 

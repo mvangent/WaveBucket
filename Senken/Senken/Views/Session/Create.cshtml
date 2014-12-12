@@ -41,15 +41,9 @@
                     </div>
                 </div>
 
-
-
-
                 <input type="button" id="sineButton" name="sineGen" value="stack Oscillation">
                 <input type="button" id="sineStopButton" name="sineStop" value="remove Last Oscillation">
-
-
-
-
+                
                 <div class="form-group">
                     @Html.LabelFor(model => model.OscIType, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -57,13 +51,9 @@
                         @Html.ValidationMessageFor(model => model.OscIType, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
-
-
-
-
-
-
+                
+                <!-- Visualiser-->
+                
                 <br>
                 <canvas id="oscIVisualiser" width="500" height="100"></canvas>
                 <br>
@@ -75,7 +65,7 @@
 
                     <div class="col-md-10">
 
-                        @Html.TextBoxFor(model => model.LFOIFrequency, new { type = "number", id = "LFOFreq", name = "lfoFrequency", min = "1", max = "200", step = "1", value = "3" })
+                        @Html.TextBoxFor(model => model.LFOIFrequency, new { type = "number", id = "LFOFreq", name = "lfoFrequency", min = "1", max = "200", step = "1" })
                         @Html.ValidationMessageFor(model => model.LFOIFrequency, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -185,6 +175,21 @@
 
             <div id="senkenRightColumn">
 
+                <!---ArtistAlias-->
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ArtistAlias, "Artist Alias", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(model => model.ArtistAlias, new { type = "text", id = "artistAlias" })
+                        @Html.ValidationMessageFor(model => model.ArtistAlias, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br />
+
+                
                 <!---Title-->
 
                 <div class="form-group">
@@ -301,6 +306,6 @@
 
 </script>
 
-<script type="text/javascript" src="~/Scripts/hub.js">
+<script type="text/javascript" src="~/Scripts/app/hub.js">
     
     </script>

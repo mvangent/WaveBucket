@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -72,26 +73,25 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SessionID,Title,Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
+        public async Task<ActionResult> Create([Bind(Include = "SessionID,Title, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
         {
             if (ModelState.IsValid)
             {
-            //    db.Sessions.Add(session);
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
+          
 
-                
-                
-                var user = UserManager.FindById(User.Identity.GetUserId());
+                ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
                 user.sessions.Add(sessionInput);
 
-                UserManager.Update(user);
+               var result = await UserManager.UpdateAsync(user);
 
-                UserStore.Context.SaveChanges();
-               
+                UserStore.Context.SaveChangesAsync();
 
-                RedirectToAction("Index");
+                ApplicationDbContext.Dispose();
+             
 
+                return RedirectToAction("Index", "Session");
+            
             }
 
             
@@ -104,53 +104,84 @@ namespace Senken.Controllers
    
 
         //GET: Session/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (ModelState.IsValid)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //Session session = db.Sessions.Find(id);
-             var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user.sessions.Count > 0)
-            {
-                Session session = user.sessions[0];
-            
-                if (session == null)
+
+                int idNumber = (int) id;
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                //Session session = db.Sessions.Find(id);
+                var user = UserManager.FindById(User.Identity.GetUserId());
+
+                var databaseSession = await ApplicationDbContext.Create().Sessions.FindAsync(idNumber);
+
+                ApplicationDbContext.Dispose();
+
+
+                if (databaseSession != null)
+                {
+                    return View(databaseSession);
+                }
+
+                if (databaseSession == null)
                 {
                     return HttpNotFound();
                 }
-            
-            
 
-            
-            
-                return View(session);
+
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
 
-        /*
+        
 
            // POST: Session/Edit/5
            // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
            // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
            [HttpPost]
            [ValidateAntiForgeryToken]
-           public ActionResult Edit([Bind(Include = "SessionID,Title,Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session session)
+           public async Task<ActionResult> Edit(int? id, [Bind(Include = "SessionID,Title, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
            {
                if (ModelState.IsValid)
                {
-                   db.Entry(session).State = EntityState.Modified;
-                   db.SaveChanges();
-                   return RedirectToAction("Index");
+
+                  
+                   int currentSessionInDB = (int) id;
+                   
+                   ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+                   Session sessionInDb = await ApplicationDbContext.Sessions.FindAsync(id);
+                   
+                   // implement check if user is owner
+
+                   user.sessions.Remove(sessionInDb);
+
+                   ApplicationDbContext.Sessions.Remove(sessionInDb);
+
+                   user.sessions.Add(sessionInput);
+
+                   var result = await UserManager.UpdateAsync(user);
+                   
+                   await UserStore.Context.SaveChangesAsync();
+
+                   ApplicationDbContext.Dispose();
+
+                   return RedirectToAction("Index", "Session");
+            
                }
             
             
-               return View(session);
+               return View(sessionInput);
            }
+
+    /*
 
            // GET: Session/Delete/5
            public ActionResult Delete(int? id)
@@ -177,16 +208,14 @@ namespace Senken.Controllers
                db.SaveChanges();
                return RedirectToAction("Index");
            }
-        * 
-        * 
-        */
-     
+       */
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-        //        db.Dispose();
+        //        db.Dispose(); 
+                UserStore.Context.Dispose();
             }
             base.Dispose(disposing);
         }
