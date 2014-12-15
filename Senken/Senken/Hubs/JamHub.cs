@@ -17,11 +17,11 @@ namespace Senken.Hubs
         
         /* OscillatorI */
         
-        public void StackSoundWave(string OscIFrequency, string OscIType, bool updateConnectionsBool)
+        public void StackASoundWave(string OscIFrequency, string OscIType, bool updateConnectionsBool)
         {
                       
             
-            Clients.All.soundWaveStackerPointer(OscIFrequency, OscIType, updateConnectionsBool);
+            Clients.All.stackSoundWavePointer(OscIFrequency, OscIType, updateConnectionsBool);
             Clients.All.updateConnectionsPointer();
             Clients.All.updateWaveBucketDisplayPointer();
             Clients.All.updateOscillatorDisplayPointer();

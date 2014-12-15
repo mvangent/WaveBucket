@@ -1,9 +1,9 @@
 ﻿/// <reference path="../app/senkenSynth.js" />
-/// <reference path="../app/hub.js" />
 /// <reference path="jquery-2.1.1.min.js" />
 /// <reference path="jquery-2.1.1.js" />
 
 // Web Audio Api context test
+
 
 
 var context;
@@ -106,10 +106,19 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
 
     // generate triangleWave, and stack it to the wavebucket 
 
-    testOscillator.soundWaveStacker(200, enumWaveType, false);
+    testOscillator.stackSoundWave(200, enumWaveType, false);
     var testWaveI = testOscillator.wavebucket.select(0);
     assert.equal(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
     assert.equal(testWaveI.type, "square", "type is set and stored in wavebucket");
+
+    var testSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(0), false);
+    assert.equal(testSine.type, "sine", "translated into sinewave");
+
+    var testTriangle = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(2), false);
+    assert.equal(testTriangle.type, "triangle", "translated into triangle wave");
+
+    var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
+    assert.equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
 
 });
 

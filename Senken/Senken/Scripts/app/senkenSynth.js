@@ -77,9 +77,10 @@ var context;
 */
 
 function Analyser(context) {
+    
     /* canvas related code */
-    var canvas;
-    var canvasCtx;
+    this.canvas;
+    this.canvasCtx;
 
     canvas = document.getElementById("oscIVisualiser");
 
@@ -330,47 +331,49 @@ function MasterController(context)
 
 function Compressor(context)
 {
-    var compressorInstance = context.createDynamicsCompressor();
-    
+    this.compressorInstance = context.createDynamicsCompressor();
+
+    var selfCompressor = this;
+
     // ratio 
     this.ratioAdjuster = function (ratio) {
         console.log("compressor ratio set to 1 /  " + ratio);
-        compressorInstance.ratio.value = ratio;
+        selfCompressor.compressorInstance.ratio.value = ratio;
     };
 
     this.readRatio = function() {
-        return compressorInstance.ratio.value;
+        return selfCompressor.compressorInstance.ratio.value;
     }
  
     // knee
     this.kneeAdjuster = function (knee) {
         console.log("compressor knee set to " + knee);
-        compressorInstance.knee.value = knee;
+        selfCompressor.compressorInstance.knee.value = knee;
     };
 
     this.readKnee = function () {
-        return compressorInstance.knee.value;
+        return selfCompressor.compressorInstance.knee.value;
     }
    
     // threshold
     this.thresholdAdjuster = function (threshold) {
         console.log("compressor Threshold set to " + threshold);
-        compressorInstance.threshold.value = threshold;
+        selfCompressor.compressorInstance.threshold.value = threshold;
     };
 
     this.readThreshold = function () {
-        return compressorInstance.threshold.value;
+        return selfCompressor.compressorInstance.threshold.value;
     }
 
     // outputTo
     this.outputTo = function(destination) {
-        compressorInstance.connect(destination);
+        selfCompressor.compressorInstance.connect(destination);
         console.log(destination.toString());
     }
     
     // input
     this.input = function() {
-        return compressorInstance;
+        return selfCompressor.compressorInstance;
     }
 
     // displayMethod 
@@ -476,7 +479,7 @@ function WaveBucket()
 /*------------------------------------------------------------------------------------------------------------
 ** OBJECT: Oscillator(ContextClass, MasterController) : prototype                                           **
 --------------------------------------------------------------------------------------------------------------
-** UML: has a WaveBucket, references MasterController(object) and AudioContextClass                                 **
+** UML: has a WaveBucket, references MasterController(object) and AudioContextClass                         **
 ** This object is responsible for generating sine, square, triangle and sawtooths waveforms and saves the   **
 ** generatad sounds in a wavebucket                                                                         **
 --------------------------------------------------------------------------------------------------------------
@@ -486,19 +489,19 @@ function WaveBucket()
 function Oscillator(context, endController) {
 
     // member variables oscillatorNode
-    var osc = context.createOscillator();
+    this.osc = context.createOscillator();
     this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
-    var gainNode = context.createGain();
+    this.gainNode = context.createGain();
 
     /* wavebucket */
     this.wavebucket = new WaveBucket();
-    var lastWaveRemoved = true;
+    this.lastWaveRemoved = true;
 
     // self reference
-    var self = this;
+    var selfOsc = this;
 
 
-    /* Method: this.waveGenerator = function (frequency, oscType, updateConnectionsBool) : OscillatorNode
+    /* Method: this.waveGenerator = function (int frequency, string oscType, bool updateConnectionsBool) : OscillatorNode
     ------------------------------------------------------------------------------------------------------------------------
     IMPORTANT => this function has an dependency outside the object: global callbackfunction updateWiringCallback() is called  everytime
     a newly generated wave is added. Through this functionality the wavebucket feature becomes possible in an object oriented
@@ -506,67 +509,88 @@ function Oscillator(context, endController) {
     the wavebucket is loaded, and instead only the last sound is generated. 
     -----------------------------------------------------------------------------------------------------------------------*/
 
-    this.waveGenerator = function (frequency, oscType, updateConnectionsBool) {
+    this.waveGenerator = function (frequency, oscType, updateConnections) {
     
             console.log("makeSineWave reached");
             
-            osc = context.createOscillator();
-            osc.type = oscType;
-            osc.frequency.value = frequency;
+            selfOsc.osc = context.createOscillator();
+            selfOsc.osc.type = oscType;
+            selfOsc.osc.frequency.value = frequency;
 
-            // create gainNode
-            //gainNode = context.createGain();
-            //gainNode.gain.value = 1;
-           
-            osc.start(context.currentTime);
+            selfOsc.osc.start(context.currentTime);
             //osc.stop(context.currentTime + DURATION);
-            console.log("Osc I: started at freq " + osc.frequency.value + ", with shape " + oscType);
+            console.log("Osc I: started at freq " + selfOsc.osc.frequency.value + ", with shape " + selfOsc.oscType);
 
-        /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE*/
-        if (updateConnectionsBool === true) {
+        /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE BY UPDATING THE CONNECTIONS OF ALL OBJECTS*/
+        if (updateConnections === true) {
             console.log("update connections called");
             updateWiringCallBack();
         }
 
         // add wave to the bucket
-            return osc;
+        return selfOsc.osc;
     };
 
+
+    /* Method: this.removeWave = function (int index): void  
+    -----------------------------------------------------------------------------------------------------------
+    ** Removes wave from wavebucket by index
+    */
 
     this.removeWave = function (index) { // set index
 
-        self.freezeBucket();
-        self.wavebucket.remove(index);
-        self.startBucket();
+        selfOsc.freezeBucket();
+        selfOsc.wavebucket.remove(index);
+        selfOsc.startBucket();
     };
+
+    /* Method: this.removeWave = function (): void  
+   ----------------------------------------------------------------------------------------------------------------
+   ** Removes last wave added to the wavebucket. This function creates a better performance than removing by index, 
+   ** because no reload and connectionUpdate is needed. 
+   */
 
     this.removeLastWave = function() {
         if (!lastWaveRemoved) {
-            osc.stop();
-            self.wavebucket.removeLastWave();
-            lastWaveRemoved = true;
+            selfOsc.osc.stop();
+            selfOsc.wavebucket.removeLastWave();
+            selfOsc.lastWaveRemoved = true;
         }
     }
 
-    this.soundWaveStacker = function (frequency, oscTypeEnum, updateConnectionsBool) {
 
-     /*!!!! */   self.oscTypeEnum = oscTypeEnum;
+    /* Method: this.stackSoundWave = function (int frequency, int oscTypeEnum, bool updateConnections): void  
+    ----------------------------------------------------------------------------------------------------------------------
+    ** Translates the enum of Oscillation Type into a string. Calls WaveGenerator while adding the the generated 
+    ** oscillation to the wave bucket. Checks if it can perform this action, by making a call to IsActive() of 
+    ** the the mastercontroller object. 
+    */
 
-        var oscType = self.translateOscTypeEnumToString(oscTypeEnum);
+    this.stackSoundWave = function (frequency, oscTypeEnum, updateConnections) {
+
+        console.log("stack soundwave reached");
+
+        /*!!!! */   selfOsc.oscTypeEnum = oscTypeEnum;
+
+        var oscType = selfOsc.translateOscTypeEnumToString(selfOsc.oscTypeEnum);
 
         console.log("osctype is NOWWW: " + oscType);
 
         if (endController.isActive()) {
-            self.wavebucket.addWave(self.waveGenerator(frequency, oscType, updateConnectionsBool));
+            selfOsc.wavebucket.addWave(selfOsc.waveGenerator(frequency, oscType, updateConnections));
             lastWaveRemoved = false;
         }
     };
 
-    this.translateOscTypeEnumToString = function (oscType) {
 
-        console.log("oscType: " + typeof(oscType));
+    /* Method: this.translateOscTypeEnumToString = function (int oscTypeEnum): string oscType  
+     -----------------------------------------------------------------------------------------------------------
+    ** Translates enum of OscType into the corresponding string. Default value is sine. 
+    */
 
-        switch (parseInt(oscType)) {
+    this.translateOscTypeEnumToString = function (oscTypeEnum) {
+
+       switch (parseInt(oscTypeEnum)) {
             case 0 : return "sine";
             case 1: return "square";
             case 2: return "triangle";
@@ -575,47 +599,56 @@ function Oscillator(context, endController) {
         }
     }
 
-    // Method: startBucket()
 
+
+    /* Method: this.startBucket = function (): void  
+     -----------------------------------------------------------------------------------------------------------
+    ** Starts up the oscillations present in the wavebucket. 
+    */
+    
     this.startBucket = function () {
         
-        if (!self.wavebucket.isActive()) {
-            console.log("start function activated");
-            var arrayLength = self.wavebucket.getSize();
+        if (!selfOsc.wavebucket.isActive()) {
+            
+            var arrayLength = selfOsc.wavebucket.getSize();
             console.log(arrayLength);
 
             var i;
 
             for (i = 0; i < arrayLength; i++) {
                 console.log("i = " + i);
-                self.wavebucket.addWave(self.waveGenerator(self.wavebucket.select(i).frequency.value, self.wavebucket.select(i).type, true));
+                selfOsc.wavebucket.addWave(selfOsc.waveGenerator(selfOsc.wavebucket.select(i).frequency.value, selfOsc.wavebucket.select(i).type, true));
             }
 
             for (i = 0; i < arrayLength; i++) {
-                self.wavebucket.removeFirstElement();
+                selfOsc.wavebucket.removeFirstElement();
             }
 
-            self.wavebucket.activate();
+            selfOsc.wavebucket.activate();
         }
     };
 
     
-    // Method: freezeBucket()
+    /* Method: this.freezeBucket = function (): void  
+    -----------------------------------------------------------------------------------------------------------
+    ** Calls the stop method on every Oscillation Node in the wavebucket and checks if the wavebucket is 
+    ** active. 
+    */
 
     this.freezeBucket = function () {
         
-        if (self.wavebucket.isActive()) {
+        if (selfOsc.wavebucket.isActive()) {
 
             console.log("stop function wavebucket activated,");
 
-            for (var i = 0; i < self.wavebucket.getSize(); i++) {
-                console.log(i + " " + typeof self.wavebucket.select(i));
-                self.wavebucket.select(i).stop();
+            for (var i = 0; i < selfOsc.wavebucket.getSize() ; i++) {
+                console.log(i + " " + typeof selfOsc.wavebucket.select(i));
+                selfOsc.wavebucket.select(i).stop();
             }
 
-            console.log(self.wavebucket.waveBucketActive);
+            console.log(selfOsc.wavebucket.waveBucketActive);
 
-            self.wavebucket.deactivate();
+            selfOsc.wavebucket.deactivate();
         }
     };
 
@@ -623,23 +656,23 @@ function Oscillator(context, endController) {
     this.outputTo = function (destination) {
         console.log("osc output refreshed");
 
-        osc.connect(gainNode);
-        gainNode.connect(destination);
+        selfOsc.osc.connect(selfOsc.gainNode);
+        selfOsc.gainNode.connect(destination);
     }
 
     // Method: gainNodeInputForLfo() -> return gainNode.gain
     this.gainNodeInputForLfo = function() {
-        return gainNode.gain;
+        return selfOsc.gainNode.gain;
     }
 
  
     // Method: updateDisplay(Oscillator)
     this.updateDisplay = function() {
-        self.wavebucket.updateDisplay();
+        selfOsc.wavebucket.updateDisplay();
 
         // set field value to last value
-        $('#sineFreq').val(osc.frequency.value);
-        $('#oscIType').val(self.oscTypeEnum);
+        $('#sineFreq').val(selfOsc.osc.frequency.value);
+        $('#oscIType').val(selfOsc.oscTypeEnum);
 
     }
 

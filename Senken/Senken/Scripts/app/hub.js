@@ -13,7 +13,7 @@ $(function () {
     var jam = $.connection.jamHub;
 
     // create a function that the hub can call back to create sounds
-    jam.client.soundWaveStackerPointer = oscillatorI.soundWaveStacker,
+    jam.client.stackSoundWavePointer = oscillatorI.stackSoundWave,
     jam.client.waveRemoverPointer = oscillatorI.removeLastWave;
     jam.client.lfoActivatorPointer = lfoI.lfoActivator;
     jam.client.lfoDeactivatorPointer = lfoI.lfoDeactivator;
@@ -48,7 +48,7 @@ $(function () {
 
         $('#sineButton').click(function () {
             console.log("sineButton clicked");
-            jam.server.stackSoundWave($('#sineFreq').val(), $('#oscIType').val(), true);
+            jam.server.stackASoundWave($('#sineFreq').val(), $('#oscIType').val(), true);
         });
 
 
