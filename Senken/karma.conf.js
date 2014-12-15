@@ -26,7 +26,7 @@ module.exports = function(config) {
 		'Senken/Scripts/_references.js',
 		'Senken/Scripts/*.intellisense.js',
 		'Senken/Scripts/qunit.js',
-		'Senken/Scripts/hub.js'
+		'Senken/Scripts/app/hub.js'
 		
     ],
 
