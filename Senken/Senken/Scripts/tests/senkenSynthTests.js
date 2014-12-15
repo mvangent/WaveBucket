@@ -1,4 +1,5 @@
 ﻿/// <reference path="../app/senkenSynth.js" />
+/// <reference path="../app/hub.js" />
 /// <reference path="jquery-2.1.1.min.js" />
 /// <reference path="jquery-2.1.1.js" />
 

@@ -142,7 +142,7 @@ namespace Senken.Controllers
 
         
 
-           // POST: Session/Edit/5
+           // POST: Session/Edit/Save (only works when user = owner of session) 
            // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
            // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
            [HttpPost]
@@ -159,26 +159,103 @@ namespace Senken.Controllers
 
                    Session sessionInDb = await ApplicationDbContext.Sessions.FindAsync(id);
                    
-                   // implement check if user is owner
+                   // update session
 
-                   user.sessions.Remove(sessionInDb);
+                   int indexToBeUpdated = user.sessions.IndexOf(sessionInDb);
 
-                   ApplicationDbContext.Sessions.Remove(sessionInDb);
+                   // if user is owner 
+                   if (indexToBeUpdated > -1)
+                   {
 
-                   user.sessions.Add(sessionInput);
+                       user.sessions[indexToBeUpdated] = sessionInput;
 
-                   var result = await UserManager.UpdateAsync(user);
-                   
-                   await UserStore.Context.SaveChangesAsync();
 
-                   ApplicationDbContext.Dispose();
+                       // delete orphan in sessions table
+                       ApplicationDbContext.Sessions.Remove(sessionInDb);
 
-                   return RedirectToAction("Index", "Session");
-            
+
+                       // update user profile
+
+                       var result = await UserManager.UpdateAsync(user);
+
+                       await UserStore.Context.SaveChangesAsync();
+
+                       ApplicationDbContext.Dispose();
+
+                       return RedirectToAction("Index", "Session");
+                   }
+
+                   // if user is not owner
+                   if (indexToBeUpdated == -1)
+                   {
+
+                       user.sessions.Add(sessionInput);
+
+
+                       // update user profile
+
+                       var result = await UserManager.UpdateAsync(user);
+
+                       await UserStore.Context.SaveChangesAsync();
+
+                       ApplicationDbContext.Dispose();
+
+                       return RedirectToAction("Index", "Session");
+                   }
+
+                  
+
                }
             
-            
+            return View("Error");
+              
+           }
+
+
+           // POST: Session/Edit/Copy to my account 
+           // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+           // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+           [HttpPost]
+           [ValidateAntiForgeryToken]
+           public async Task<ActionResult> CopyEdit(int? id, [Bind(Include = "SessionID,Title, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
+           {
+               if (ModelState.IsValid)
+               {
+
+
+                   int currentSessionInDB = (int)id;
+
+                   ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+                   Session sessionInDb = await ApplicationDbContext.Sessions.FindAsync(id);
+
+                   // update session
+
+                   int indexCheck = user.sessions.IndexOf(sessionInDb); // should be -1
+
+                   // if user is owner 
+                   if (indexCheck == -1)
+                   {
+
+                       user.sessions.Add(sessionInput);
+
+                       
+                       // update user profile
+
+                       var result = await UserManager.UpdateAsync(user);
+
+                       await UserStore.Context.SaveChangesAsync();
+
+                       ApplicationDbContext.Dispose();
+
+                       return View(sessionInput);
+                   }
+
+
+               }
+
                return View(sessionInput);
+
            }
 
     /*

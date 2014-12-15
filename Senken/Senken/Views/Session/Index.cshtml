@@ -1,56 +1,89 @@
-﻿@using Senken.Models
+﻿@using System.Data.Entity
+@using Microsoft.AspNet.Identity
+@using Senken
+@using Senken.Models
+
 @model IEnumerable<Senken.Models.Session>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Sessions</h2>
+<h2 align="center">Sessions</h2>
+
+<br />
+<br />
 
 <div class="jumbotron" align="center">
     <div class="col-md-4" align="center">
         <div class="homeButton">
             <a href="~/Session/Create">
 
-                <input type="button" value="Start Session" class="homeButton" />
+                <input type="button" value="Start New!" class="homeButton" />
 
             </a>
         </div>
     </div>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-
-        <th>
-            @Html.DisplayNameFor(model => model.User_Id.UserName)
-        </th>
-        <th>
-
-        </th>
-    </tr>
+<br/>
+<br/>
 
 
-    @foreach (var item in ApplicationDbContext.Create().Sessions)
-    {
+<!--User's Sessions-->
+
+
+
+
+
+
+<!--All Sessions-->
+
+<h2 align="center">Explore</h2>
+
+<div align="center">
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArtistAlias)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
 
-            <td>
-                @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
-
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.ArtistAlias)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User_Id.UserName)
+            </th>
+            <th>
+            </th>
         </tr>
 
 
-    }
 
-</table>
+        @foreach (var item in ApplicationDbContext.Create().Sessions.ToList())
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArtistAlias)
+
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.User_Id.UserName)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
+
+                </td>
+            </tr>
+
+
+        }
+
+    </table>
+
+</div>

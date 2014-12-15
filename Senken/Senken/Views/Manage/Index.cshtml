@@ -1,4 +1,7 @@
-﻿@model Senken.Models.IndexViewModel
+﻿@using Microsoft.AspNet.Identity
+@using Senken.Models
+@model Senken.Models.IndexViewModel
+     
 @{
     ViewBag.Title = "Manage";
 }
@@ -81,4 +84,45 @@
                 }*@
         </dd>
     </dl>
+</div>
+
+<h3 align="center"> My Sessions</h3>
+
+<div >
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+
+            <th>
+                Artist Alias
+            </th>
+
+        </tr>
+
+
+        @foreach (var item in (ApplicationDbContext.Create().Sessions.ToList()))
+        {
+            if (User.Identity.GetUserId().Equals(item.User_Id.Id))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArtistAlias)
+                    </td>
+                    
+
+                  
+                </tr>
+
+            }
+
+        }
+
+
+    </table>
+
 </div>
