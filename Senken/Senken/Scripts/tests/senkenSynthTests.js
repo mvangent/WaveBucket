@@ -140,7 +140,7 @@ QUnit.test("senkenSynth: Lfo", function (assert) {
     var testLfo = new Lfo(context);
 
     // simulation of GUI
-    var enumLfoWaveType = 3 // triangle wave
+    var enumLfoWaveType = 3 // sawtooth wave
     endController.startSession();
     testOscillator.startBucket();
 
@@ -149,7 +149,17 @@ QUnit.test("senkenSynth: Lfo", function (assert) {
   
     assert.equal(testLfo.readFrequency(), 1, "Lfo frequency set");
     assert.equal(testLfo.readScale(), 2, "Lfo scale set");
-    assert.equal(testLfo.translateLfoTypeEnumToString(enumLfoWaveType), "sawtooth", "Lfo type is translated and set");
+    assert.equal(testLfo.translateLfoTypeEnumToString(enumLfoWaveType), "sawtooth", "Lfo type sawtooth is translated and set");
+    assert.equal(testLfo.lfoActive, true, "lfo is active");
+
+    testLfo.lfoDeactivator();
+    assert.equal(testLfo.lfoActive, false, "lfo deactivated");
+
+    // test oscillation shapes
+    assert.equal(testLfo.translateLfoTypeEnumToString(0), "sine", "Lfo type sine is translated and set");
+    assert.equal(testLfo.translateLfoTypeEnumToString(1), "square", "Lfo type square is translated and set");
+    assert.equal(testLfo.translateLfoTypeEnumToString(2), "triangle", "Lfo type triangle is translated and set");
+
 
 });
 
