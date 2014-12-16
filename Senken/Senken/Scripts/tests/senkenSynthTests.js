@@ -33,13 +33,26 @@ var context;
 QUnit.test("senkenSynth: class was found", function(assert) {
 
     var isContext;
+
     if (context) {
         isContext = true;
     } else {
         isContext = false;
     }
 
+    context = false;
+
     assert.equal(isContext, true, "WEB AUDIO API is found");
+
+    if (context) {
+        isContext = true;
+    } else {
+        isContext = false;
+    }
+
+    assert.equal(isContext, false, "WEB AUDIO API not found");
+
+    context = new ContextClass();
 
 });
 
