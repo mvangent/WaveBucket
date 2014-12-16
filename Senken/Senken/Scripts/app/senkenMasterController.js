@@ -47,6 +47,8 @@ function MasterController(context) {
     this.outputTo = function (destination) {
         masterVolume.connect(destination);
 
+        return true;
+
     }
 
     // : input

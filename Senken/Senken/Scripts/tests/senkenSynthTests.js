@@ -15,7 +15,6 @@
 // Web Audio Api context test
 
 
-
 var context;
     var contextClass = (window.AudioContext ||
         window.webkitAudioContext ||
@@ -29,6 +28,61 @@ var context;
         // Web Audio API is not available. Ask the user to use a supported browser.
         alert("no webapi was found for your browser");
     }
+
+
+QUnit.test("connections", function(assert) {
+
+  
+
+    var analyser = new Analyser(context);
+    var filterI = new BiquadFilter(context);
+    var endController = new MasterController(context);
+    var finalCompressor = new Compressor(context);
+    var oscillatorI = new Oscillator(context, endController);
+    var lfoI = new Lfo(context);
+
+
+    var wiring = new Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI);
+    // because passing pointer variables in methods is not possible in js.:
+
+    // function updateWiringCallBack() { wiring.updateConnections(); }
+
+    function Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI) {
+
+        
+
+        this.updateConnections = function () {
+
+            console.log("update connection reached");
+
+            assert.equal(analyser.outputTo(context.destination), true, "updateconnections");
+            assert.equal(filterI.outputTo(analyser.input()), true, "updateconnections");
+            assert.equal(endController.outputTo(filterI.input()), true, "updateconnections");
+            assert.equal(finalCompressor.outputTo(endController.input()), true, "updateconnections");
+            assert.equal(oscillatorI.outputTo(finalCompressor.input()), true, "updateconnections");
+            assert.equal(lfoI.outputTo(oscillatorI.gainNodeInputForLfo()), true, "updateconnections");
+
+            //analyser.outputTo(context.destination);
+            //filterI.outputTo(analyser.input());
+            //endController.outputTo(filterI.input());
+            //finalCompressor.outputTo(endController.input());
+            //oscillatorI.outputTo(finalCompressor.input());
+            //lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+
+            return true;
+        }
+    }
+
+    
+
+    var connectionsUpdated = wiring.updateConnections();
+
+    assert.equal(connectionsUpdated, true, "updateconnections");
+    
+
+});
+
+
 
 QUnit.test("senkenSynth: class was found", function(assert) {
 

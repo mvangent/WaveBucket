@@ -66,6 +66,8 @@ function BiquadFilter(context) {
     // connector methods: outputTo
     this.outputTo = function (destination) {
         self.biQuadFilter.connect(destination);
+
+        return true;
     }
 
     // : input

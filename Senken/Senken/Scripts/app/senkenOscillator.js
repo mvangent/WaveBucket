@@ -180,6 +180,8 @@ function Oscillator(context, endController) {
 
         selfOsc.osc.connect(selfOsc.gainNode);
         selfOsc.gainNode.connect(destination);
+
+        return true;
     }
 
     // Method: gainNodeInputForLfo() -> return gainNode.gain

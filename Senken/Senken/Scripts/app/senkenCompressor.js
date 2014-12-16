@@ -42,6 +42,8 @@ function Compressor(context) {
     this.outputTo = function (destination) {
         selfCompressor.compressorInstance.connect(destination);
         console.log(destination.toString());
+
+        return true;
     }
 
     // input

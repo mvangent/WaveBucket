@@ -67,6 +67,8 @@ var context;
             finalCompressor.outputTo(endController.input());
             oscillatorI.outputTo(finalCompressor.input());
             lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+
+            return true;
         }
     }
 

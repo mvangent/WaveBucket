@@ -88,6 +88,8 @@ function Analyser(context) {
     this.outputTo = function (destination) {
         analyser.connect(destination);
 
+        return true;
+
     }
 
     // : input

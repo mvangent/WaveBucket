@@ -93,6 +93,8 @@ function Lfo(context) {
         selfLfo.lfo.connect(selfLfo.gain);
         selfLfo.gain.connect(destination);
 
+        return true;
+
     }
 
     this.updateDisplay = function () {
