@@ -200,7 +200,9 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
     assert.equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
 
-    
+    endController.stopSession();
+    var bucketStopTest = testOscillator.freezeBucket();
+    assert.equal(bucketStopTest, true, "bucket stopped");
     
 
 });
