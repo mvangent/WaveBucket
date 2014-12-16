@@ -210,6 +210,8 @@
   <ItemGroup>
     <Compile Include="Controllers\SessionControllerTest.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Hub\HubTest.cs" />
+    <Compile Include="Migrations\MigrationsTest.cs" />
     <Compile Include="Models\ManageViewModelsTest.cs" />
     <Compile Include="Models\SessionTest.cs" />
     <Compile Include="Models\AccountViewModelsTest.cs" />

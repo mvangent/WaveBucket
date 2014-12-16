@@ -26,8 +26,18 @@ namespace Senken.Tests.Controllers
     {
         
         [TestMethod]
-        public void TestMethod1()
+        public void Login()
         {
+            // Arrange
+            AccountController controller = new AccountController();
+
+            // Act
+            ViewResult result = controller.Login("http://www.login.com") as ViewResult;
+
+            // Assert
+            Assert.AreEqual("http://www.login.com", result.ViewBag.ReturnUrl);
         }
+
+        
     }
 }

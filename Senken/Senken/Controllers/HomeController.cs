@@ -26,7 +26,7 @@ namespace Senken.Controllers
                 return View(model);
             }
 
-            return View();
+            // return View();
         }
 
         public ActionResult About()

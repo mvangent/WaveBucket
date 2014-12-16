@@ -85,7 +85,7 @@ namespace Senken.Controllers
 
                var result = await UserManager.UpdateAsync(user);
 
-                UserStore.Context.SaveChangesAsync();
+                await UserStore.Context.SaveChangesAsync();
 
                 ApplicationDbContext.Dispose();
              

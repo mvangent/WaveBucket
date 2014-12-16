@@ -17,7 +17,7 @@ namespace Senken.Hubs
         
         /* OscillatorI */
         
-        public void StackASoundWave(string OscIFrequency, string OscIType, bool updateConnectionsBool)
+        public bool StackASoundWave(string OscIFrequency, string OscIType, bool updateConnectionsBool)
         {
                       
             
@@ -26,107 +26,132 @@ namespace Senken.Hubs
             Clients.All.updateWaveBucketDisplayPointer();
             Clients.All.updateOscillatorDisplayPointer();
 
-
+            return true;
         }
 
-        public void RemoveLastSound()
+        public bool RemoveLastSound()
         {
             Clients.All.waveRemoverPointer();
             Clients.All.updateWaveBucketDisplayPointer();
             //Clients.All.updateConnectionsPointer();
             //Clients.All.updateOscillatorDisplayPointer();
+
+            return true;
         }
 
         /* LFO I */
 
-        public void ActivateLFO(string LfoFreq, string LfoScale, string LfoType)
+        public bool ActivateLFO(string LfoFreq, string LfoScale, string LfoType)
         {
             Clients.All.lfoActivatorPointer(LfoFreq, LfoScale, LfoType);
             Clients.All.updateConnectionsPointer();
             Clients.All.updateLfoDisplayPointer();
+
+            return true;
         }
 
-        public void DeactivateLFO()
+        public bool DeactivateLFO()
         {
             Clients.All.lfoDeactivatorPointer();
             Clients.All.updateConnectionsPointer();
+
+            return true;
         }
 
         /* Compressor */
 
-        public void AdjustCompRatio(string ratio)
+        public bool AdjustCompRatio(string ratio)
         {
             Clients.All.compRatioAdjusterPointer(ratio);
 
             Clients.All.updateCompressorDisplayPointer();
 
+            return true;
+
         }
 
-        public void AdjustCompKnee(string knee)
+        public bool AdjustCompKnee(string knee)
         {
             Clients.All.compKneeAdjusterPointer(knee);
             Clients.All.updateCompressorDisplayPointer();
-            
+
+            return true;
+
         }
         
 
-        public void AdjustCompThreshold(string threshold)
+        public bool AdjustCompThreshold(string threshold)
         {
             Clients.All.compThresholdAdjusterPointer(threshold);
             Clients.All.updateCompressorDisplayPointer();
-           
+
+            return true;
+
         }
 
         
-
 
         /* Master Controls */
 
-        public void ChangeMasterGain(string volume)
+        public bool ChangeMasterGain(string volume)
         {
             Clients.All.masterGainAdjusterPointer(volume);
             Clients.All.updateEndControlDisplayPointer();
+
+            return true;
         }
         
         
-        public void StopSession()
+        public bool StopSession()
         {
             Clients.All.stopSessionPointer();
             Clients.All.freezeBucketPointer();
             Clients.All.updateConnectionsPointer();
             Clients.All.updateEndControlDisplayPointer();
             Clients.All.updateWaveBucketDisplayPointer();
+
+            return true;
         }
 
-        public void PlaySession()
+        public bool PlaySession()
         {
             Clients.All.startSessionPointer();  
             Clients.All.startBucketPointer();
             Clients.All.updateConnectionsPointer();
             Clients.All.updateEndControlDisplayPointer();
             Clients.All.updateWaveBucketDisplayPointer();
+
+            return true;
         }
 
         /* BiQuadFilter */
 
-        public void changeFilterTypeOne(string type)
+        public bool changeFilterTypeOne(string type)
         {
             Clients.All.changeFilterTypeOnePointer(type);
+
+            return true;
         }
 
-        public void changeFilterFrequencyOne(string frequency)
+        public bool changeFilterFrequencyOne(string frequency)
         {
             Clients.All.changeFilterFrequencyOnePointer(frequency);
+
+            return true;
         }
 
-        public void changeFilterQOne(string q)
+        public bool changeFilterQOne(string q)
         {
             Clients.All.changeFilterQOnePointer(q);
+
+            return true;
         }
 
-        public void changeFilterGainOne(string gain)
+        public bool changeFilterGainOne(string gain)
         {
             Clients.All.changeFilterGainOnePointer(gain);
+
+            return true;
         }
         
     }

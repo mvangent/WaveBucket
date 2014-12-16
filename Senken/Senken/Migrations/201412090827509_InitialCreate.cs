@@ -3,6 +3,8 @@ namespace Senken.Migrations
     using System;
     using System.Data.Entity.Migrations;
     using Senken.Models;
+
+    /*
     
     public partial class InitialCreate : DbMigration
     {
@@ -132,5 +134,7 @@ namespace Senken.Migrations
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Sessions");
         }
-    }
+    }*/
 }
+
+    
