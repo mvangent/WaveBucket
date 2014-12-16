@@ -103,5 +103,119 @@ namespace Senken.Tests.Models
            
         }
 
+        [TestMethod]
+        public void ForgotViewModel()
+        {
+            ForgotViewModel fvm = new ForgotViewModel();
+
+            // Act
+            fvm.Email = "gaslamp@kil.ler";
+
+            // Assert
+
+            Assert.AreEqual(fvm.Email, "gaslamp@kil.ler");
+        }
+
+        [TestMethod]
+        public void LoginViewModel()
+        {
+            LoginViewModel lvm = new LoginViewModel();
+
+            // Act
+            lvm.Email = "gaslamp@kil.ler";
+
+            // Assert
+
+            Assert.AreEqual(lvm.Email, "gaslamp@kil.ler");
+
+            // Act
+            lvm.RememberMe = true;
+
+            // Assert
+
+            Assert.AreEqual(lvm.RememberMe, true);
+
+            // Act
+            lvm.Password = "password";
+
+            // Assert
+
+            Assert.AreEqual(lvm.Password, "password");
+        }
+
+        [TestMethod]
+        public void RegisterViewModel()
+        {
+            RegisterViewModel rvm = new RegisterViewModel();
+
+            // Act
+            rvm.Password = "password";
+
+            // Assert
+
+            Assert.AreEqual(rvm.Password, "password");
+
+            // Act
+            rvm.ConfirmPassword = "password";
+
+            // Assert
+
+            Assert.AreEqual(rvm.ConfirmPassword, "password");
+
+            // Act
+            rvm.Email = "password@email.com";
+
+            // Assert
+
+            Assert.AreEqual(rvm.Email, "password@email.com");
+        }
+
+        [TestMethod]
+        public void ResetPasswordViewModel()
+        {
+            ResetPasswordViewModel rpvm = new ResetPasswordViewModel();
+
+            // Act
+            rpvm.ConfirmPassword = "password";
+
+            // Assert
+
+            Assert.AreEqual(rpvm.ConfirmPassword, "password");
+
+            // Act
+            rpvm.Code = "password";
+
+            // Assert
+
+            Assert.AreEqual(rpvm.Code, "password");
+
+            // Act
+            rpvm.Password = "password";
+
+            // Assert
+
+            Assert.AreEqual(rpvm.Password, "password");
+
+            // Act
+            rpvm.Email = "password@email.com";
+
+            // Assert
+
+            Assert.AreEqual(rpvm.Email, "password@email.com");
+        }
+
+        [TestMethod]
+        public void ForgotPasswordViewModel()
+        {
+            ForgotPasswordViewModel fpvm = new ForgotPasswordViewModel();
+
+            // Act
+            fpvm.Email = "emai@l.nl";
+
+            // Assert
+
+            Assert.AreEqual(fpvm.Email, "emai@l.nl");
+        }
+
     }
 }
