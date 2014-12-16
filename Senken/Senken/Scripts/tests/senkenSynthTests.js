@@ -187,6 +187,11 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     // generate triangleWave, and stack it to the wavebucket 
 
     testOscillator.stackSoundWave(200, enumWaveType, false);
+
+    var lastWaveRemoved = testOscillator.lastWaveRemoved;
+
+    assert.equal(lastWaveRemoved, false, "soundWave stacked");
+
     var testWaveI = testOscillator.wavebucket.select(0);
     assert.equal(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
     assert.equal(testWaveI.type, "square", "type is set and stored in wavebucket");
