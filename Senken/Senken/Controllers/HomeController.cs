@@ -5,28 +5,20 @@ using System.Web;
 using System.Web.Mvc;
 
 using Senken.Models;
-using Senken.ViewModels;
+
 
 namespace Senken.Controllers
 {
    
     public class HomeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        // private ApplicationDbContext db = new ApplicationDbContext();
         
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-            using (ApplicationDbContext db = ApplicationDbContext.Create())
-            {
-                var model = db.Sessions;
-
-
-                return View(model);
-            }
-
-            // return View();
+            return View();
         }
 
         public ActionResult About()
@@ -45,10 +37,10 @@ namespace Senken.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
+       /* protected override void Dispose(bool disposing)
         {
             db.Dispose();
             base.Dispose(disposing);
-        }
+        } */
     }
 }

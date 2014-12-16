@@ -39,6 +39,9 @@ namespace Senken.Controllers
          //   var sessions = db.Users.Include(s => s.UserName);
            
           //  return View(sessions.ToList());
+
+            ViewBag.Message = "Start anew or explore sessions";
+            
             return View();
 
         }
@@ -78,7 +81,7 @@ namespace Senken.Controllers
             if (ModelState.IsValid)
             {
           
-
+                
                 ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
                 user.sessions.Add(sessionInput);
@@ -192,7 +195,7 @@ namespace Senken.Controllers
                        user.sessions.Add(sessionInput);
 
 
-                       // update user profile
+                       // update user profile with session
 
                        var result = await UserManager.UpdateAsync(user);
 
