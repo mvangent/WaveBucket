@@ -27,7 +27,7 @@ var context;
         alert("no webapi was found for your browser");
     }
 
-QUnit.test("senkenSynth: class was found", function(/*assert*/) {
+QUnit.test("senkenSynth: class was found", function(assert) {
 
     var isContext;
     if (context) {
@@ -36,7 +36,7 @@ QUnit.test("senkenSynth: class was found", function(/*assert*/) {
         isContext = false;
     }
 
-    /*assert.*/equal(isContext, true, "WEB AUDIO API is found");
+    assert.equal(isContext, true, "WEB AUDIO API is found");
 
 });
 
