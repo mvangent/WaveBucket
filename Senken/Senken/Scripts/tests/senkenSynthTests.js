@@ -5,6 +5,7 @@
 /// <reference path="../app/senkenCompressor.js" />
 /// <reference path="../app/senkenMasterController.js" />
 /// <reference path="../app/senkenVisualAnalyser.js" />
+/// <reference path="../app/senkenLfo.js" />
 /// <reference path="../app/senkenWaveBucket.js" />
 /// <reference path="../app/senkenOscillator.js" />
 /// <reference path="../app/senkenSynth.js" />

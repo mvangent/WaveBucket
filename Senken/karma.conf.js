@@ -21,6 +21,7 @@ module.exports = function(config) {
 		'Senken/Scripts/app/senkenCompressor.js',
 		'Senken/Scripts/app/senkenMasterController.js',
 		'Senken/Scripts/app/senkenVisualAnalyser.js',
+		'Senken/Scripts/app/senkenLfo.js',
 		'Senken/Scripts/app/senkenWaveBucket.js',
 		'Senken/Scripts/app/senkenOscillator.js',
 		'Senken/Scripts/app/senkenSynth.js',

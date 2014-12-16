@@ -352,6 +352,7 @@
     <Content Include="Scripts\app\hub.js" />
     <Content Include="Scripts\app\senkenBiquadFilter.js" />
     <Content Include="Scripts\app\senkenCompressor.js" />
+    <Content Include="Scripts\app\senkenLfo.js" />
     <Content Include="Scripts\app\senkenMasterController.js" />
     <Content Include="Scripts\app\senkenVisualAnalyser.js" />
     <Content Include="Scripts\app\senkenWaveBucket.js" />
