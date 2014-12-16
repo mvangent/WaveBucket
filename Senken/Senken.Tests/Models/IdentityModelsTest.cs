@@ -11,7 +11,7 @@ namespace Senken.Tests.Models
     public class IdentityModels
     {
         
-        /*
+        
         [TestMethod]
         public void ApplicationUser()
         {
@@ -19,15 +19,20 @@ namespace Senken.Tests.Models
 
             // act 
 
-            au.sessions.Add(new Session());
+            List<Session> sessions = new List<Session>();
+
+            sessions.Add(new Session());
+
+            au.sessions = sessions; 
+
 
             // assert
 
             Assert.AreEqual(au.sessions.Count, 1);
 
         }
-         * 
-         * */
+          
+         
 
         /*
 
