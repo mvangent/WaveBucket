@@ -210,8 +210,10 @@
   <ItemGroup>
     <Compile Include="Controllers\SessionControllerTest.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Models\ManageViewModelsTest.cs" />
     <Compile Include="Models\SessionTest.cs" />
     <Compile Include="Models\AccountViewModelsTest.cs" />
+    <Compile Include="Models\IdentityModelsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
