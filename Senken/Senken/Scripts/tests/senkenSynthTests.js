@@ -208,7 +208,12 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     endController.stopSession();
     var bucketStopTest = testOscillator.freezeBucket();
     assert.equal(bucketStopTest, true, "bucket stopped");
-    
+
+    testOscillator.removeLastWave();
+    lastWaveRemoved = testOscillator.lastWaveRemoved;
+    assert.equal(lastWaveRemoved, true, "last soundWave removed");
+
+
 
 });
 
