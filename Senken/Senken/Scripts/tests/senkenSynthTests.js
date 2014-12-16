@@ -78,7 +78,9 @@ QUnit.test("connections", function(assert) {
     var connectionsUpdated = wiring.updateConnections();
 
     assert.equal(connectionsUpdated, true, "updateconnections");
-    
+
+    assert.equal(updateWiringCallBack(), true, "updateconnections");
+
 
 });
 

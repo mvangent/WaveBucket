@@ -43,7 +43,9 @@ var context;
 
     var wiring = new Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI);
     // because passing pointer variables in methods is not possible in js.:
-    function updateWiringCallBack() { wiring.updateConnections();}
+    function updateWiringCallBack() { wiring.updateConnections();
+        return true;
+    }
 
 /*------------------------------------------------------------------------------------------------------
 ** Object: Wiring([] soundmodules) : prototype 
