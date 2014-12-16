@@ -123,7 +123,7 @@ function Oscillator(context, endController) {
 
 
 
-    /* Method: this.startBucket = function (): void  
+    /* Method: this.startBucket = function (): bool  
      -----------------------------------------------------------------------------------------------------------
     ** Starts up the oscillations present in the wavebucket. 
     */
@@ -147,11 +147,13 @@ function Oscillator(context, endController) {
             }
 
             selfOsc.wavebucket.activate();
+
+            return true;
         }
     };
 
 
-    /* Method: this.freezeBucket = function (): void  
+    /* Method: this.freezeBucket = function (): bool  
     -----------------------------------------------------------------------------------------------------------
     ** Calls the stop method on every Oscillation Node in the wavebucket and checks if the wavebucket is 
     ** active. 
@@ -171,6 +173,8 @@ function Oscillator(context, endController) {
             console.log(selfOsc.wavebucket.waveBucketActive);
 
             selfOsc.wavebucket.deactivate();
+
+            return true;
         }
     };
 
