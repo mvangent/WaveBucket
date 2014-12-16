@@ -350,6 +350,12 @@
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="phantomjs-license.txt" />
     <Content Include="Scripts\app\hub.js" />
+    <Content Include="Scripts\app\senkenBiquadFilter.js" />
+    <Content Include="Scripts\app\senkenCompressor.js" />
+    <Content Include="Scripts\app\senkenMasterController.js" />
+    <Content Include="Scripts\app\senkenVisualAnalyser.js" />
+    <Content Include="Scripts\app\senkenWaveBucket.js" />
+    <Content Include="Scripts\app\senkenOscillator.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.js" />

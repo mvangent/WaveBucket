@@ -32,6 +32,7 @@ namespace Senken.Hubs
         public void RemoveLastSound()
         {
             Clients.All.waveRemoverPointer();
+            Clients.All.updateWaveBucketDisplayPointer();
             //Clients.All.updateConnectionsPointer();
             //Clients.All.updateOscillatorDisplayPointer();
         }

@@ -52,11 +52,11 @@ function Compressor(context) {
     // displayMethod 
     this.updateDisplay = function () {
 
-        $('#compRatio').val(compressorInstance.ratio.value);
+        $('#compRatio').val(selfCompressor.compressorInstance.ratio.value);
 
-        $('#compKnee').val(compressorInstance.knee.value);
+        $('#compKnee').val(selfCompressor.compressorInstance.knee.value);
 
-        $('#compThreshold').val(compressorInstance.threshold.value);
+        $('#compThreshold').val(selfCompressor.compressorInstance.threshold.value);
     }
 
 }

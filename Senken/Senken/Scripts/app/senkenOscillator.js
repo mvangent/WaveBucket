@@ -73,7 +73,7 @@ function Oscillator(context, endController) {
    */
 
     this.removeLastWave = function () {
-        if (!lastWaveRemoved) {
+        if (!selfOsc.lastWaveRemoved) {
             selfOsc.osc.stop();
             selfOsc.wavebucket.removeLastWave();
             selfOsc.lastWaveRemoved = true;
@@ -100,7 +100,7 @@ function Oscillator(context, endController) {
 
         if (endController.isActive()) {
             selfOsc.wavebucket.addWave(selfOsc.waveGenerator(frequency, oscType, updateConnections));
-            lastWaveRemoved = false;
+            selfOsc.lastWaveRemoved = false;
         }
     };
 
@@ -187,10 +187,16 @@ function Oscillator(context, endController) {
         return selfOsc.gainNode.gain;
     }
 
+    this.updateWaveBucketDisplay = function() {
+        
+            selfOsc.wavebucket.updateDisplay();
+        
+
+    }
 
     // Method: updateDisplay(Oscillator)
     this.updateDisplay = function () {
-        selfOsc.wavebucket.updateDisplay();
+        
 
         // set field value to last value
         $('#sineFreq').val(selfOsc.osc.frequency.value);

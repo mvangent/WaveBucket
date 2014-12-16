@@ -64,6 +64,8 @@ function WaveBucket() {
     // updateDisplay()
     this.updateDisplay = function () {
 
+        console.log('updateDisplay in WaveBucket reached');
+
         var arrayLength = waveBucket.length;
 
         var mydiv = document.getElementById("bucketlist");

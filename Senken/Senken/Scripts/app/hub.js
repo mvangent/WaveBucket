@@ -40,6 +40,7 @@ $(function () {
     jam.client.updateEndControlDisplayPointer = endController.updateDisplay;
     jam.client.updateCompressorDisplayPointer = finalCompressor.updateDisplay;
     jam.client.updateOscillatorDisplayPointer = oscillatorI.updateDisplay;
+    jam.client.updateWaveBucketDisplayPointer = oscillatorI.updateWaveBucketDisplay;
 
 
     $.connection.hub.start().done(function () {
