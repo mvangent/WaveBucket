@@ -181,7 +181,8 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     // simulation of GUI
     var enumWaveType = 1 // triangle wave
     endController.startSession();
-    testOscillator.startBucket();
+    var bucketStartTest = testOscillator.startBucket();
+    assert.equal(bucketStartTest, true, "bucket started");
 
     // generate triangleWave, and stack it to the wavebucket 
 
@@ -199,8 +200,8 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
     assert.equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
 
-    assert.equal(testOscillator.startBucket, true, "bucket started");
-    assert.equal(testOscillator.freezeBucket, true, "bucket freezed");
+    
+    
 
 });
 
