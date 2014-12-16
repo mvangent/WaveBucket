@@ -439,7 +439,6 @@
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
-    <Folder Include="ScriptsTests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

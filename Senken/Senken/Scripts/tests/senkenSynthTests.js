@@ -130,6 +130,9 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     // generate triangleWave, and stack it to the wavebucket 
 
     testOscillator.stackSoundWave(200, enumWaveType, false);
+
+    assert.equal(testOscillator.lastWaveRemoved, false, "last wave not removed");
+
     var testWaveI = testOscillator.wavebucket.select(0);
     assert.equal(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
     assert.equal(testWaveI.type, "square", "type is set and stored in wavebucket");
@@ -142,6 +145,16 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
 
     var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
     assert.equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
+
+    testOscillator.removeLastWave();
+    assert.equal(testOscillator.lastWaveRemoved, true, "last wave removed");
+
+
+    assert.equal(testOscillator.wavebucket.activated, true, "wavebucket active");
+
+    testOscillator.freezeBucket();
+
+    assert.equal(testOscillator.wavebucket.activated, false, "wavebucket passive");
 
 });
 
