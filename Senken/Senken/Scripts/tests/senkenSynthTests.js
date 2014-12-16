@@ -1,4 +1,7 @@
-﻿/// <reference path="../app/senkenBiquadFilter.js" />
+﻿/// <reference path="jquery-2.1.1.min.js" />
+/// <reference path="jquery-2.1.1.js" />
+
+/// <reference path="../app/senkenBiquadFilter.js" />
 /// <reference path="../app/senkenCompressor.js" />
 /// <reference path="../app/senkenMasterController.js" />
 /// <reference path="../app/senkenVisualAnalyser.js" />
@@ -6,8 +9,7 @@
 /// <reference path="../app/senkenOscillator.js" />
 /// <reference path="../app/senkenSynth.js" />
 
-/// <reference path="jquery-2.1.1.min.js" />
-/// <reference path="jquery-2.1.1.js" />
+
 
 // Web Audio Api context test
 

@@ -15,7 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      
+		'Senken/Scripts/jquery-2.1.1.min.js',
+		'Senken/Scripts/jquery-2.1.1.js',
 		'Senken/Scripts/app/senkenBiquadFilter.js', 
 		'Senken/Scripts/app/senkenCompressor.js',
 		'Senken/Scripts/app/senkenMasterController.js',
