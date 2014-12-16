@@ -18,7 +18,7 @@ var context;
          context = new ContextClass();
     } else {
         // Web Audio API is not available. Ask the user to use a supported browser.
-        alert("no WebApi was found for your browser, try Chrome");
+        alert("no WebApi was found for your browser, try Google Chrome");
 
     }
 
