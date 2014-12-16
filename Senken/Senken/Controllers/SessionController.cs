@@ -215,51 +215,7 @@ namespace Senken.Controllers
            }
 
 
-           // POST: Session/Edit/Copy to my account 
-           // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-           // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-           [HttpPost]
-           [ValidateAntiForgeryToken]
-           public async Task<ActionResult> CopyEdit(int? id, [Bind(Include = "SessionID,Title, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
-           {
-               if (ModelState.IsValid)
-               {
-
-
-                   int currentSessionInDB = (int)id;
-
-                   ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-
-                   Session sessionInDb = await ApplicationDbContext.Sessions.FindAsync(id);
-
-                   // update session
-
-                   int indexCheck = user.sessions.IndexOf(sessionInDb); // should be -1
-
-                   // if user is owner 
-                   if (indexCheck == -1)
-                   {
-
-                       user.sessions.Add(sessionInput);
-
-                       
-                       // update user profile
-
-                       var result = await UserManager.UpdateAsync(user);
-
-                       await UserStore.Context.SaveChangesAsync();
-
-                       ApplicationDbContext.Dispose();
-
-                       return View(sessionInput);
-                   }
-
-
-               }
-
-               return View(sessionInput);
-
-           }
+          
 
     /*
 
