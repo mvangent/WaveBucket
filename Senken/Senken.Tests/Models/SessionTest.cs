@@ -270,11 +270,7 @@ namespace Senken.Tests.Models
             // Arrange
             Session session = new Session();
 
-            // Act
-            session.User_Id.UserName = "senken@gmail.com";
-
-            // Assert
-            Assert.AreEqual(session.User_Id.UserName, "senken@gmail.com");
+           
 
             // Act
             session.Title = "Session#1";
