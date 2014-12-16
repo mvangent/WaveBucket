@@ -127,6 +127,8 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     endController.startSession();
     testOscillator.startBucket();
 
+    assert.equal(testOscillator.wavebucket.isActive(), true, "wavebucket active");
+
     // generate triangleWave, and stack it to the wavebucket 
 
     testOscillator.stackSoundWave(200, enumWaveType, false);
