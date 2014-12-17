@@ -79,7 +79,13 @@ var context;
         testOscillator.removeWave(0);
         var sizeBucket = testOscillator.wavebucket.getSize();
 
-           equal(sizeBucket, 0, "remove wave by index");
+        equal(sizeBucket, 0, "remove wave by index");
+
+        endController.stopSession();
+        testOscillator.stackSoundWave(200, enumWaveType, false);
+        var sizeBucketAfterSessionStopped = testOscillator.wavebucket.getSize();
+        equal(sizeBucketAfterSessionStopped, 0, "wave not added because session was stopped");
+
 
 
     });
