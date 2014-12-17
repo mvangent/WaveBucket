@@ -5,10 +5,11 @@ using Microsoft.AspNet.SignalR;
 using Senken.Models;
 
 namespace Senken.Tests.Hub
-{
+{/*
     [TestClass]
     public class Hub
     {
+        
         [TestMethod]
         public void JamHub()
         {
@@ -130,4 +131,6 @@ namespace Senken.Tests.Hub
 
         }
     }
+         * 
+         */
 }

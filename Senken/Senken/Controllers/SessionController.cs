@@ -99,7 +99,6 @@ namespace Senken.Controllers
 
             
            
-            
 
             return View(sessionInput);
         }
@@ -118,28 +117,24 @@ namespace Senken.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                //Session session = db.Sessions.Find(id);
-                var user = UserManager.FindById(User.Identity.GetUserId());
-
-                var databaseSession = await ApplicationDbContext.Create().Sessions.FindAsync(idNumber);
-
-                ApplicationDbContext.Dispose();
-
-
-                if (databaseSession != null)
+                else
                 {
+                    //Session session = db.Sessions.Find(id);
+                    var user = UserManager.FindById(User.Identity.GetUserId());
+
+                    var databaseSession = await ApplicationDbContext.Create().Sessions.FindAsync(idNumber);
+
+                    ApplicationDbContext.Dispose();
+
                     return View(databaseSession);
+               
                 }
-
-                if (databaseSession == null)
-                {
-                    return HttpNotFound();
-                }
-
-
+             
             }
-
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
         }
 
 
@@ -155,13 +150,12 @@ namespace Senken.Controllers
                if (ModelState.IsValid)
                {
 
-                  
                    int currentSessionInDB = (int) id;
-                   
+
                    ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
                    Session sessionInDb = await ApplicationDbContext.Sessions.FindAsync(id);
-                   
+
                    // update session
 
                    int indexToBeUpdated = user.sessions.IndexOf(sessionInDb);
@@ -169,16 +163,12 @@ namespace Senken.Controllers
                    // if user is owner 
                    if (indexToBeUpdated > -1)
                    {
-
                        user.sessions[indexToBeUpdated] = sessionInput;
-
 
                        // delete orphan in sessions table
                        ApplicationDbContext.Sessions.Remove(sessionInDb);
 
-
                        // update user profile
-
                        var result = await UserManager.UpdateAsync(user);
 
                        await UserStore.Context.SaveChangesAsync();
@@ -187,14 +177,10 @@ namespace Senken.Controllers
 
                        return RedirectToAction("Index", "Session");
                    }
-
-                   // if user is not owner
-                   if (indexToBeUpdated == -1)
+                   else // index to be updated is -1 and session is from guest
                    {
-
                        user.sessions.Add(sessionInput);
-
-
+                       
                        // update user profile with session
 
                        var result = await UserManager.UpdateAsync(user);
@@ -204,14 +190,16 @@ namespace Senken.Controllers
                        ApplicationDbContext.Dispose();
 
                        return RedirectToAction("Index", "Session");
+
                    }
 
-                  
-
-               }
             
-            return View("Error");
-              
+
+               } else
+               {
+                   return View("Error");
+               }
+
            }
 
 
