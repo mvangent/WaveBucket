@@ -70,9 +70,15 @@ var context;
         var bucketStopTest = testOscillator.freezeBucket();
         equal(bucketStopTest, true, "bucket stopped");
 
-        testOscillator.removeLastWave();
-        lastWaveRemoved = testOscillator.lastWaveRemoved;
+        
+        lastWaveRemoved = testOscillator.removeLastWave();
         equal(lastWaveRemoved, true, "last soundWave removed");
+
+        testOscillator.removeLastWave();
+        lastWaveRemoved = testOscillator.removeLastWave();
+        equal(lastWaveRemoved, false, "last soundWave already removed");
+
+
 
          endController.startSession();
          testOscillator.stackSoundWave(200, enumWaveType, false);

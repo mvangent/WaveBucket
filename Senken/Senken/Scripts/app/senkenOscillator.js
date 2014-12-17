@@ -66,7 +66,7 @@ function Oscillator(context, endController) {
         selfOsc.startBucket();
     };
 
-    /* Method: this.removeWave = function (): void  
+    /* Method: this.removeWave = function (): bool  
    ----------------------------------------------------------------------------------------------------------------
    ** Removes last wave added to the wavebucket. This function creates a better performance than removing by index, 
    ** because no reload and connectionUpdate is needed. 
@@ -77,6 +77,10 @@ function Oscillator(context, endController) {
             selfOsc.osc.stop();
             selfOsc.wavebucket.removeLastWave();
             selfOsc.lastWaveRemoved = true;
+
+            return true;
+        } else {
+            return false;
         }
     }
 
