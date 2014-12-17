@@ -19,7 +19,8 @@ a {
     outline: none;
     padding-left: 3px;
     padding-right: 3px;
-    text-decoration: underline;
+    text-decoration: none;
+    
 }
 
     a:link, a:visited,
@@ -28,7 +29,8 @@ a {
     }
 
     a:hover {
-        background-color: #c7d1d6;
+        
+
     }
 
 header, footer, hgroup,
@@ -533,6 +535,7 @@ table {
     border-spacing: 0;
     margin-top: 0.75em;
     border: 0 none;
+    
 }
 
 th {
@@ -767,3 +770,37 @@ tr.pager td {
     text-align: center;
     
 }
+
+/* session index view*/
+
+
+table .sharableSessionRow {
+    background-color: #c4f5c7;
+    opacity: 0.6;
+}
+
+table .sharableSessionRow:hover {
+    opacity: 0.9;
+}
+
+table .privateSessionRow {
+    background-color: lightgoldenrodyellow;
+    opacity: 0.6;
+}
+
+table .privateSessionRow:hover {
+    opacity: 0.9;
+}
+
+table .sharableSessionRow .visitTableData {
+
+    background-color: #fff;
+    color: #c4f5c7;
+}
+
+table .privateSessionRow .visitTableData {
+
+    background-color: #fff;
+    color: lightgoldenrodyellow;
+}
+

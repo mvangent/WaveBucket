@@ -18,6 +18,7 @@ function Oscillator(context, endController) {
     /* wavebucket */
     this.wavebucket = new WaveBucket();
     this.lastWaveRemoved = true;
+    this.bucketLoaded = false;
 
     // self reference
     var selfOsc = this;
@@ -41,7 +42,7 @@ function Oscillator(context, endController) {
 
         selfOsc.osc.start(context.currentTime);
         //osc.stop(context.currentTime + DURATION);
-        console.log("Osc I: started at freq " + selfOsc.osc.frequency.value + ", with shape " + selfOsc.oscType);
+        console.log("Osc I: started at freq " + selfOsc.osc.frequency.value + ", with shape " + selfOsc.osc.type);
 
         /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE BY UPDATING THE CONNECTIONS OF ALL OBJECTS*/
         if (updateConnections === true) {
@@ -181,6 +182,47 @@ function Oscillator(context, endController) {
             return true;
         }
     };
+
+
+    /* Method: this.saveWaveBucket = function (): bool  
+   -----------------------------------------------------------------------------------------------------------
+   ** Saves wave bucket to hidden field. 
+   ** !! SET INPUT FOR FIELD NAME !! 
+   */
+
+    this.saveWaveBucket = function () {
+
+        selfOsc.wavebucket.saveWaveBucket();
+
+        return true;
+    }
+
+    this.loadWaveBucket = function() {
+
+        if (!selfOsc.bucketLoaded) {
+
+
+            var bucketString;
+
+            bucketString = selfOsc.wavebucket.loadBucket();
+
+            var oscsArray = bucketString.split(",");
+
+            for (var i = 0; i < oscsArray.length; i++) {
+
+                var oscillationInStrings;
+
+                oscillationInStrings = oscsArray[i].split(" ");
+
+                selfOsc.stackSoundWave(oscillationInStrings[0], oscillationInStrings[1], true);
+            }
+
+            selfOsc.bucketLoaded = true; 
+        }
+
+    return true;
+
+    }
 
     // Method: outputTo(destination)
     this.outputTo = function (destination) {

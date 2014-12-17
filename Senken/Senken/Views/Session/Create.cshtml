@@ -5,22 +5,52 @@
 }
 <style type="text/css">.senkenContainer { }</style>
 
-<h2>Create</h2>
+<h2>Session Mode</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Session</h4>
+       
+        
+        <!---SaveButton -->
 
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save & Quit Session" class="btn btn-default" />
+                
+                
+                <a href="~/Home/About">
+                    <input type="button" id="QuitButton" value="Quit" />
+                </a>
+                
+                <a href="~/Session/Index">
+                    <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
+                </a>
+                
+
+            </div>
+        </div>
+
+        
+        <hr/>
+        
+       
         <input type="button" id="playButton" value="Activate">
         <input type="button" id="stopButton" value="Pauze">
+        
+        <span>Session allows evolution by others:  </span>
 
+        @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution")
+    
         <hr />
+        
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
+    </div>
 
 
         <div class="senkenContainer">
@@ -37,14 +67,14 @@
 
                     <div class="col-md-10">
 
-                        @Html.TextBoxFor(model => model.OscIFrequency, new { type = "number", id = "sineFreq", name = "frequency", min = "1", max = "20000", step = "1"  })
+                        @Html.TextBoxFor(model => model.OscIFrequency, new { type = "number", id = "sineFreq", name = "frequency", min = "1", max = "20000", step = "1" })
                         @Html.ValidationMessageFor(model => model.OscIFrequency, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <input type="button" id="sineButton" name="sineGen" value="stack Oscillation">
                 <input type="button" id="sineStopButton" name="sineStop" value="remove Last Oscillation">
-                
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.OscIType, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -52,9 +82,9 @@
                         @Html.ValidationMessageFor(model => model.OscIType, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                
+
                 <!-- Visualiser-->
-                
+
                 <br>
                 <canvas id="oscIVisualiser" width="500" height="100"></canvas>
                 <br>
@@ -81,7 +111,7 @@
                 </div>
 
                 <br>
-                
+
                 <input type="button" id="LFOButton" name="LFOGen" value="activate LFO">
                 <input type="button" id="LFOStopButton" name="LFOStop" value="deactivate LFO">
 
@@ -107,7 +137,7 @@
 
 
 
-               
+
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.CompressorKnee, "knee: ", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -121,7 +151,7 @@
 
 
 
-              
+
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.CompressorThreshold, "threshold: ", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -134,154 +164,146 @@
                 </div>
 
 
-              
+
 
                 <br>
 
                 <!---MasterGain-->
+                @Html.LabelFor(model => model.MasterGain, "Master gain: ", htmlAttributes: new { @class = "control-label col-md-2" })
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MasterGain, "Master gain: ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
 
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.MasterGain, new { type = "number", id = "masterGain", name = "masterGainField", min = "0", max = "100", step = "1", value = "50", size = "3", maxlength = "3" })
-                        @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
-                    </div>
+                    @Html.TextBoxFor(model => model.MasterGain, new { type = "number", id = "masterGain", name = "masterGainField", min = "0", max = "100", step = "1", value = "50", size = "3", maxlength = "3" })
+                    @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
                 </div>
-
-
-
-
-                <!---SaveButton-->
-
 
 
 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
-                </div>
 
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
 
+                </div>
             </div>
 
 
-            <!---RIGHT COLUMN-->
+
+                    <!---RIGHT COLUMN-->
 
 
-            <div id="senkenRightColumn">
+                    <div id="senkenRightColumn">
 
-                <!---ArtistAlias-->
+                        <!---ArtistAlias-->
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ArtistAlias, "Artist Alias", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ArtistAlias, "Artist Alias", htmlAttributes: new { @class = "control-label col-md-2" })
 
-                    <div class="col-md-10">
+                            <div class="col-md-10">
 
-                        @Html.TextBoxFor(model => model.ArtistAlias, new { type = "text", id = "artistAlias" })
-                        @Html.ValidationMessageFor(model => model.ArtistAlias, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.ArtistAlias, new { type = "text", id = "artistAlias" })
+                                @Html.ValidationMessageFor(model => model.ArtistAlias, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <br />
+
+
+                        <!---Title-->
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+
+                                @Html.TextBoxFor(model => model.Title, new { type = "text", id = "sessiontitle" })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <br />
+
+
+
+                        <!---Rating-->
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EnumDropDownListFor(model => model.Rating, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <!---FilterI -->
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BiquadFilterTypeOne, "Filter I", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EnumDropDownListFor(model => model.BiquadFilterTypeOne, htmlAttributes: new { id = "filterTypeOne", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BiquadFilterFrequencyOne, "frequency", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+
+                                @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { type = "number", id = "filterFrequencyOne", min = "10", max = "22000", step = "1", value = "3" })
+                                @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BiquadFilterQOne, "Q", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+
+                                @Html.TextBoxFor(model => model.BiquadFilterQOne, new { type = "number", id = "filterQOne", min = "1", max = "1000", step = "1", value = "1" })
+                                @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LFOIScale, "gain", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+
+                                @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { type = "number", id = "filterGainOne", min = "-40", max = "40", step = "1", value = "1" })
+                                @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <br>
+
+
+
+                        <!---WaveBucket-->
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.WaveBucket, "WaveBucket", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div id="wavebucket">
+                                <ul id="bucketlist">
+                                    <li>*-- empty --#</li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                        
+                        @Html.HiddenFor(model => model.hiddenWaveBucket, "hiddenWaveBucket");
+
+                        
+
                     </div>
-                </div>
 
-                <br />
+
 
                 
-                <!---Title-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.Title, new { type = "text", id = "sessiontitle" })
-                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <br />
-
-          
-
-                <!---Rating-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.Rating, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <br />
-                
-                <!---FilterI -->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BiquadFilterTypeOne, "Filter I", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.BiquadFilterTypeOne, htmlAttributes: new { id = "filterTypeOne", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BiquadFilterFrequencyOne, "frequency", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { type = "number", id = "filterFrequencyOne",  min = "10", max = "22000", step = "1", value = "3" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BiquadFilterQOne, "Q", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.BiquadFilterQOne, new { type = "number", id = "filterQOne", min = "1", max = "1000", step = "1", value = "1" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LFOIScale, "gain", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { type = "number", id = "filterGainOne", min = "-40", max = "40", step = "1", value = "1" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <br>
-
-
-
-                <!---WaveBucket-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.WaveBucket, "WaveBucket", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div id="wavebucket">
-                        <ul id="bucketlist">
-                            <li>*-- empty --#</li>
-                        </ul>
-                    </div>
-
-
-                </div>
-
-
-
-            </div>
         </div>
 
 
-    </div>
+    
 }
 
 

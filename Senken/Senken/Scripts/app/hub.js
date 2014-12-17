@@ -42,6 +42,10 @@ $(function () {
     jam.client.updateOscillatorDisplayPointer = oscillatorI.updateDisplay;
     jam.client.updateWaveBucketDisplayPointer = oscillatorI.updateWaveBucketDisplay;
 
+    // update WaveBucket for server
+    jam.client.saveWaveBucketPointer = oscillatorI.saveWaveBucket;
+    jam.client.loadWaveBucketPointer = oscillatorI.loadWaveBucket;
+
 
     $.connection.hub.start().done(function () {
 

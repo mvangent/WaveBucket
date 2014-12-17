@@ -285,6 +285,20 @@ namespace Senken.Tests.Models
             Assert.AreEqual(session.ArtistAlias, "GaslampKiller");
 
 
+            // Act
+            session.OpenToEvolution = true;
+
+            // Assert
+            Assert.AreEqual(session.OpenToEvolution, true );
+
+            // Act
+            session.UserIsOwner = true;
+
+            // Assert
+            Assert.AreEqual(session.UserIsOwner, true);
+
+
+
         }
 
        

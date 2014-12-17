@@ -23,6 +23,7 @@ namespace Senken.Hubs
             
             Clients.All.stackSoundWavePointer(OscIFrequency, OscIType, updateConnectionsBool);
             Clients.All.updateConnectionsPointer();
+            Clients.All.saveWaveBucketPointer();
             Clients.All.updateWaveBucketDisplayPointer();
             Clients.All.updateOscillatorDisplayPointer();
 
@@ -32,6 +33,7 @@ namespace Senken.Hubs
         public bool RemoveLastSound()
         {
             Clients.All.waveRemoverPointer();
+            Clients.All.saveWaveBucketPointer();
             Clients.All.updateWaveBucketDisplayPointer();
             //Clients.All.updateConnectionsPointer();
             //Clients.All.updateOscillatorDisplayPointer();
@@ -117,6 +119,7 @@ namespace Senken.Hubs
         {
             Clients.All.startSessionPointer();  
             Clients.All.startBucketPointer();
+            Clients.All.loadWaveBucketPointer(); 
             Clients.All.updateConnectionsPointer();
             Clients.All.updateEndControlDisplayPointer();
             Clients.All.updateWaveBucketDisplayPointer();

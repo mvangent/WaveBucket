@@ -4,18 +4,85 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Session Mode</h2>
 
 @using (Html.BeginForm()) 
 { 
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Session</h4>
+       
+        
+        <!---SaveButton & CopyButton-->
+        @if (Model.UserIsOwner)
+        {
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save & Quit" class="btn btn-default" />
+                    
+                    <a href="~/Home/About">
+                        <input type="button" id="QuitButton" value="Quit"/>
+                        
+                        <a href="~/Session/Index">
+                            <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
+                        </a>
+                    </a>
+                </div>
+            </div>
+
+        }
+        else if (!Model.UserIsOwner && Model.OpenToEvolution)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Acquire Session" class="btn btn-default" />
+                    
+                    <a href="~/Home/About">
+                        <input type="button" id="QuitButton" value="Quit" />
+                    </a>
+                    
+                    <a href="~/Session/Index">
+                        <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
+                    </a>
+
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <span>You are in listening mode</span>
+            <a href="~/Home/About">
+                <input type="button" id="QuitButton" value="Quit" />
+            </a>
+
+    <a href="~/Session/Index">
+        <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
+    </a>
+        }
+
+      
+        
+        <hr />
+        
+    
+        
 
         <input type="button" id="playButton" value="Activate">
         <input type="button" id="stopButton" value="Pauze">
+        
+        @if (Model.UserIsOwner)
+        {
+            <span>Session allows evolution by others:  </span>
+            @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution")
+        }
 
+
+
+
+
+      
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -167,24 +234,9 @@
 
 
 
-                <!---SaveButton & CopyButton-->
-
-
-
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save Session" class="btn btn-default" />
-                        
-                        
-                    </div>
-                </div>
-                
+       
                 
 
-                <div>
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
 
             </div>
 
@@ -288,7 +340,8 @@
                             <li>*-- empty --#</li>
                         </ul>
                     </div>
-
+                    
+                    @Html.HiddenFor(model => model.hiddenWaveBucket, "hiddenWaveBucket");
 
                 </div>
 
@@ -303,9 +356,6 @@
 }
 
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
 

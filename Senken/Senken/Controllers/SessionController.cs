@@ -76,7 +76,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "SessionID,Title, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
+        public async Task<ActionResult> Create([Bind(Include = "SessionID,Title, OpenToEvolution, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne, hiddenWaveBucket")] Session sessionInput)
         {
             if (ModelState.IsValid)
             {
@@ -126,6 +126,10 @@ namespace Senken.Controllers
 
                     ApplicationDbContext.Dispose();
 
+                    var userIsOwner = databaseSession.User_Id.UserName == user.UserName;
+
+                    databaseSession.UserIsOwner = userIsOwner; 
+
                     return View(databaseSession);
                
                 }
@@ -145,7 +149,7 @@ namespace Senken.Controllers
            // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
            [HttpPost]
            [ValidateAntiForgeryToken]
-           public async Task<ActionResult> Edit(int? id, [Bind(Include = "SessionID,Title, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
+        public async Task<ActionResult> Edit(int? id, [Bind(Include = "SessionID,Title, OpenToEvolution, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne, hiddenWaveBucket")] Session sessionInput)
            {
                if (ModelState.IsValid)
                {

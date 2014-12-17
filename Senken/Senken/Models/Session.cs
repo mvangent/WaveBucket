@@ -91,9 +91,7 @@ namespace Senken.Models
             return WaveBucket[index];
         }
 
-
-
-    
-
+        public bool UserIsOwner { get; set; }
+        public bool OpenToEvolution { get; set; }
     }
 }

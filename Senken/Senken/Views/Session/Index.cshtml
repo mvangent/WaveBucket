@@ -27,7 +27,7 @@
 </div>
 
 <br/>
-<br/>
+
 
 
 <!--User's Sessions-->
@@ -41,8 +41,10 @@
 
 <h2 align="center">Explore</h2>
 
+<br />
+
 <div align="center">
-    <table class="table">
+    <table class="table" >
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Title)
@@ -55,31 +57,73 @@
                 @Html.DisplayNameFor(model => model.User_Id.UserName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.OpenToEvolution)
             </th>
+            <th>
+            </th>
+            
         </tr>
 
 
 
         @foreach (var item in ApplicationDbContext.Create().Sessions.ToList())
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ArtistAlias)
+            if (item.OpenToEvolution)
+            {
+                <tr class="sharableSessionRow">
 
-                </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ArtistAlias)
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.User_Id.UserName)
-                </td>
+                            </td>
 
-                <td>
-                    @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User_Id.UserName)
+                            </td>
 
-                </td>
-            </tr>
+                    
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OpenToEvolution)
+                    </td>
+                    
+                    <td class="visitTableData">
+                        @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
+
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr class="privateSessionRow">
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArtistAlias)
+
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User_Id.UserName)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OpenToEvolution)
+                    </td>
+
+                    <td class="visitTableData">
+                        @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
+
+                    </td>
+                    
+                    
+                </tr>
+            }
 
 
         }

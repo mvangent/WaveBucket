@@ -238,6 +238,27 @@ QUnit.test("senkenSynth: WaveBucket", function () {
 
     // remove wave (by index) 
 
+
+    // oscilliationsToString
+
+   var testBucketII = new WaveBucket();
+
+    var testOscillationII = context.createOscillator();
+
+    testOscillationII.frequency.value = 200;
+    testOscillationII.type = "sine";
+
+    testOscillationII.start(context.currentTime);
+
+    testBucketII.addWave(testOscillationII);
+
+    var toStringWaveBucketTest = testBucketII.oscillationsToString();
+
+    equal(toStringWaveBucketTest, "200 sine,", "wavebucket toString with one oscillation");
+
+    //loadBucket
+
+
 });
 
 
