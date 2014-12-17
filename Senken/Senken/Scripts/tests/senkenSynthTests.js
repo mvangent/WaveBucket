@@ -30,6 +30,61 @@ var context;
     }
 
 
+    QUnit.test("senkenSynth: Oscillator", function () {
+
+        var endController = new MasterController(context);
+        var testOscillator = new Oscillator(context, endController);
+
+        // simulation of GUI
+        var enumWaveType = 1 // square wave
+        endController.startSession();
+        var bucketStartTest = testOscillator.startBucket();
+        equal(bucketStartTest, true, "bucket started");
+
+        // generate triangleWave, and stack it to the wavebucket 
+
+        testOscillator.stackSoundWave(200, enumWaveType, false);
+
+        var lastWaveRemoved = testOscillator.lastWaveRemoved;
+
+        equal(lastWaveRemoved, false, "soundWave stacked");
+
+        var testWaveI = testOscillator.wavebucket.select(0);
+        equal(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
+        equal(testWaveI.type, "square", "type is set and stored in wavebucket");
+
+        var testSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(0), false);
+        equal(testSine.type, "sine", "translated into sinewave");
+
+        var testTriangle = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(2), false);
+        equal(testTriangle.type, "triangle", "translated into triangle wave");
+
+        var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
+        equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
+
+        var testdefaultSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(5), false);
+        equal(testdefaultSine.type, "sine", "translated into default sine wave");
+
+
+        endController.stopSession();
+        var bucketStopTest = testOscillator.freezeBucket();
+        equal(bucketStopTest, true, "bucket stopped");
+
+        testOscillator.removeLastWave();
+        lastWaveRemoved = testOscillator.lastWaveRemoved;
+        equal(lastWaveRemoved, true, "last soundWave removed");
+
+         endController.startSession();
+         testOscillator.stackSoundWave(200, enumWaveType, false);
+        testOscillator.removeWave(0);
+        var sizeBucket = testOscillator.wavebucket.getSize();
+
+           equal(sizeBucket, 0, "remove wave by index");
+
+
+    });
+
+
 QUnit.test("connections", function(assert) {
 
   
@@ -173,59 +228,7 @@ QUnit.test("senkenSynth: WaveBucket", function (assert) {
 
 });
 
-QUnit.test("senkenSynth: Oscillator", function (assert) {
 
-    var endController = new MasterController(context);
-    var testOscillator = new Oscillator(context, endController);
-
-    // simulation of GUI
-    var enumWaveType = 1 // square wave
-    endController.startSession();
-    var bucketStartTest = testOscillator.startBucket();
-    assert.equal(bucketStartTest, true, "bucket started");
-
-    // generate triangleWave, and stack it to the wavebucket 
-
-    testOscillator.stackSoundWave(200, enumWaveType, false);
-
-    var lastWaveRemoved = testOscillator.lastWaveRemoved;
-
-    assert.equal(lastWaveRemoved, false, "soundWave stacked");
-
-    var testWaveI = testOscillator.wavebucket.select(0);
-    assert.equal(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
-    assert.equal(testWaveI.type, "square", "type is set and stored in wavebucket");
-
-    var testSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(0), false);
-    assert.equal(testSine.type, "sine", "translated into sinewave");
-
-    var testTriangle = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(2), false);
-    assert.equal(testTriangle.type, "triangle", "translated into triangle wave");
-
-    var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
-    assert.equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
-
-    var testdefaultSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(5), false);
-    assert.equal(testdefaultSine.type, "sine", "translated into default sine wave");
-
-  
-    endController.stopSession();
-    var bucketStopTest = testOscillator.freezeBucket();
-    assert.equal(bucketStopTest, true, "bucket stopped");
-
-    testOscillator.removeLastWave();
-    lastWaveRemoved = testOscillator.lastWaveRemoved;
-    assert.equal(lastWaveRemoved, true, "last soundWave removed");
-
-    testOscillator.startSession();
-    testOscillator.stackSoundWave(200, enumWaveType, false);
-    testOscillator.removeWave(0);
-    var sizeBucket = testOscillator.wavebucket.getSize();
-
-    assert.equal(sizeBucket, 0, "remove wave by index");
-
-
-});
 
 QUnit.test("senkenSynth: Lfo", function (assert) {
   
