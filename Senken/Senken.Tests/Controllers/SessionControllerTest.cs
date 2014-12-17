@@ -11,7 +11,7 @@ namespace Senken.Tests.Controllers
     [TestClass]
     public class SessionControllerTest
     {
-        
+        // add mock database?
 
         [TestMethod]
         public void Index()
