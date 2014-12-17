@@ -18,7 +18,7 @@ using Senken.Models;
 
 namespace Senken.Tests.Controllers
 {
-    /// <summary>
+   /* /// <summary>
     /// Summary description for UnitTest1
     /// </summary>
     [TestClass]
@@ -40,4 +40,6 @@ namespace Senken.Tests.Controllers
 
         
     }
+    * 
+    */
 }

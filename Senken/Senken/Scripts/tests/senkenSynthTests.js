@@ -97,7 +97,7 @@ var context;
     });
 
 
-QUnit.test("connections", function(assert) {
+QUnit.test("connections", function() {
 
   
 
@@ -122,12 +122,12 @@ QUnit.test("connections", function(assert) {
 
             console.log("update connection reached");
 
-            assert.equal(analyser.outputTo(context.destination), true, "updateconnections");
-            assert.equal(filterI.outputTo(analyser.input()), true, "updateconnections");
-            assert.equal(endController.outputTo(filterI.input()), true, "updateconnections");
-            assert.equal(finalCompressor.outputTo(endController.input()), true, "updateconnections");
-            assert.equal(oscillatorI.outputTo(finalCompressor.input()), true, "updateconnections");
-            assert.equal(lfoI.outputTo(oscillatorI.gainNodeInputForLfo()), true, "updateconnections");
+            equal(analyser.outputTo(context.destination), true, "updateconnections");
+            equal(filterI.outputTo(analyser.input()), true, "updateconnections");
+            equal(endController.outputTo(filterI.input()), true, "updateconnections");
+            equal(finalCompressor.outputTo(endController.input()), true, "updateconnections");
+            equal(oscillatorI.outputTo(finalCompressor.input()), true, "updateconnections");
+            equal(lfoI.outputTo(oscillatorI.gainNodeInputForLfo()), true, "updateconnections");
 
             //analyser.outputTo(context.destination);
             //filterI.outputTo(analyser.input());
@@ -144,16 +144,16 @@ QUnit.test("connections", function(assert) {
 
     var connectionsUpdated = wiring.updateConnections();
 
-    assert.equal(connectionsUpdated, true, "updateconnections");
+    equal(connectionsUpdated, true, "updateconnections");
 
-    assert.equal(updateWiringCallBack(), true, "updateconnections");
+   // equal(updateWiringCallBack(), true, "updateconnections");
 
 
 });
 
 
 
-QUnit.test("senkenSynth: class was found", function(assert) {
+QUnit.test("senkenSynth: class was found", function(){
 
     var isContext;
 
@@ -165,7 +165,7 @@ QUnit.test("senkenSynth: class was found", function(assert) {
 
     context = false;
 
-    assert.equal(isContext, true, "WEB AUDIO API is found");
+    equal(isContext, true, "WEB AUDIO API is found");
 
     if (context) {
         isContext = true;
@@ -173,7 +173,7 @@ QUnit.test("senkenSynth: class was found", function(assert) {
         isContext = false;
     }
 
-    assert.equal(isContext, false, "WEB AUDIO API not found");
+    equal(isContext, false, "WEB AUDIO API not found");
 
     context = new ContextClass();
 
@@ -182,7 +182,7 @@ QUnit.test("senkenSynth: class was found", function(assert) {
 
 // Compressor tests
 
-QUnit.test("senkenSynth: compressor functionality", function (assert) {
+QUnit.test("senkenSynth: compressor functionality", function () {
 
     // create testCompressor
     var testCompressor = new Compressor(context);
@@ -190,39 +190,39 @@ QUnit.test("senkenSynth: compressor functionality", function (assert) {
 // test ratio
     testCompressor.ratioAdjuster(4);
     var ratioValue = testCompressor.readRatio();
-    assert.equal(ratioValue, 4, "ratio functionality works");
+    equal(ratioValue, 4, "ratio functionality works");
 
     // test knee
     testCompressor.kneeAdjuster(5);
     var kneeValue = testCompressor.readKnee();
-    assert.equal(kneeValue, 5, "knee functionality works");
+    equal(kneeValue, 5, "knee functionality works");
     
     // test treshold
     testCompressor.thresholdAdjuster(-10);
     var thresholdValue = testCompressor.readThreshold();
-    assert.equal(thresholdValue, -10, "threshold functionality works");
+    equal(thresholdValue, -10, "threshold functionality works");
 
 
 });
 
-QUnit.test("senkenSynth: masterController", function (assert) {
+QUnit.test("senkenSynth: masterController", function () {
 
     var testController = new MasterController(context);
     // test gainlevels
     testController.gainAdjuster(50);
-    assert.equal(0.5, testController.readGain(), "gain functionality");
+    equal(0.5, testController.readGain(), "gain functionality");
 
     // test activation
     testController.startSession();
-    assert.equal(true, testController.isActive(), "starting session works")
+    equal(true, testController.isActive(), "starting session works")
 
     // test  deactivation
     testController.stopSession();
-    assert.equal(false, testController.isActive(), "pauzing session works")
+    equal(false, testController.isActive(), "pauzing session works")
 
 });
 
-QUnit.test("senkenSynth: WaveBucket", function (assert) {
+QUnit.test("senkenSynth: WaveBucket", function () {
 
     var testBucket = new WaveBucket();
 
@@ -230,11 +230,11 @@ QUnit.test("senkenSynth: WaveBucket", function (assert) {
     var testWave = context.createOscillator();
     testBucket.addWave(testWave);
     var length = testBucket.getSize();
-    assert.equal(length, 1, "adding wave");
+    equal(length, 1, "adding wave");
 
     // remove wave (by pop())
     testBucket.remove();
-    assert.equal(0, testBucket.getSize(), "removing wave")
+    equal(0, testBucket.getSize(), "removing wave")
 
     // remove wave (by index) 
 
@@ -242,7 +242,7 @@ QUnit.test("senkenSynth: WaveBucket", function (assert) {
 
 
 
-QUnit.test("senkenSynth: Lfo", function (assert) {
+QUnit.test("senkenSynth: Lfo", function () {
   
     var endController = new MasterController(context);
 
@@ -257,25 +257,25 @@ QUnit.test("senkenSynth: Lfo", function (assert) {
     // generate triangleWave, and stack it to the wavebucket 
     testLfo.lfoActivator(1, 2, enumLfoWaveType);
   
-    assert.equal(testLfo.readFrequency(), 1, "Lfo frequency set");
-    assert.equal(testLfo.readScale(), 2, "Lfo scale set");
-    assert.equal(testLfo.translateLfoTypeEnumToString(enumLfoWaveType), "sawtooth", "Lfo type sawtooth is translated and set");
-    assert.equal(testLfo.lfoActive, true, "lfo is active");
+    equal(testLfo.readFrequency(), 1, "Lfo frequency set");
+    equal(testLfo.readScale(), 2, "Lfo scale set");
+    equal(testLfo.translateLfoTypeEnumToString(enumLfoWaveType), "sawtooth", "Lfo type sawtooth is translated and set");
+    equal(testLfo.lfoActive, true, "lfo is active");
 
     testLfo.lfoDeactivator();
-    assert.equal(testLfo.lfoActive, false, "lfo deactivated");
+    equal(testLfo.lfoActive, false, "lfo deactivated");
 
     // test oscillation shapes
-    assert.equal(testLfo.translateLfoTypeEnumToString(0), "sine", "Lfo type sine is translated and set");
-    assert.equal(testLfo.translateLfoTypeEnumToString(1), "square", "Lfo type square is translated and set");
-    assert.equal(testLfo.translateLfoTypeEnumToString(2), "triangle", "Lfo type triangle is translated and set");
+    equal(testLfo.translateLfoTypeEnumToString(0), "sine", "Lfo type sine is translated and set");
+    equal(testLfo.translateLfoTypeEnumToString(1), "square", "Lfo type square is translated and set");
+    equal(testLfo.translateLfoTypeEnumToString(2), "triangle", "Lfo type triangle is translated and set");
 
 
 });
 
 
 
-QUnit.test("senkenSynth: BiQuadFilter", function (assert) {
+QUnit.test("senkenSynth: BiQuadFilter", function () {
 
     var testbiQuadFilter = new BiquadFilter(context);
 
@@ -289,33 +289,33 @@ QUnit.test("senkenSynth: BiQuadFilter", function (assert) {
     testbiQuadFilter.setQ(2);
     testbiQuadFilter.setGain(-20);
 
-    assert.equal(testbiQuadFilter.readType(), "lowshelf", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "lowshelf", "BiQuadFilter type set");
 
     testbiQuadFilter.setType(0);
-    assert.equal(testbiQuadFilter.readType(), "lowpass", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "lowpass", "BiQuadFilter type set");
 
     testbiQuadFilter.setType(1);
-    assert.equal(testbiQuadFilter.readType(), "highpass", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "highpass", "BiQuadFilter type set");
 
     testbiQuadFilter.setType(2);
-    assert.equal(testbiQuadFilter.readType(), "bandpass", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "bandpass", "BiQuadFilter type set");
 
     testbiQuadFilter.setType(4);
-    assert.equal(testbiQuadFilter.readType(), "highshelf", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "highshelf", "BiQuadFilter type set");
 
     testbiQuadFilter.setType(5);
-    assert.equal(testbiQuadFilter.readType(), "peaking", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "peaking", "BiQuadFilter type set");
 
     testbiQuadFilter.setType(6);
-    assert.equal(testbiQuadFilter.readType(), "notch", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "notch", "BiQuadFilter type set");
 
     testbiQuadFilter.setType(7);
-    assert.equal(testbiQuadFilter.readType(), "allpass", "BiQuadFilter type set");
+    equal(testbiQuadFilter.readType(), "allpass", "BiQuadFilter type set");
 
 
-    assert.equal(testbiQuadFilter.readFrequency(), 100, "BiQuadFilter frequency set")
-    assert.equal(testbiQuadFilter.readQ(), 2, "BiQuadFilter Q set")
-    assert.equal(testbiQuadFilter.readGain(), -20, "BiQuadFilter gain set")
+    equal(testbiQuadFilter.readFrequency(), 100, "BiQuadFilter frequency set")
+    equal(testbiQuadFilter.readQ(), 2, "BiQuadFilter Q set")
+    equal(testbiQuadFilter.readGain(), -20, "BiQuadFilter gain set")
 
 
    
