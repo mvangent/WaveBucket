@@ -179,7 +179,7 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     var testOscillator = new Oscillator(context, endController);
 
     // simulation of GUI
-    var enumWaveType = 1 // triangle wave
+    var enumWaveType = 1 // square wave
     endController.startSession();
     var bucketStartTest = testOscillator.startBucket();
     assert.equal(bucketStartTest, true, "bucket started");
@@ -205,6 +205,10 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
     assert.equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
 
+    var testdefaultSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(5), false);
+    assert.equal(testdefaultSine.type, "sine", "translated into default sine wave");
+
+  
     endController.stopSession();
     var bucketStopTest = testOscillator.freezeBucket();
     assert.equal(bucketStopTest, true, "bucket stopped");
@@ -213,6 +217,12 @@ QUnit.test("senkenSynth: Oscillator", function (assert) {
     lastWaveRemoved = testOscillator.lastWaveRemoved;
     assert.equal(lastWaveRemoved, true, "last soundWave removed");
 
+    testOscillator.startSession();
+    testOscillator.stackSoundWave(200, enumWaveType, false);
+    testOscillator.removeWave(0);
+    var sizeBucket = testOscillator.wavebucket.getSize();
+
+    assert.equal(sizeBucket, 0, "remove wave by index");
 
 
 });
