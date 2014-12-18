@@ -85,7 +85,7 @@ function WaveBucket() {
         };
     }
 
-    this.saveWaveBucket = function () {
+    this.saveBucket = function () {
 
         var updateValue = "" + self.oscillationsToString();
 

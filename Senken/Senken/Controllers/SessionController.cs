@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using NUnit.Core;
 using Senken.Models;
 
 
@@ -126,12 +127,26 @@ namespace Senken.Controllers
 
                     ApplicationDbContext.Dispose();
 
-                    var userIsOwner = databaseSession.User_Id.UserName == user.UserName;
+                    
 
-                    databaseSession.UserIsOwner = userIsOwner; 
 
-                    return View(databaseSession);
-               
+                    try
+                    {
+                        var userIsOwner = databaseSession.User_Id.UserName == user.UserName;
+
+                        databaseSession.UserIsOwner = userIsOwner;
+
+                        return View(databaseSession);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                       
+                        return RedirectToAction("Index", "Session");
+                    }
+                        
+                   
+                   
+
                 }
              
             }

@@ -92,6 +92,18 @@ var context;
         var sizeBucketAfterSessionStopped = testOscillator.wavebucket.getSize();
         equal(sizeBucketAfterSessionStopped, 0, "wave not added because session was stopped");
 
+        // translate waves to enums
+        var sineEnum = testOscillator.translateStringToTypeEnum("sine");
+        var squareEnum = testOscillator.translateStringToTypeEnum("square");
+        var triangleEnum = testOscillator.translateStringToTypeEnum("triangle");
+        var sawtoothEnum = testOscillator.translateStringToTypeEnum("sawtooth");
+        var defaultEnum = testOscillator.translateStringToTypeEnum("default");
+
+        equal(sineEnum, 0, "translation to sine enum");
+        equal(squareEnum, 1, "translation to square enum");
+        equal(triangleEnum, 2, "translation to triangle enum");
+        equal(sawtoothEnum, 3, "translation to sawtooth enum");
+        equal(defaultEnum, 0, "translation to default enum");
 
 
     });
@@ -256,8 +268,11 @@ QUnit.test("senkenSynth: WaveBucket", function () {
 
     equal(toStringWaveBucketTest, "200 sine,", "wavebucket toString with one oscillation");
 
-    //loadBucket
 
+    // saveBucket
+
+    //loadBucket
+    
 
 });
 

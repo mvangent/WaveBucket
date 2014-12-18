@@ -18,7 +18,7 @@ function Oscillator(context, endController) {
     /* wavebucket */
     this.wavebucket = new WaveBucket();
     this.lastWaveRemoved = true;
-    this.bucketLoaded = false;
+    this.bucketLoadedFromServer = false;
 
     // self reference
     var selfOsc = this;
@@ -127,10 +127,29 @@ function Oscillator(context, endController) {
     }
 
 
+    /* Method: this.translateStringToTypeEnum = function (string type): enum oscType  
+    -----------------------------------------------------------------------------------------------------------
+   ** Translates string of of OscType into the corresponding enum. Default value is sine. 
+   */
+
+    this.translateStringToTypeEnum = function (type) {
+
+        switch (type) {
+            case "sine": return 0;
+            case "square": return 1;
+            case "triangle": return 2;
+            case "sawtooth": return 3;
+            default: return 0;
+        }
+
+    };
+
+
+
 
     /* Method: this.startBucket = function (): bool  
      -----------------------------------------------------------------------------------------------------------
-    ** Starts up the oscillations present in the wavebucket. 
+    ** Starts up the oscillations present in the wavebucket after they have been frozen on the client side.
     */
 
     this.startBucket = function () {
@@ -161,7 +180,7 @@ function Oscillator(context, endController) {
     /* Method: this.freezeBucket = function (): bool  
     -----------------------------------------------------------------------------------------------------------
     ** Calls the stop method on every Oscillation Node in the wavebucket and checks if the wavebucket is 
-    ** active. 
+    ** active. This all happens on the client side.
     */
 
     this.freezeBucket = function () {
@@ -192,15 +211,21 @@ function Oscillator(context, endController) {
 
     this.saveWaveBucket = function () {
 
-        selfOsc.wavebucket.saveWaveBucket();
+        selfOsc.wavebucket.saveBucket();
 
         return true;
     }
 
-    this.loadWaveBucket = function() {
 
-        if (!selfOsc.bucketLoaded) {
+    /* Method: this.loadWaveBucket = function (): bool  
+  -----------------------------------------------------------------------------------------------------------
+  ** Loads wave bucket from hidden field value that is loaded from the server side
+  ** !! SET INPUT FOR FIELD NAME !! 
+  */
 
+    this.loadWaveBucket = function () {
+
+        if (!selfOsc.bucketLoadedFromServer) {
 
             var bucketString;
 
@@ -208,16 +233,22 @@ function Oscillator(context, endController) {
 
             var oscsArray = bucketString.split(",");
 
-            for (var i = 0; i < oscsArray.length; i++) {
+            console.log("Oscillation Array in loadWaveBucket method: "+  oscsArray);
 
-                var oscillationInStrings;
+           // if (oscsArray[0].length > 4) { // check if the first element in the array is really an array carrying oscillation info
 
-                oscillationInStrings = oscsArray[i].split(" ");
+                for (var i = 0; i < oscsArray.length - 1; i++) {
 
-                selfOsc.stackSoundWave(oscillationInStrings[0], oscillationInStrings[1], true);
-            }
+                    var oscillationInStrings;
 
-            selfOsc.bucketLoaded = true; 
+                    oscillationInStrings = oscsArray[i].split(" ");
+
+                    selfOsc.stackSoundWave(oscillationInStrings[0], selfOsc.translateStringToTypeEnum(oscillationInStrings[1]), true);
+                }
+
+       //     }
+
+            selfOsc.bucketLoadedFromServer = true; 
         }
 
     return true;
@@ -255,5 +286,5 @@ function Oscillator(context, endController) {
         $('#oscIType').val(selfOsc.oscTypeEnum);
 
     }
-
+    
 }
