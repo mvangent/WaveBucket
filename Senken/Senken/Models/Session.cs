@@ -38,12 +38,15 @@ namespace Senken.Models
 
     public class Session 
     {
-       
-        public virtual ApplicationUser User_Id { get; set; }
-
-        
-
+        /* primary key */
         public int SessionID { get; set; }
+       
+        /* user and sharing settings */
+        public virtual ApplicationUser User_Id { get; set; }
+        public bool UserIsOwner { get; set; }
+        public bool OpenToEvolution { get; set; }
+        
+       
         public string Title { get; set; }
         public string ArtistAlias { get; set; }
         public Rating? Rating { get; set;}
@@ -52,18 +55,39 @@ namespace Senken.Models
         public float OscIFrequency { get; set; }
         public OscType OscIType { get; set;}
 
-        /* wavebucket (hiddenField) */
-        public string hiddenWaveBucket { get; set; }
+        /* oscillator II */
+        public float OscIIFrequency { get; set; }
+        public OscType OscIIType { get; set; }
+
+        /* wavebucket I (hiddenField) */
+        public string hiddenWaveBucketI { get; set; }
+
+        /* wavebucket II (hiddenField) */
+        public string hiddenWaveBucketII { get; set; }
         
         /* LFO I */
+        public bool LFOIActive { get; set; }
         public float LFOIFrequency { get; set; }
         public float LFOIScale { get; set; }
         public LFOType LFOIType { get; set; }
 
+        /* LFO II */
+        public bool LFOIIActive { get; set; }
+        public float LFOIIFrequency { get; set; }
+        public float LFOIIScale { get; set; }
+        public LFOType LFOIIType { get; set; }
+
+        /* BiQuadFilterOne */
         public BiquadFilterType BiquadFilterTypeOne { get; set; }
         public float BiquadFilterFrequencyOne { get; set; }
         public float BiquadFilterQOne { get; set; }
-        public float BiquadFilterGainOne { get; set; } 
+        public float BiquadFilterGainOne { get; set; }
+
+        /* BiQuadFilterTwo */
+        public BiquadFilterType BiquadFilterTypeTwo { get; set; }
+        public float BiquadFilterFrequencyTwo { get; set; }
+        public float BiquadFilterQTwo { get; set; }
+        public float BiquadFilterGainTwo { get; set; } 
         
         /* Compressor */
         public int CompressorRatio { get; set; }
@@ -73,25 +97,9 @@ namespace Senken.Models
         /* Master Gain */
         public float MasterGain { get; set; }
 
-        /* Wave bucket */
-        public List<Wave> WaveBucket = new List<Wave>();
         
-        public void addWave(int frequency, OscType form)
-        {
-           WaveBucket.Add(new Wave(frequency, form));
-        }
+        
 
-        public void addWave(Wave wave)
-        {
-            WaveBucket.Add(wave);
-        }
-
-        public Wave getWave(int index)
-        {
-            return WaveBucket[index];
-        }
-
-        public bool UserIsOwner { get; set; }
-        public bool OpenToEvolution { get; set; }
+      
     }
 }

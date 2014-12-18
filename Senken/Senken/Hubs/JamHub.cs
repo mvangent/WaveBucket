@@ -56,6 +56,7 @@ namespace Senken.Hubs
         {
             Clients.All.lfoDeactivatorPointer();
             Clients.All.updateConnectionsPointer();
+            Clients.All.updateLfoDisplayPointer();
 
             return true;
         }
@@ -123,6 +124,10 @@ namespace Senken.Hubs
             Clients.All.updateConnectionsPointer();
             Clients.All.updateEndControlDisplayPointer();
             Clients.All.updateWaveBucketDisplayPointer();
+            Clients.All.updateCompressorDisplayPointer();
+            Clients.All.updateLfoDisplayPointer();
+            Clients.All.updateOscillatorDisplayPointer();
+            Clients.All.updateBiquadFilterIDisplayPointer();
 
             return true;
         }
@@ -132,6 +137,8 @@ namespace Senken.Hubs
         public bool changeFilterTypeOne(string type)
         {
             Clients.All.changeFilterTypeOnePointer(type);
+            Clients.All.updateBiquadFilterIDisplayPointer();
+            
 
             return true;
         }
@@ -139,6 +146,7 @@ namespace Senken.Hubs
         public bool changeFilterFrequencyOne(string frequency)
         {
             Clients.All.changeFilterFrequencyOnePointer(frequency);
+            Clients.All.updateBiquadFilterIDisplayPointer();
 
             return true;
         }
@@ -146,6 +154,7 @@ namespace Senken.Hubs
         public bool changeFilterQOne(string q)
         {
             Clients.All.changeFilterQOnePointer(q);
+            Clients.All.updateBiquadFilterIDisplayPointer();
 
             return true;
         }
@@ -153,6 +162,7 @@ namespace Senken.Hubs
         public bool changeFilterGainOne(string gain)
         {
             Clients.All.changeFilterGainOnePointer(gain);
+            Clients.All.updateBiquadFilterIDisplayPointer();
 
             return true;
         }

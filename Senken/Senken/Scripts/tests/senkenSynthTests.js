@@ -141,12 +141,7 @@ QUnit.test("connections", function() {
             equal(oscillatorI.outputTo(finalCompressor.input()), true, "updateconnections");
             equal(lfoI.outputTo(oscillatorI.gainNodeInputForLfo()), true, "updateconnections");
 
-            //analyser.outputTo(context.destination);
-            //filterI.outputTo(analyser.input());
-            //endController.outputTo(filterI.input());
-            //finalCompressor.outputTo(endController.input());
-            //oscillatorI.outputTo(finalCompressor.input());
-            //lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+        
 
             return true;
         }
@@ -305,6 +300,8 @@ QUnit.test("senkenSynth: Lfo", function () {
     equal(testLfo.translateLfoTypeEnumToString(0), "sine", "Lfo type sine is translated and set");
     equal(testLfo.translateLfoTypeEnumToString(1), "square", "Lfo type square is translated and set");
     equal(testLfo.translateLfoTypeEnumToString(2), "triangle", "Lfo type triangle is translated and set");
+
+
 
 
 });

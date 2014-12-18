@@ -11,8 +11,8 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-       
-        
+
+
         <!---SaveButton & CopyButton-->
         @if (Model.UserIsOwner)
         {
@@ -20,10 +20,10 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Save & Quit" class="btn btn-default" />
-                    
+
                     <a href="~/Home/About">
-                        <input type="button" id="QuitButton" value="Quit"/>
-                        
+                        <input type="button" id="QuitButton" value="Quit" />
+
                         <a href="~/Session/Index">
                             <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
                         </a>
@@ -37,11 +37,11 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Acquire Session" class="btn btn-default" />
-                    
+
                     <a href="~/Home/About">
                         <input type="button" id="QuitButton" value="Quit" />
                     </a>
-                    
+
                     <a href="~/Session/Index">
                         <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
                     </a>
@@ -57,273 +57,181 @@
                 <input type="button" id="QuitButton" value="Quit" />
             </a>
 
-    <a href="~/Session/Index">
-        <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
-    </a>
+            <a href="~/Session/Index">
+                <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
+            </a>
         }
 
-      
+
+
         
-        <hr />
-        
-    
-        
+
+
+
+
+
+        <hr />  <!-- BreakLine I -->
+        <!-- Visualiser-->
+
+        <div id="visualiserDiv">
+            <canvas id="oscIVisualiser" width="500" height="100"></canvas>
+        </div>
+
+
+
+        <hr />  <!-- BreakLine II -->
+
 
         <input type="button" id="playButton" value="Activate">
         <input type="button" id="stopButton" value="Pauze">
-        
-        @if (Model.UserIsOwner)
-        {
-            <span>Session allows evolution by others:  </span>
-            @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution")
-        }
+
+        <span class="senkenDescriptions">Allow evolution through others? </span>
+
+        @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution")
+
+        <!---MasterGain-->
+        <span class="senkenDescriptionsUnit">Volume: </span>
 
 
 
+        @Html.TextBoxFor(model => model.MasterGain, new { @class = "textboxforStandard", type = "number", id = "masterGain", name = "masterGainField", min = "0", max = "100", step = "1", value = "50", size = "3", maxlength = "3" })
+        @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
 
+        <!---Compressor-->
 
-      
-        <hr />
+        <span class="senkenDescriptionsUnit">Compressor: </span>
+
+        <span class="senkenDescriptions">Ratio: </span>
+        @Html.TextBoxFor(model => model.CompressorRatio, new { @class = "textboxforStandard", type = "number", id = "compRatio", name = "compressorRatio", min = "1", max = "20", step = "1", value = "12" })
+        @Html.ValidationMessageFor(model => model.CompressorRatio, "", new { @class = "text-danger" })
+
+        <span class="senkenDescriptions">Knee: </span>
+
+        @Html.TextBoxFor(model => model.CompressorKnee, new { @class = "textboxforStandard", type = "number", id = "compKnee", name = "compressorKnee", min = "0", max = "40", step = "1", value = "30", size = "2", maxlength = "2" })
+        @Html.ValidationMessageFor(model => model.CompressorKnee, "", new { @class = "text-danger" })
+
+        <span class="senkenDescriptions">Threshold: </span>
+        @Html.TextBoxFor(model => model.CompressorThreshold, new { @class = "textboxforStandard", type = "number", id = "compThreshold", name = "compressorThreshold", min = "-100", max = "0", step = "1", value = "-23", size = "3", maxlength = "3" })
+        @Html.ValidationMessageFor(model => model.CompressorThreshold, "", new { @class = "text-danger" })
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
 
 
+        <hr />
+    </div>
+
+     <!-- BreakLine III -->
+
         <div class="senkenContainer">
 
 
-            <!---LEFT COLUMN-->
+            <!---LEFT COLUMN: Oscillator I-->
 
             <div id="senkenLeftColumn">
 
                 <!---Oscillator-->
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.OscIFrequency, "OscIFrequency", htmlAttributes: new { @class = "control-label col-md-2" })
+
 
                     <div class="col-md-10">
 
-                        @Html.TextBoxFor(model => model.OscIFrequency, new { type = "number", id = "sineFreq", name = "frequency", min = "1", max = "20000", step = "1", value = "330" })
+                        <h4>Oscillator I </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">frequency: </span>
+                        @Html.TextBoxFor(model => model.OscIFrequency, new { @class = "textboxforBig", type = "number", id = "OscIFrequency", name = "frequency", min = "1", max = "22000", step = "1", maxlength = "5" })
                         @Html.ValidationMessageFor(model => model.OscIFrequency, "", new { @class = "text-danger" })
-                    </div>
-                </div>
 
+                        <span class="senkenDescriptions">type: </span>
 
-
-
-                <input type="button" id="sineButton" name="sineGen" value="stack Oscillation">
-                <input type="button" id="sineStopButton" name="sineStop" value="remove Last Oscillation">
-
-
-
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.OscIType, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
                         @Html.EnumDropDownListFor(model => model.OscIType, htmlAttributes: new { id = "oscIType", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.OscIType, "", new { @class = "text-danger" })
+
+                        <br />
+                        <input type="button" id="sineButton" name="sineGen" value="stack Oscillation">
+                        <input type="button" id="sineStopButton" name="sineStop" value="remove Last Oscillation">
+
+
                     </div>
                 </div>
 
 
-
-
-
-
-
-                <br>
-                <canvas id="oscIVisualiser" width="500" height="100"></canvas>
                 <br>
 
                 <!---LFO -->
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LFOIFrequency, "LFO I: frequency", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div id="lfoIDiv">
 
-                    <div class="col-md-10">
 
-                        @Html.TextBoxFor(model => model.LFOIFrequency, new { type = "number", id = "LFOFreq", name = "lfoFrequency", min = "1", max = "200", step = "1", value = "3" })
-                        @Html.ValidationMessageFor(model => model.LFOIFrequency, "", new { @class = "text-danger" })
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+
+                            <h4>Lfo I (gain) </h4>
+                            <br />
+
+                            <span class="senkenDescriptions">on/off: </span>
+
+                            @Html.CheckBoxFor(model => model.LFOIActive, "LFOIActive")
+
+                            <span class="senkenDescriptions">frequency: </span>
+
+                            @Html.TextBoxFor(model => model.LFOIFrequency, new { @class = "textboxforStandard", type = "number", id = "LFOIFreq", name = "lfoFrequency", min = "0.1", max = "50", step = "0.1", maxlength = "4" })
+                            @Html.ValidationMessageFor(model => model.LFOIFrequency, "", new { @class = "text-danger" })
+
+
+
+                            <span class="senkenDescriptions">scale: </span>
+
+                            @Html.TextBoxFor(model => model.LFOIScale, new { @class = "textboxforStandard", type = "number", id = "LFOIScale", name = "lfoScale", min = "0.1", max = "10", step = "1", value = "0.1", maxlength = "4" })
+                            @Html.ValidationMessageFor(model => model.LFOIScale, "", new { @class = "text-danger" })
+
+                            <span class="senkenDescriptions">type: </span>
+
+                            @Html.EnumDropDownListFor(model => model.LFOIType, htmlAttributes: new { id = "lfoIType", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LFOIType, "", new { @class = "text-danger" })
+
+
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LFOIScale, "scale", htmlAttributes: new { @class = "control-label col-md-2" })
 
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.LFOIScale, new { type = "number", id = "LFOScale", name = "lfoScale", min = "1", max = "10", step = "1", value = "1" })
-                        @Html.ValidationMessageFor(model => model.LFOIScale, "", new { @class = "text-danger" })
-                    </div>
                 </div>
 
                 <br>
 
-
-
-
-
-
-                <input type="button" id="LFOButton" name="LFOGen" value="activate LFO">
-                <input type="button" id="LFOStopButton" name="LFOStop" value="deactivate LFO">
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LFOIType, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.LFOIType, htmlAttributes: new { id = "lfoIType", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LFOIType, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <!---Compressor-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CompressorRatio, "Compressor: ratio", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.CompressorRatio, new { type = "number", id = "compRatio", name = "compressorRatio", min = "1", max = "20", step = "1", value = "12", size = "2", maxlength = "2" })
-                        @Html.ValidationMessageFor(model => model.CompressorRatio, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-
                 
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CompressorKnee, "knee: ", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.CompressorKnee, new { type = "number", id = "compKnee", name = "compressorKnee", min = "0", max = "40", step = "1", value = "30", size = "2", maxlength = "2" })
-                        @Html.ValidationMessageFor(model => model.CompressorKnee, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-
-                
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CompressorThreshold, "threshold: ", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.CompressorThreshold, new { type = "number", id = "compThreshold", name = "compressorThreshold", min = "-100", max = "0", step = "1", value = "-23", size = "3", maxlength = "3" })
-                        @Html.ValidationMessageFor(model => model.CompressorThreshold, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-             
-
-                <br>
-
-                <!---MasterGain-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.MasterGain, "Master gain: ", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.MasterGain, new { type = "number", id = "masterGain", name = "masterGainField", min = "0", max = "100", step = "1", value = "50", size = "3", maxlength = "3" })
-                        @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-
-
-
-       
-                
-
-
-            </div>
-
-
-            <!---RIGHT COLUMN-->
-
-
-            <div id="senkenRightColumn">
-
-                <!---ArtistAlias-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ArtistAlias, "Artist Alias", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.ArtistAlias, new { type = "text", id = "artistAlias" })
-                        @Html.ValidationMessageFor(model => model.ArtistAlias, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <br />
-
-                
-                <!---Title-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Title, "Title", htmlAttributes: new { @class = "control-label col-md-2" })
-
-                    <div class="col-md-10">
-
-                        @Html.TextBoxFor(model => model.Title, new { type = "text", id = "sessiontitle" })
-                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <br />
-
-          
-
-                <!---Rating-->
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.Rating, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <br />
-                
                 <!---FilterI -->
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BiquadFilterTypeOne, "Filter I", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EnumDropDownListFor(model => model.BiquadFilterTypeOne, htmlAttributes: new { id = "filterTypeOne", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+                <div id="FilterIaDiv">
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BiquadFilterFrequencyOne, "frequency", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="form-group">
 
-                    <div class="col-md-10">
+                        <div class="col-md-10">
 
-                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { type = "number", id = "filterFrequencyOne", min = "10", max = "22000", step = "1", value = "3" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LFOIScale, "Q", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <h4>BiquadFilter I </h4>
+                            <br />
 
-                    <div class="col-md-10">
+                            <span class="senkenDescriptions">type: </span>
+                            @Html.EnumDropDownListFor(model => model.BiquadFilterTypeOne, htmlAttributes: new { id = "filterTypeOne", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
 
-                        @Html.TextBoxFor(model => model.BiquadFilterQOne, new { type = "number", id = "filterQOne", min = "1", max = "1000", step = "1", value = "1" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.LFOIScale, "gain", htmlAttributes: new { @class = "control-label col-md-2" })
 
-                    <div class="col-md-10">
+                            <span class="senkenDescriptions">frequency: </span>
+                            @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { @class = "textboxforBig", type = "number", id = "filterFrequencyOne", min = "1", max = "22000", step = "1", value = "3", maxlength = "5" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
 
-                        @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { type = "number", id = "filterGainOne", min = "-40", max = "40", step = "1", value = "1" })
-                        @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
+                            <span class="senkenDescriptions">Q: </span>
+                            @Html.TextBoxFor(model => model.BiquadFilterQOne, new { @class = "textboxforStandard", type = "number", id = "filterQOne", min = "1", max = "1000", step = "1", value = "1", maxlength = "1" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
+
+                            <span class="senkenDescriptions">Gain: </span>
+                            @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { @class = "textboxforStandard", type = "number", id = "filterGainOne", min = "-40", max = "40", step = "1", value = "1", maxlength = "1" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
+                        </div>
                     </div>
                 </div>
 
@@ -332,28 +240,170 @@
 
                 <!---WaveBucket-->
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.WaveBucket, "WaveBucket", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div id="wavebucketIDiv">
 
-                    <div id="wavebucket">
+                    <h4>WaveBucket </h4>
+                    <br />
+
+                    <span class="senkenDescriptions">
                         <ul id="bucketlist">
                             <li>*-- empty --#</li>
                         </ul>
-                    </div>
-                    
-                    @Html.HiddenFor(model => model.hiddenWaveBucket, "hiddenWaveBucket");
+                    </span>
+
+                    @Html.HiddenFor(model => model.hiddenWaveBucketI, "hiddenWaveBucketI");
+
 
                 </div>
 
 
 
+
             </div>
+
+            <!---RIGHT COLUMN: OscillatorII-->
+
+
+            <div id="senkenRightColumn">
+
+                <!---Oscillator-->
+
+                <div class="form-group">
+
+
+                    <div class="col-md-10">
+
+                        <h4>Oscillator II </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">frequency: </span>
+                        @Html.TextBoxFor(model => model.OscIIFrequency, new { @class = "textboxforBig", type = "OscIIFrequency", id = "sineFreq", name = "frequency", min = "1", max = "22000", step = "1", maxlength = "5" })
+                        @Html.ValidationMessageFor(model => model.OscIIFrequency, "", new { @class = "text-danger" })
+
+                        <span class="senkenDescriptions">type: </span>
+
+                        @Html.EnumDropDownListFor(model => model.OscIIType, htmlAttributes: new { id = "oscIIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OscIIType, "", new { @class = "text-danger" })
+
+                        <br />
+                        <input type="button" id="sineButton" name="sineGen" value="stack Oscillation">
+                        <input type="button" id="sineStopButton" name="sineStop" value="remove Last Oscillation">
+
+
+                    </div>
+                </div>
+
+
+                <br>
+
+                <!---LFO -->
+
+                <div id="lfoIIaDiv">
+
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+
+                            <h4>Lfo I (gain) </h4>
+                            <br />
+
+                            <span class="senkenDescriptions">on/off: </span>
+
+                            @Html.CheckBoxFor(model => model.LFOIIActive, "LFOIIActive")
+
+                            <span class="senkenDescriptions">frequency: </span>
+
+                            @Html.TextBoxFor(model => model.LFOIIFrequency, new { @class = "textboxforStandard", type = "number", id = "LFOIIFreq", name = "lfoFrequency", min = "0.1", max = "50", step = "0.1", maxlength = "4" })
+                            @Html.ValidationMessageFor(model => model.LFOIFrequency, "", new { @class = "text-danger" })
+
+
+
+                            <span class="senkenDescriptions">scale: </span>
+
+                            @Html.TextBoxFor(model => model.LFOIIScale, new { @class = "textboxforStandard", type = "number", id = "LFOIIScale", name = "lfoScale", min = "0.1", max = "10", step = "1", value = "0.1", maxlength = "4" })
+                            @Html.ValidationMessageFor(model => model.LFOIScale, "", new { @class = "text-danger" })
+
+                            <span class="senkenDescriptions">type: </span>
+
+                            @Html.EnumDropDownListFor(model => model.LFOIIType, htmlAttributes: new { id = "lfoIIType", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LFOIType, "", new { @class = "text-danger" })
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <br>
+
+
+
+                <!---FilterI -->
+
+                <div id="FilterIIaDiv">
+
+                    <div class="form-group">
+
+                        <div class="col-md-10">
+
+                            <h4>BiquadFilter I </h4>
+                            <br />
+
+                            <span class="senkenDescriptions">type: </span>
+                            @Html.EnumDropDownListFor(model => model.BiquadFilterTypeTwo, htmlAttributes: new { id = "filterTypeTwo", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
+
+
+                            <span class="senkenDescriptions">frequency: </span>
+                            @Html.TextBoxFor(model => model.BiquadFilterFrequencyTwo, new { @class = "textboxforBig", type = "number", id = "filterFrequencyTwo", min = "1", max = "22000", step = "1", value = "3", maxlength = "5" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
+
+                            <span class="senkenDescriptions">Q: </span>
+                            @Html.TextBoxFor(model => model.BiquadFilterQTwo, new { @class = "textboxforStandard", type = "number", id = "filterQTwo", min = "1", max = "1000", step = "1", value = "1", maxlength = "1" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
+
+                            <span class="senkenDescriptions">Gain: </span>
+                            @Html.TextBoxFor(model => model.BiquadFilterGainTwo, new { @class = "textboxforStandard", type = "number", id = "filterGainTwo", min = "-40", max = "40", step = "1", value = "1", maxlength = "1" })
+                            @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <!---WaveBucket-->
+
+                <div id="wavebucketIIDiv">
+
+                    <h4>WaveBucket </h4>
+                    <br />
+
+                    <span class="senkenDescriptions">
+                        <ul id="bucketlist">
+                            <li>*-- empty --#</li>
+                        </ul>
+                    </span>
+
+                    @Html.HiddenFor(model => model.hiddenWaveBucketII, "hiddenWaveBucketII");
+
+
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+
+
         </div>
 
-
-    </div>
-
 }
+
 
 
 

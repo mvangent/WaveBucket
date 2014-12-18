@@ -41,6 +41,7 @@ $(function () {
     jam.client.updateCompressorDisplayPointer = finalCompressor.updateDisplay;
     jam.client.updateOscillatorDisplayPointer = oscillatorI.updateDisplay;
     jam.client.updateWaveBucketDisplayPointer = oscillatorI.updateWaveBucketDisplay;
+    jam.client.updateBiquadFilterIDisplayPointer = filterI.updateDisplay;
 
     // update WaveBucket for server
     jam.client.saveWaveBucketPointer = oscillatorI.saveWaveBucket;
@@ -53,7 +54,7 @@ $(function () {
 
         $('#sineButton').click(function () {
             console.log("sineButton clicked");
-            jam.server.stackASoundWave($('#sineFreq').val(), $('#oscIType').val(), true);
+            jam.server.stackASoundWave($('#OscIFrequency').val(), $('#oscIType').val(), true);
         });
 
 
@@ -65,17 +66,61 @@ $(function () {
         /* Lfo Event Listeners */
 
         // event listener activation LFO 
-        $('#LFOButton').click(function () {
-            console.log("LFOButton clicked");
-            jam.server.activateLFO($('#LFOFreq').val(), $('#LFOScale').val(), $('#lfoIType').val());
+        $('#LFOIActive').change(
+            function () {
+                if ($('#LFOIActive').is(':checked')) {
+                    console.log("LFOButton clicked");
+                    jam.server.activateLFO($('#LFOIFreq').val(), $('#LFOIScale').val(), $('#lfoIType').val());
+
+                } else {
+                    console.log("LFOStopButton clicked");
+                    jam.server.deactivateLFO();
+                }
         });
 
-        // event listener deactivation LFO 
-        $('#LFOStopButton').click(function () {
-            console.log("LFOStopButton clicked");
-            jam.server.deactivateLFO();
-        });
+        $('#lfoIType').change(
+           function () {
 
+              var lfoType = $('#lfoIType').find("option:selected").attr("value");
+
+               if ($('#LFOIActive').is(':checked')) {
+                   jam.server.deactivateLFO();
+                   setTimeout(function() { jam.server.activateLFO($('#LFOIFreq').val(), $('#LFOIScale').val(), lfoType) }, 10);
+                   console.log("LFO type is changed, while activated");
+               } else {
+                   console.log($('#LFOIActive').is(':checked'));
+                   console.log("LFO type is changed, but was not activated");
+                   
+               }
+           });
+
+        $('#LFOIFreq').change(
+          function () {
+
+              if ($('#LFOIActive').is(':checked')) {
+                  jam.server.deactivateLFO();
+                  setTimeout(function() { jam.server.activateLFO($('#LFOIFreq').val(), $('#LFOIScale').val(), $('#lfoIType').val()); }, 10);
+                  console.log("LFO freq is changed, while activated");
+              } else {
+                  console.log($('#LFOIActive').is(':checked'));
+                  console.log("LFO freq is changed, but was not activated");
+
+              }
+          });
+
+        $('#LFOIScale').change(
+       function () {
+
+           if ($('#LFOIActive').is(':checked')) {
+               jam.server.deactivateLFO();
+               setTimeout(function () { jam.server.activateLFO($('#LFOIFreq').val(), $('#LFOIScale').val(), $('#lfoIType').val()); }, 10);
+               console.log("LFO freq is changed, while activated");
+           } else {
+               console.log($('#LFOIActive').is(':checked'));
+               console.log("LFO freq is changed, but was not activated");
+
+           }
+       });
 
         /* Compressor Event Listeners */
         // event listener ratio Compressor 
@@ -96,7 +141,13 @@ $(function () {
             jam.server.adjustCompThreshold($('#compThreshold').val());
         });
 
+
+
+
+
+
         /* Master Controller Event Listeners */
+
         // event listener gain field
         $('#masterGain').change(function () {
             jam.server.changeMasterGain($('#masterGain').val());
@@ -111,6 +162,7 @@ $(function () {
         $('#playButton').click(function () {
             jam.server.playSession();
         });
+
 
         /* BiquadFilter I Event Listeners */
         // event listener type box

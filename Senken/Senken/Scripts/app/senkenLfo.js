@@ -12,6 +12,7 @@ function Lfo(context) {
 
     this.lfo;
     selfLfo.lfo = context.createOscillator();
+    selfLfo.lfo.frequency.value = 1;
     this.gain = context.createGain();
     this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
     this.lfoActive = false;
@@ -28,21 +29,27 @@ function Lfo(context) {
     this.lfoActivator = function (lfoFreq, scale, lfoTypeEnum) {
 
         // Create oscillator.
+        
 
-        if (!selfLfo.lfoActive) {
-            selfLfo.lfo = context.createOscillator();
-            selfLfo.lfo.type = selfLfo.translateLfoTypeEnumToString(lfoTypeEnum);
-            selfLfo.lfo.frequency.value = lfoFreq;
-            selfLfo.gain = context.createGain();
-            selfLfo.gain.gain.value = scale;
+           
 
-            selfLfo.lfo.start(context.currentTime);
+            if (!selfLfo.lfoActive) {
+                console.log("lfo started");
+                selfLfo.lfo = context.createOscillator();
+                selfLfo.lfo.type = selfLfo.translateLfoTypeEnumToString(lfoTypeEnum);
+                selfLfo.lfo.frequency.value = lfoFreq;
+                selfLfo.gain = context.createGain();
+                selfLfo.gain.gain.value = scale;
 
-            selfLfo.lfoActive = true;
+                selfLfo.lfo.start(context.currentTime);
 
-            console.log("lfo added");
+                selfLfo.lfoActive = true;
 
-        }
+                console.log("lfo added");
+            }
+        
+
+
     };
 
     /* Method: this.lfoDeactivator = function (): void  
@@ -51,8 +58,9 @@ function Lfo(context) {
     */
 
     this.lfoDeactivator = function () {
-        selfLfo.lfo.stop(context.currentTime);
         selfLfo.lfoActive = false;
+        selfLfo.lfo.stop(context.currentTime);
+        
         console.log("lfo stopped");
     };
 
@@ -98,8 +106,8 @@ function Lfo(context) {
     }
 
     this.updateDisplay = function () {
-        $('#LFOFreq').val(selfLfo.lfo.frequency.value);
-        $('#LFOScale').val(selfLfo.gain.gain.value);
+        $('#LFOIFreq').val(selfLfo.lfo.frequency.value);
+        $('#LFOIScale').val(selfLfo.gain.gain.value);
         $('#lfoIType').val(selfLfo.oscTypeEnum);
     }
 

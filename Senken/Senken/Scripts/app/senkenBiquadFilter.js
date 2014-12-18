@@ -10,9 +10,14 @@ function BiquadFilter(context) {
     this.biQuadFilter = context.createBiquadFilter();
     console.log("filter created");
 
+    var typeEnum = 0;
+
     var self = this;
 
     this.setType = function (enumType) {
+
+        typeEnum = enumType;
+
         self.biQuadFilter.type = self.translateTypeEnumToString(enumType);
         console.log(self.biQuadFilter.type);
     }
@@ -73,6 +78,18 @@ function BiquadFilter(context) {
     // : input
     this.input = function () {
         return self.biQuadFilter;
+    }
+
+    // displayMethod 
+    this.updateDisplay = function () {
+
+        $('#filterTypeOne').val(typeEnum);
+
+        $('#filterFrequencyOne').val(self.biQuadFilter.frequency.value);
+
+        $('#filterQOne').val(self.biQuadFilter.Q.value);
+
+        $('#filterGainOne').val(self.biQuadFilter.gain.value);
     }
 
 }

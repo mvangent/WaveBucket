@@ -89,7 +89,7 @@ function WaveBucket() {
 
         var updateValue = "" + self.oscillationsToString();
 
-        $('#hiddenWaveBucket').val(updateValue);
+        $('#hiddenWaveBucketI').val(updateValue);
 
         return true;
     }
@@ -97,7 +97,7 @@ function WaveBucket() {
     this.loadBucket = function() {
 
         var bucketString;
-        bucketString = $('#hiddenWaveBucket').attr('value');
+        bucketString = $('#hiddenWaveBucketI').attr('value');
 
         return bucketString;
     }

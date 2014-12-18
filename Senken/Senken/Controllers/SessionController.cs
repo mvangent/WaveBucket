@@ -77,7 +77,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "SessionID,Title, OpenToEvolution, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne, hiddenWaveBucket")] Session sessionInput)
+        public async Task<ActionResult> Create([Bind(Include = "SessionID,Title, OpenToEvolution, ArtistAlias, Rating,OscIFrequency,OscIType, hiddenWaveBucketI, LfoIActive, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne")] Session sessionInput)
         {
             if (ModelState.IsValid)
             {
@@ -164,7 +164,7 @@ namespace Senken.Controllers
            // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
            [HttpPost]
            [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, [Bind(Include = "SessionID,Title, OpenToEvolution, ArtistAlias, Rating,OscIFrequency,OscIType, WaveBucket, LFOIFrequency,LFOIScale,LFOIType,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne, hiddenWaveBucket")] Session sessionInput)
+        public async Task<ActionResult> Edit(int? id, [Bind(Include = "SessionID,Title, OpenToEvolution, ArtistAlias, Rating,OscIFrequency,OscIType, hiddenWaveBucketI, LfoIActive, LFOIFrequency,LFOIScale,LFOIType, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne, OscIIFrequency,OscIIType, hiddenWaveBucketII, LfoIIActive, LFOIIFrequency,LFOIIScale,LFOIIType, BiquadFilterTypeTwo, BiquadFilterFrequencyTwo, BiquadFilterQTwo, BiquadFilterGainTwo,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session sessionInput)
            {
                if (ModelState.IsValid)
                {

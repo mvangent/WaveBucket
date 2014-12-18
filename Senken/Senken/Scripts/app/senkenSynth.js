@@ -47,6 +47,9 @@ var context;
         return true;
     }
 
+
+   
+
 /*------------------------------------------------------------------------------------------------------
 ** Object: Wiring([] soundmodules) : prototype 
 --------------------------------------------------------------------------------------------------------
@@ -63,13 +66,16 @@ var context;
 
             console.log("update connection reached");
 
-            analyser.outputTo(context.destination);
-            filterI.outputTo(analyser.input());
-            endController.outputTo(filterI.input());
-            finalCompressor.outputTo(endController.input());
-            oscillatorI.outputTo(finalCompressor.input());
-            lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+           
+                    analyser.outputTo(context.destination);
+                    filterI.outputTo(analyser.input());
+                    endController.outputTo(filterI.input());
+                    finalCompressor.outputTo(endController.input());
+                    oscillatorI.outputTo(finalCompressor.input());
+                    lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
 
+             
+            
             return true;
         }
     }
@@ -86,12 +92,12 @@ var context;
 */
 
 $('.senkenContainer').css({ 'opacity': 0.4 });
-$('#senkenLeftColumn').css({ 'float': 'left' }).width('60%');
-$('#senkenRightColumn').css({ 'float': 'right' }).width('39%'); // initialize fields
+$('#senkenLeftColumn').css({ 'float': 'left' }).width('50%');
+$('#senkenRightColumn').css({ 'float': 'right' }).width('49%'); // initialize fields
 //$('#compRatio').val(12);
 //$('#compKnee').val(30);
 //$('#compThreshold').val(-23);
-//$('#masterGain').val(100);
+$('#masterGain').val(30);
 
 
 

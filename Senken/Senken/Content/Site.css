@@ -804,3 +804,36 @@ table .privateSessionRow .visitTableData {
     color: lightgoldenrodyellow;
 }
 
+/* session create view synth layout*/
+#visualiserDiv {
+    width: 100%;
+    align-content: center;
+
+}
+
+canvas {
+    align-self: center;
+    width: 100%;
+}
+
+.textboxforStandard {
+    width: 2.5em;
+}
+
+.textboxforBig {
+    width: 4em;
+}
+
+.textboxforTitle {
+    width: 6em;
+}
+
+.senkenDescriptionsUnit {
+    text-shadow: turquoise;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.text-danger {
+    width: 5px;
+}

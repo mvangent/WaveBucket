@@ -10,8 +10,12 @@
 
 function Oscillator(context, endController) {
 
+    // self reference
+    var selfOsc = this;
+
     // member variables oscillatorNode
     this.osc = context.createOscillator();
+    selfOsc.osc.frequency.value = 220;
     this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
     this.gainNode = context.createGain();
 
@@ -20,8 +24,7 @@ function Oscillator(context, endController) {
     this.lastWaveRemoved = true;
     this.bucketLoadedFromServer = false;
 
-    // self reference
-    var selfOsc = this;
+    
 
 
     /* Method: this.waveGenerator = function (int frequency, string oscType, bool updateConnectionsBool) : Oscillation
@@ -144,9 +147,7 @@ function Oscillator(context, endController) {
 
     };
 
-
-
-
+    
     /* Method: this.startBucket = function (): bool  
      -----------------------------------------------------------------------------------------------------------
     ** Starts up the oscillations present in the wavebucket after they have been frozen on the client side.
@@ -282,7 +283,7 @@ function Oscillator(context, endController) {
         
 
         // set field value to last value
-        $('#sineFreq').val(selfOsc.osc.frequency.value);
+        $('#OscIFrequency').val(selfOsc.osc.frequency.value);
         $('#oscIType').val(selfOsc.oscTypeEnum);
 
     }
