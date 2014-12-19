@@ -65,13 +65,21 @@ function WaveBucket() {
     }
 
     // updateDisplay()
-    this.updateDisplay = function () {
+    this.updateDisplay = function(bucketTable) {
 
         console.log('updateDisplay in WaveBucket reached');
 
         var arrayLength = self.waveBucket.length;
 
-        var mydiv = document.getElementById("bucketlist");
+        //var bucketTableToJqueryString = "'" + bucketTable + "'";
+
+        console.log(bucketTable);
+
+        var mydiv = document.getElementById(bucketTable);
+
+        console.log(mydiv);
+
+        // var mydiv = document.getElementById(bucketTable);
 
         mydiv.innerHTML = "";
 
@@ -85,19 +93,21 @@ function WaveBucket() {
         };
     }
 
-    this.saveBucket = function () {
+    this.saveBucket = function (hiddenBucketId) {
+
+        console.log("save bucket reached on WaveBucket");
 
         var updateValue = "" + self.oscillationsToString();
 
-        $('#hiddenWaveBucketI').val(updateValue);
+        $(hiddenBucketId).val(updateValue);
 
         return true;
     }
 
-    this.loadBucket = function() {
+    this.loadBucket = function(hiddenBucketId) {
 
         var bucketString;
-        bucketString = $('#hiddenWaveBucketI').attr('value');
+        bucketString = $(hiddenBucketId).attr('value');
 
         return bucketString;
     }

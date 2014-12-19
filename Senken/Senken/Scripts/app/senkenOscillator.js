@@ -195,9 +195,11 @@ function Oscillator(context, endController) {
                 selfOsc.wavebucket.select(i).stop();
             }
 
-            console.log(selfOsc.wavebucket.waveBucketActive);
+            console.log(selfOsc.wavebucket.isActive());
 
             selfOsc.wavebucket.deactivate();
+
+            console.log(selfOsc.wavebucket.isActive());
 
             return true;
         }
@@ -210,9 +212,11 @@ function Oscillator(context, endController) {
    ** !! SET INPUT FOR FIELD NAME !! 
    */
 
-    this.saveWaveBucket = function () {
+    this.saveWaveBucket = function (hiddenBucketId) {
 
-        selfOsc.wavebucket.saveBucket();
+        console.log("save bucket reached on Osc");
+
+        selfOsc.wavebucket.saveBucket(hiddenBucketId);
 
         return true;
     }
@@ -224,13 +228,19 @@ function Oscillator(context, endController) {
   ** !! SET INPUT FOR FIELD NAME !! 
   */
 
-    this.loadWaveBucket = function () {
+    this.loadWaveBucket = function (hiddenBucketId) {
+
+        console.log("load bucket reached on Osc but not loading: ");
 
         if (!selfOsc.bucketLoadedFromServer) {
 
+            console.log("load bucket reached on Osc and starts loading: ");
+
             var bucketString;
 
-            bucketString = selfOsc.wavebucket.loadBucket();
+            bucketString = selfOsc.wavebucket.loadBucket(hiddenBucketId);
+
+            console.log(bucketString);
 
             var oscsArray = bucketString.split(",");
 
@@ -243,6 +253,10 @@ function Oscillator(context, endController) {
                     var oscillationInStrings;
 
                     oscillationInStrings = oscsArray[i].split(" ");
+
+                    console.log("load wave in loadbucket function");
+
+
 
                     selfOsc.stackSoundWave(oscillationInStrings[0], selfOsc.translateStringToTypeEnum(oscillationInStrings[1]), true);
                 }
@@ -271,20 +285,22 @@ function Oscillator(context, endController) {
         return selfOsc.gainNode.gain;
     }
 
-    this.updateWaveBucketDisplay = function() {
+    // Method: updateWaveBucketDisplay() -> bucketListId : void
+    this.updateWaveBucketDisplay = function(bucketListId) {
         
-            selfOsc.wavebucket.updateDisplay();
+        selfOsc.wavebucket.updateDisplay(bucketListId);
         
 
     }
 
     // Method: updateDisplay(Oscillator)
-    this.updateDisplay = function () {
-        
+    this.updateDisplay = function (oscFreqId, oscTypeId) {
+
+        console.log("update Display oscillator reached");
 
         // set field value to last value
-        $('#OscIFrequency').val(selfOsc.osc.frequency.value);
-        $('#oscIType').val(selfOsc.oscTypeEnum);
+        $(oscFreqId).val(selfOsc.osc.frequency.value);
+        $(oscTypeId).val(selfOsc.oscTypeEnum);
 
     }
     

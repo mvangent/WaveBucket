@@ -81,15 +81,15 @@ function BiquadFilter(context) {
     }
 
     // displayMethod 
-    this.updateDisplay = function () {
+    this.updateDisplay = function (filterTypeId, filterFrequencyId,filterQId,filterGainId) {
 
-        $('#filterTypeOne').val(typeEnum);
+        $(filterTypeId).val(typeEnum);
 
-        $('#filterFrequencyOne').val(self.biQuadFilter.frequency.value);
+        $(filterFrequencyId).val(self.biQuadFilter.frequency.value);
 
-        $('#filterQOne').val(self.biQuadFilter.Q.value);
+        $(filterQId).val(self.biQuadFilter.Q.value);
 
-        $('#filterGainOne').val(self.biQuadFilter.gain.value);
+        $(filterGainId).val(self.biQuadFilter.gain.value);
     }
 
 }

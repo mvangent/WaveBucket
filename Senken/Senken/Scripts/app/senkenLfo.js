@@ -105,10 +105,10 @@ function Lfo(context) {
 
     }
 
-    this.updateDisplay = function () {
-        $('#LFOIFreq').val(selfLfo.lfo.frequency.value);
-        $('#LFOIScale').val(selfLfo.gain.gain.value);
-        $('#lfoIType').val(selfLfo.oscTypeEnum);
+    this.updateDisplay = function (lfoFreqId, lfoScaleId, lfoTypeId) {
+        $(lfoFreqId).val(selfLfo.lfo.frequency.value);
+        $(lfoScaleId).val(selfLfo.gain.gain.value);
+        $(lfoTypeId).val(selfLfo.oscTypeEnum);
     }
 
 

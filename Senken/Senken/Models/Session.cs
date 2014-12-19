@@ -51,44 +51,6 @@ namespace Senken.Models
         public string ArtistAlias { get; set; }
         public Rating? Rating { get; set;}
 
-        /* oscillator I */
-        public float OscIFrequency { get; set; }
-        public OscType OscIType { get; set;}
-
-        /* oscillator II */
-        public float OscIIFrequency { get; set; }
-        public OscType OscIIType { get; set; }
-
-        /* wavebucket I (hiddenField) */
-        public string hiddenWaveBucketI { get; set; }
-
-        /* wavebucket II (hiddenField) */
-        public string hiddenWaveBucketII { get; set; }
-        
-        /* LFO I */
-        public bool LFOIActive { get; set; }
-        public float LFOIFrequency { get; set; }
-        public float LFOIScale { get; set; }
-        public LFOType LFOIType { get; set; }
-
-        /* LFO II */
-        public bool LFOIIActive { get; set; }
-        public float LFOIIFrequency { get; set; }
-        public float LFOIIScale { get; set; }
-        public LFOType LFOIIType { get; set; }
-
-        /* BiQuadFilterOne */
-        public BiquadFilterType BiquadFilterTypeOne { get; set; }
-        public float BiquadFilterFrequencyOne { get; set; }
-        public float BiquadFilterQOne { get; set; }
-        public float BiquadFilterGainOne { get; set; }
-
-        /* BiQuadFilterTwo */
-        public BiquadFilterType BiquadFilterTypeTwo { get; set; }
-        public float BiquadFilterFrequencyTwo { get; set; }
-        public float BiquadFilterQTwo { get; set; }
-        public float BiquadFilterGainTwo { get; set; } 
-        
         /* Compressor */
         public int CompressorRatio { get; set; }
         public int CompressorKnee { get; set; }
@@ -96,6 +58,51 @@ namespace Senken.Models
 
         /* Master Gain */
         public float MasterGain { get; set; }
+
+        /* oscillator I */
+        public float OscIFrequency { get; set; }
+        public OscType OscIType { get; set;}
+
+      /* wavebucket I (hiddenField) */
+        public string hiddenWaveBucketI { get; set; }
+
+       
+        /* LFO I */
+        public bool LFOIActive { get; set; }
+        public float LFOIFrequency { get; set; }
+        public float LFOIScale { get; set; }
+        public LFOType LFOIType { get; set; }
+
+        /* BiQuadFilterOne */
+        public BiquadFilterType BiquadFilterTypeOne { get; set; }
+        public float BiquadFilterFrequencyOne { get; set; }
+        public float BiquadFilterQOne { get; set; }
+        public float BiquadFilterGainOne { get; set; }
+
+        
+        
+        
+        /* oscillator II */
+        public float OscIIFrequency { get; set; }
+        public OscType OscIIType { get; set; }
+
+
+        /* wavebucket II (hiddenField) */
+        public string hiddenWaveBucketII { get; set; }
+
+        /* LFO II */
+        public bool LFOIIActive { get; set; }
+        public float LFOIIFrequency { get; set; }
+        public float LFOIIScale { get; set; }
+        public LFOType LFOIIType { get; set; }
+        
+        /* BiQuadFilterTwo */
+        public BiquadFilterType BiquadFilterTypeTwo { get; set; }
+        public float BiquadFilterFrequencyTwo { get; set; }
+        public float BiquadFilterQTwo { get; set; }
+        public float BiquadFilterGainTwo { get; set; } 
+        
+       
 
         
         

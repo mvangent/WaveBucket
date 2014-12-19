@@ -27,18 +27,25 @@ var context;
 --------------------------------------------------------------------------------------------------------
 */
     
+    // general controls
+
+    var endController = new MasterController(context);
+   
     var analyser = new Analyser(context);
 
         analyser.draw();
 
-    var filterI = new BiquadFilter(context);
-
-        
-
-    var endController = new MasterController(context);
     var finalCompressor = new Compressor(context);
+
+    // oscillator II
+    var filterI = new BiquadFilter(context);
     var oscillatorI = new Oscillator(context, endController);
     var lfoI = new Lfo(context);
+
+    // oscillator II
+    var filterII = new BiquadFilter(context);
+    var oscillatorII = new Oscillator(context, endController);
+    var lfoII = new Lfo(context);
 
 
     var wiring = new Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI);
@@ -66,16 +73,23 @@ var context;
 
             console.log("update connection reached");
 
-           
-                    analyser.outputTo(context.destination);
-                    filterI.outputTo(analyser.input());
-                    endController.outputTo(filterI.input());
-                    finalCompressor.outputTo(endController.input());
-                    oscillatorI.outputTo(finalCompressor.input());
-                    lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
+                    
+            //analyser
+            analyser.outputTo(context.destination);
+            // master controls
+            endController.outputTo(analyser.input());
+            finalCompressor.outputTo(endController.input());
+            // oscillator I with lfo and filter
+            filterI.outputTo(finalCompressor.input());
+            oscillatorI.outputTo(filterI.input());
+            lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
 
-             
-            
+            // oscillator I with lfo and filter
+            filterII.outputTo(finalCompressor.input());
+            oscillatorII.outputTo(filterII.input());
+            lfoII.outputTo(oscillatorII.gainNodeInputForLfo());
+
+
             return true;
         }
     }
