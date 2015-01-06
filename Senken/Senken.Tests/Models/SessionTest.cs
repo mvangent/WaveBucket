@@ -77,40 +77,40 @@ namespace Senken.Tests.Models
             Session session = new Session();
 
             // Act
-            session.LFOIFrequency = 5;
+            session.LfoIFrequency = 5;
 
             // Assert
-            Assert.AreEqual(session.LFOIFrequency, 5);
+            Assert.AreEqual(session.LfoIFrequency, 5);
 
             // Act
-            session.LFOIScale = 2;
+            session.LfoIScale = 2;
 
             // Assert
-            Assert.AreEqual(session.LFOIScale, 2);
+            Assert.AreEqual(session.LfoIScale, 2);
 
             // Act
-            session.LFOIType = LFOType.sine;
+            session.LfoIType = LFOType.sine;
 
             // Assert
-            Assert.AreEqual(session.LFOIType, LFOType.sine);
+            Assert.AreEqual(session.LfoIType, LFOType.sine);
 
             // Act
-            session.LFOIType = LFOType.square;
+            session.LfoIType = LFOType.square;
 
             // Assert
-            Assert.AreEqual(session.LFOIType, LFOType.square);
+            Assert.AreEqual(session.LfoIType, LFOType.square);
 
             // Act
-            session.LFOIType = LFOType.triangle;
+            session.LfoIType = LFOType.triangle;
 
             // Assert
-            Assert.AreEqual(session.LFOIType, LFOType.triangle);
+            Assert.AreEqual(session.LfoIType, LFOType.triangle);
 
             // Act
-            session.LFOIType = LFOType.sawtooth;
+            session.LfoIType = LFOType.sawtooth;
 
             // Assert
-            Assert.AreEqual(session.LFOIType, LFOType.sawtooth);
+            Assert.AreEqual(session.LfoIType, LFOType.sawtooth);
 
        
 
