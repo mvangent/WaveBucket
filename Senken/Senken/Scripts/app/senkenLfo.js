@@ -30,7 +30,7 @@ function Lfo(context) {
 
         // Create oscillator.
         
-
+        selfLfo.oscTypeEnum = lfoTypeEnum;
            
 
             if (!selfLfo.lfoActive) {
@@ -94,6 +94,11 @@ function Lfo(context) {
         return selfLfo.oscTypeEnum;
     }
 
+    this.isActive = function () {
+        return selfLfo.lfoActive;
+    }
+
+
     // (gain)OutputTo
     this.outputTo = function (destination) {
         console.log("lfo output refreshed");
@@ -105,7 +110,8 @@ function Lfo(context) {
 
     }
 
-    this.updateDisplay = function (lfoFreqId, lfoScaleId, lfoTypeId) {
+    this.updateDisplay = function (lfoActive, lfoFreqId, lfoScaleId, lfoTypeId) {
+        $(lfoActive).prop('checked', selfLfo.lfoActive); 
         $(lfoFreqId).val(selfLfo.lfo.frequency.value);
         $(lfoScaleId).val(selfLfo.gain.gain.value);
         $(lfoTypeId).val(selfLfo.oscTypeEnum);

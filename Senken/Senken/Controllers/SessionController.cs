@@ -78,7 +78,7 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "SessionID,Title,OpenToEvolution,ArtistAlias,Rating,OscIFrequency,OscIType,hiddenWaveBucketI,LfoIActive,LFOIFrequency,LFOIScale,LFOIType,BiquadFilterTypeOne,BiquadFilterFrequencyOne,BiquadFilterQOne,BiquadFilterGainOne,OscIIFrequency,OscIIType,hiddenWaveBucketII,LfoIIActive,LFOIIFrequency,LFOIIScale,LFOIIType,BiquadFilterTypeTwo,BiquadFilterFrequencyTwo,BiquadFilterQTwo,BiquadFilterGainTwo,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session sessionInput)
+        public async Task<ActionResult> Create(Session sessionInput)
         {
             if (ModelState.IsValid)
             {
@@ -165,8 +165,11 @@ namespace Senken.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, [Bind(Include = "SessionID,Title, OpenToEvolution, ArtistAlias, Rating,OscIFrequency,OscIType, hiddenWaveBucketI, LfoIActive, LFOIFrequency,LFOIScale,LFOIType, BiquadFilterTypeOne, BiquadFilterFrequencyOne, BiquadFilterQOne, BiquadFilterGainOne, OscIIFrequency,OscIIType, hiddenWaveBucketII, LfoIIActive, LFOIIFrequency,LFOIIScale,LFOIIType, BiquadFilterTypeTwo, BiquadFilterFrequencyTwo, BiquadFilterQTwo, BiquadFilterGainTwo,CompressorRatio,CompressorKnee,CompressorThreshold,MasterGain")] Session sessionInput)
+        public async Task<ActionResult> Edit(int? id, Session sessionInput)
         {
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
             if (ModelState.IsValid)
             {
 

@@ -67,7 +67,7 @@
         <span class="senkenDescriptionsUnit">Volume: </span>
 
         <span class="senkenDescriptions"> </span>
-        <input type="range" id="masterGain" min="0" max="70" step="1" value="@Model.MasterGain" />
+        @Html.TextBoxFor(model => model.MasterGain, new { type = "range", id = "masterGain", min = "0", max = "65", step = "1" })
         <span class="senkenDescriptions"> </span>
         @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
 
@@ -80,23 +80,22 @@
         <span class="senkenDescriptionsUnit">Compressor: </span>
         
         <span class="senkenDescriptions">Ratio: 0&nbsp; </span>
-        <input type="range" id="compRatio" min="0" max="20" step="1" value="@Model.CompressorRatio" />
+        @Html.TextBoxFor(model => model.CompressorRatio, new { type = "range", id = "compRatio", min = "0", max = "20", step = "1" })
         <span class="senkenDescriptions">20 &nbsp;&nbsp;&nbsp;</span>
         @Html.ValidationMessageFor(model => model.CompressorRatio, "", new { @class = "text-danger" })
 
        
         <span class="senkenDescriptions">Knee: 0&nbsp; </span>
-        <input type="range" id="compKnee" min="0" max="40" step="1" value="@Model.CompressorKnee" />
+        @Html.TextBoxFor(model => model.CompressorKnee, new { type = "range", id = "compKnee", min = "0", max = "40", step = "1" })
         <span class="senkenDescriptions">40 &nbsp;&nbsp;&nbsp;</span>
         @Html.ValidationMessageFor(model => model.CompressorKnee, "", new { @class = "text-danger" })
         
         <span class="senkenDescriptions">Threshold: -30&nbsp; </span>
-        <input type="range" id="compThreshold" min="-30" max="0" step="1" value="@Model.CompressorThreshold" />
+        @Html.TextBoxFor(model => model.CompressorThreshold, new { type = "range", id = "compThreshold", min = "-30", max = "0", step = "1" })
         <span class="senkenDescriptions">0 &nbsp;&nbsp;&nbsp;</span>
         @Html.ValidationMessageFor(model => model.CompressorThreshold, "", new { @class = "text-danger" })
 
        
-
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
@@ -158,25 +157,25 @@
 
                         <span class="senkenDescriptions">on/off: </span>
 
-                        @Html.CheckBoxFor(model => model.LFOIActive, "LFOIActive")
+                        @Html.CheckBoxFor(model => model.LfoIActive, "LfoIActive")
                         <span class="senkenDescriptions">type: </span>
 
-                        @Html.EnumDropDownListFor(model => model.LFOIType, htmlAttributes: new { id = "lfoIType", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LFOIType, "", new { @class = "text-danger" })
+                        @Html.EnumDropDownListFor(model => model.LfoIType, htmlAttributes: new { id = "LfoIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LfoIType, "", new { @class = "text-danger" })
 
 
                         <br />
 
                         <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
-                        <input type="range" id="LFOIFreq" min="1" max="50" step="0.1" value="@Model.LFOIFrequency" />
+                        @Html.TextBoxFor(model => model.LfoIFrequency, new { type = "range", id = "LfoIFrequency", min = "1", max = "50", step = "1" })
                         <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LFOIFrequency, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.LfoIFrequency, "", new { @class = "text-danger" })
                         <br />
 
                         <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        <input type="range" id="LFOIScale" min="1" max="10" step="0.1" value="@Model.LFOIScale" />
+                        @Html.TextBoxFor(model => model.LfoIScale, new { type = "range", id = "LfoIScale", min = "1", max = "10", step = "1" })
                         <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LFOIScale, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.LfoIScale, "", new { @class = "text-danger" })
                         <br />
                         
                     </div>
@@ -201,19 +200,21 @@
                         <br />
 
                         <span class="senkenDescriptions">Hz:&nbsp;10</span>
-                        <input type="range" id="filterFrequencyOne" min="1" max="22000" step="0.1" value="@Model.BiquadFilterFrequencyOne" />
-                        <span class="senkenDescriptions">22000 </span>
+                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { type = "range", id = "filterFrequencyOne", min = "0", max = "20000", step = "1" })
+                        
+                        <span class="senkenDescriptions">20000 </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
                         <br />
 
                         <span class="senkenDescriptions">Q:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        <input type="range" id="filterQOne" type="number" min="0" max="5" step="0.1" value="@Model.BiquadFilterQOne" />
+                        @Html.TextBoxFor(model => model.BiquadFilterQOne, new { type = "range", id = "filterQOne", min = "0", max = "5", step = "1" })
+                       
                         <span class="senkenDescriptions">5 </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
                         <br />
 
                         <span class="senkenDescriptions">A:&nbsp;-40</span>
-                        <input type="range" id="filterGainOne" type="number" min="-40" max="40" step="0.1" value="@Model.BiquadFilterGainOne" />
+                        @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { type = "range", id = "filterGainOne", min = "-40", max = "40", step = "1" })
                         <span class="senkenDescriptions">40 </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
                     </div>
@@ -282,9 +283,9 @@
 
             <br>
 
-            <!---LFO -->
+            <!---LFOII -->
 
-            <div id="lfoIIaDiv">
+            <div id="lfoIIDiv">
 
 
                 <div class="form-group">
@@ -296,69 +297,66 @@
 
                         <span class="senkenDescriptions">on/off: </span>
 
-                        @Html.CheckBoxFor(model => model.LFOIIActive, "LFOIIActive")
+                        @Html.CheckBoxFor(model => model.LfoIIActive, "LfoIIActive")
                         <span class="senkenDescriptions">type: </span>
 
-                        @Html.EnumDropDownListFor(model => model.LFOIIType, htmlAttributes: new { id = "lfoIIType", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LFOIIType, "", new { @class = "text-danger" })
+                        @Html.EnumDropDownListFor(model => model.LfoIIType, htmlAttributes: new { id = "LfoIIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LfoIIType, "", new { @class = "text-danger" })
 
 
                         <br />
 
                         <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
-                        <input type="range" id="LFOIIFreq" min="1" max="50" step="0.1" value="@Model.LFOIIFrequency" />
+                        @Html.TextBoxFor(model => model.LfoIIFrequency, new { type = "range", id = "LfoIIFrequency", min = "1", max = "50", step = "1" })
                         <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LFOIIFrequency, "", new { @class = "text-danger" })
-                        <br />
-                        
-                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        <input type="range" id="LFOIIScale" min="1" max="10" step="0.1" value="@Model.LFOIIScale" />
-                        <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LFOIIScale, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.LfoIIFrequency, "", new { @class = "text-danger" })
                         <br />
 
-                      
+                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.LfoIIScale, new { type = "range", id = "LfoIIScale", min = "1", max = "10", step = "1" })
+                        <span class="senkenDescriptions">50 </span>
+                        @Html.ValidationMessageFor(model => model.LfoIIScale, "", new { @class = "text-danger" })
+                        <br />
 
                     </div>
-                </div>
 
+                </div>
             </div>
 
             <br>
 
 
 
-            <!---FilterI -->
+            <!---FilterII -->
 
-            <div id="FilterIIaDiv">
+            <div id="FilterIbDiv">
 
                 <div class="form-group">
 
                     <div class="col-md-10">
 
-                        <h4>BiquadFilter I </h4>
-                        
-                        <br/>
-                        
+                        <h4>BiquadFilter II </h4>
+                        <br />
+
                         <span class="senkenDescriptions">Type: </span>
                         @Html.EnumDropDownListFor(model => model.BiquadFilterTypeTwo, htmlAttributes: new { id = "filterTypeTwo", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.BiquadFilterTypeTwo, "", new { @class = "text-danger" })
-                        <br/>
+                        <br />
 
                         <span class="senkenDescriptions">Hz:&nbsp;10</span>
-                        <input type="range" id="filterFrequencyTwo" min="1"  max="22000"  step="0.1" value="@Model.BiquadFilterFrequencyTwo" />
-                        <span class="senkenDescriptions">22000 </span>
+                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyTwo, new { type = "range", id = "filterFrequencyTwo", min = "0", max = "20000", step = "1" })
+                        <span class="senkenDescriptions">20000 </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyTwo, "", new { @class = "text-danger" })
                         <br />
 
                         <span class="senkenDescriptions">Q:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        <input type="range" id="filterQTwo" type="number" min="0" max="5" step="0.1" value="@Model.BiquadFilterQTwo" />
+                        @Html.TextBoxFor(model => model.BiquadFilterQTwo, new { type = "range", id = "filterQTwo", min = "0", max = "5", step = "1" })
                         <span class="senkenDescriptions">5 </span>
-                         @Html.ValidationMessageFor(model => model.BiquadFilterQTwo, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.BiquadFilterQTwo, "", new { @class = "text-danger" })
                         <br />
 
                         <span class="senkenDescriptions">A:&nbsp;-40</span>
-                        <input type="range" id="filterGainTwo" type="number" min="-40" max="40" step="0.1" value="@Model.BiquadFilterGainTwo" />
+                        @Html.TextBoxFor(model => model.BiquadFilterGainTwo, new { type = "range", id = "filterGainTwo", min = "-40", max = "40", step = "1" })
                         <span class="senkenDescriptions">40 </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterGainTwo, "", new { @class = "text-danger" })
                     </div>

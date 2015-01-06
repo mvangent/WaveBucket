@@ -14,6 +14,51 @@ $(function() {
 
     // create a function that the hub can call back to create sounds
 
+    // module runners
+    jam.client.lfoIRunner = function () {
+        if ($('#LfoIActive').is(':checked')) {
+            console.log("lfo active in runner ONE is true");
+            lfoI.lfoActivator($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val())
+            wiring.updateConnections();
+        }
+        console.log("lfo runner I initiated")
+    };
+
+    jam.client.lfoIIRunner = function () {
+        
+        if ($('#LfoIIActive').is(':checked')) {
+            console.log("lfo active in runner TWO is true");
+            lfoII.lfoActivator($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val())
+        }
+        console.log("lfo runner II initiated")
+        wiring.updateConnections();
+    };
+
+    jam.client.filterIRunner = function () {
+
+        filterI.setType($('#filterTypeOne').val());
+        filterI.setFrequency($('#filterFrequencyOne').val());
+        filterI.setQ($('#filterQOne').val());
+        filterI.setGain($('#filterGainOne').val());
+
+        console.log("filter runner I initiated");
+
+    }
+
+    jam.client.filterIIRunner = function () {
+
+        filterII.setType($('#filterTypeTwo').val());
+        filterII.setFrequency($('#filterFrequencyTwo').val());
+        filterII.setQ($('#filterQTwo').val());
+        filterII.setGain($('#filterGainTwo').val());
+
+        console.log("filter runner II initiated");
+
+    }
+
+
+
+
     // end controls: fields
     jam.client.masterGainAdjusterPointer = endController.gainAdjuster;
     jam.client.startSessionPointer = endController.startSession;
@@ -27,7 +72,7 @@ $(function() {
 
     // oscillator I & features: fields
     jam.client.stackSoundWavePointerI = oscillatorI.stackSoundWave,
-        jam.client.waveRemoverPointerI = oscillatorI.removeLastWave;
+    jam.client.waveRemoverPointerI = oscillatorI.removeLastWave;
     jam.client.lfoActivatorPointerI = lfoI.lfoActivator;
     jam.client.lfoDeactivatorPointerI = lfoI.lfoDeactivator;
     jam.client.startBucketPointerI = oscillatorI.startBucket;
@@ -37,7 +82,7 @@ $(function() {
     jam.client.changeFilterQOnePointer = filterI.setQ;
     jam.client.changeFilterGainOnePointer = filterI.setGain;
     // oscillator I & features: update displays
-    jam.client.updateLfoDisplayPointerI = function (){lfoI.updateDisplay('#LFOIFreq', '#LFOIScale', '#lfoIType');}
+    jam.client.updateLfoDisplayPointerI = function (){setTimeout(function() {lfoI.updateDisplay('#LfoIActive', '#LfoIFrequency', '#LfoIScale', '#LfoIType')}, 100)}
     jam.client.updateOscillatorDisplayPointerI = function (){ oscillatorI.updateDisplay('#OscIFrequency', '#oscIType');}
     jam.client.updateWaveBucketDisplayPointerI = function (){ oscillatorI.updateWaveBucketDisplay('bucketlistI');} // temp solution: get element by ID => double quotes, no #
     jam.client.updateBiquadFilterIDisplayPointer = function (){ filterI.updateDisplay('#filterTypeOne', '#filterFrequencyOne', '#filterQOne', '#filterGainOne');}
@@ -57,7 +102,7 @@ $(function() {
     jam.client.changeFilterQTwoPointer = filterII.setQ;
     jam.client.changeFilterGainTwoPointer = filterII.setGain;
     // oscillator II & features: update displays
-    jam.client.updateLfoDisplayPointerII = lfoII.updateDisplay;
+    jam.client.updateLfoDisplayPointerII = function () { setTimeout(function () { lfoII.updateDisplay('#LfoIIActive', '#LfoIIFrequency', '#LfoIIScale', '#LfoIIType') }, 100) }
     jam.client.updateOscillatorDisplayPointerII = function() { oscillatorII.updateDisplay('#OscIIFrequency', '#oscIIType'); }
     jam.client.updateWaveBucketDisplayPointerII = function (){ oscillatorII.updateWaveBucketDisplay('bucketlistII');} // temp solution: get element by ID => double quotes, no #
     jam.client.updateBiquadFilterIDisplayPointer = function () {filterII.updateDisplay('#filterTypeTwo', '#filterFrequencyTwo','#filterQTwo','#filterGainTwo');}
@@ -92,11 +137,11 @@ $(function() {
         /* Lfo I Event Listeners */
 
         // event listener activation LFO 
-        $('#LFOIActive').change(
+        $('#LfoIActive').change(
             function () {
-                if ($('#LFOIActive').is(':checked')) {
-                    console.log("LFOIButton clicked");
-                    jam.server.activateLFOI($('#LFOIFreq').val(), $('#LFOIScale').val(), $('#lfoIType').val());
+                if ($('#LfoIActive').is(':checked')) {
+                    console.log("LfoIButton clicked");
+                    jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val());
 
                 } else {
                     console.log("LFOStopButtonI clicked");
@@ -104,45 +149,46 @@ $(function() {
                 }
         });
 
-        $('#lfoIType').change(
+        $('#LfoIType').change(
            function () {
 
-              var lfoType = $('#lfoIType').find("option:selected").attr("value");
+              var lfoType = $('#LfoIType').find("option:selected").attr("value");
 
-               if ($('#LFOIActive').is(':checked')) {
+               if ($('#LfoIActive').is(':checked')) {
                    jam.server.deactivateLFOI();
-                   setTimeout(function() { jam.server.activateLFOI($('#LFOIFreq').val(), $('#LFOIScale').val(), lfoType) }, 10);
+                   setTimeout(function () { jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()) }, 0);
                    console.log("LFO type I is changed, while activated");
                } else {
-                   console.log($('#LFOIActive').is(':checked'));
+                   console.log($('#LfoIActive').is(':checked'));
                    console.log("LFO type is changed I, but was not activated");
                    
                }
            });
 
-        $('#LFOIFreq').change(
+        $('#LfoIFrequency').change(
           function () {
 
-              if ($('#LFOIActive').is(':checked')) {
+              if ($('#LfoIActive').is(':checked')) {
                   jam.server.deactivateLFOI();
-                  setTimeout(function() { jam.server.activateLFOI($('#LFOIFreq').val(), $('#LFOIScale').val(), $('#lfoIType').val()); }, 10);
+                  setTimeout(function() { jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()); }, 0);
                   console.log("LFO freq I is changed, while activated");
               } else {
-                  console.log($('#LFOIActive').is(':checked'));
+                  console.log($('#LfoIActive').is(':checked'));
                   console.log("LFO freq I is changed, but was not activated");
 
               }
           });
 
-        $('#LFOIScale').change(
+        $('#LfoIScale').change(
        function () {
 
-           if ($('#LFOIActive').is(':checked')) {
+           if ($('#LfoIActive').is(':checked')) {
                jam.server.deactivateLFOI();
-               setTimeout(function () { jam.server.activateLFOI($('#LFOIFreq').val(), $('#LFOIScale').val(), $('#lfoIType').val()); }, 10);
+               setTimeout(function () { jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()); }, 10);
+
                console.log("LFO scale I is changed, while activated");
            } else {
-               console.log($('#LFOIActive').is(':checked'));
+               console.log($('#LfoIActive').is(':checked'));
                console.log("LFO scale I is changed, but was not activated");
 
            }
@@ -188,11 +234,11 @@ $(function() {
         /* Lfo II Event Listeners */
 
         // event listener activation LFO 
-        $('#LFOIIActive').change(
+        $('#LfoIIActive').change(
             function () {
-                if ($('#LFOIIActive').is(':checked')) {
-                    console.log("LFOButtonII clicked");
-                    jam.server.activateLFOII($('#LFOIIFreq').val(), $('#LFOIIScale').val(), $('#lfoIIType').val());
+                if ($('#LfoIIActive').is(':checked')) {
+                    console.log("LfoButtonII clicked");
+                    jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val());
 
                 } else {
                     console.log("LFOStopButtonII clicked");
@@ -200,45 +246,45 @@ $(function() {
                 }
             });
 
-        $('#lfoIIType').change(
+        $('#LfoIIType').change(
            function () {
 
-               var lfoType = $('#lfoIIType').find("option:selected").attr("value");
+               var lfoType = $('#LfoIIType').find("option:selected").attr("value");
 
-               if ($('#LFOIIActive').is(':checked')) {
+               if ($('#LfoIIActive').is(':checked')) {
                    jam.server.deactivateLFOII();
-                   setTimeout(function () { jam.server.activateLFOII($('#LFOIIFreq').val(), $('#LFOIIScale').val(), lfoType) }, 10);
+                   setTimeout(function () { jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), lfoType) }, 10);
                    console.log("LFO type II is changed, while activated");
                } else {
-                   console.log($('#LFOIIActive').is(':checked'));
+                   console.log($('#LfoIIActive').is(':checked'));
                    console.log("LFO type II is changed, but was not activated");
 
                }
            });
 
-        $('#LFOIIFreq').change(
+        $('#LfoIIFrequency').change(
           function () {
 
-              if ($('#LFOIIActive').is(':checked')) {
+              if ($('#LfoIIActive').is(':checked')) {
                   jam.server.deactivateLFOII();
-                  setTimeout(function () { jam.server.activateLFOII($('#LFOIIFreq').val(), $('#LFOIIScale').val(), $('#lfoIIType').val()); }, 10);
+                  setTimeout(function () { jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val()); }, 10);
                   console.log("LFO freq II is changed, while activated");
               } else {
-                  console.log($('#LFOIIActive').is(':checked'));
+                  console.log($('#LfoIIActive').is(':checked'));
                   console.log("LFO freq II is changed, but was not activated");
 
               }
           });
 
-        $('#LFOIIScale').change(
+        $('#LfoIIScale').change(
        function () {
 
-           if ($('#LFOIIActive').is(':checked')) {
+           if ($('#LfoIIActive').is(':checked')) {
                jam.server.deactivateLFOII();
-               setTimeout(function () { jam.server.activateLFOII($('#LFOIIFreq').val(), $('#LFOIIScale').val(), $('#lfoIIType').val()); }, 10);
+               setTimeout(function () { jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val()); }, 10);
                console.log("LFO scale II is changed, while activated");
            } else {
-               console.log($('#LFOIIActive').is(':checked'));
+               console.log($('#LfoIIActive').is(':checked'));
                console.log("LFO scale II is changed, but was not activated");
 
            }

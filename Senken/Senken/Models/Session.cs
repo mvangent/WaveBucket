@@ -68,10 +68,10 @@ namespace Senken.Models
 
        
         /* LFO I */
-        public bool LFOIActive { get; set; }
-        public float LFOIFrequency { get; set; }
-        public float LFOIScale { get; set; }
-        public LFOType LFOIType { get; set; }
+        public bool LfoIActive { get; set; }
+        public double LfoIFrequency { get; set; }
+        public float LfoIScale { get; set; }
+        public LFOType LfoIType { get; set; }
 
         /* BiQuadFilterOne */
         public BiquadFilterType BiquadFilterTypeOne { get; set; }
@@ -91,10 +91,10 @@ namespace Senken.Models
         public string hiddenWaveBucketII { get; set; }
 
         /* LFO II */
-        public bool LFOIIActive { get; set; }
-        public float LFOIIFrequency { get; set; }
-        public float LFOIIScale { get; set; }
-        public LFOType LFOIIType { get; set; }
+        public bool LfoIIActive { get; set; }
+        public float LfoIIFrequency { get; set; }
+        public float LfoIIScale { get; set; }
+        public LFOType LfoIIType { get; set; }
         
         /* BiQuadFilterTwo */
         public BiquadFilterType BiquadFilterTypeTwo { get; set; }

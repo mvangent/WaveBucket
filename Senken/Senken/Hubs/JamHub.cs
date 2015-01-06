@@ -223,13 +223,20 @@ namespace Senken.Hubs
             Clients.All.updateEndControlDisplayPointer();
             Clients.All.updateWaveBucketDisplayPointerI();
             Clients.All.updateWaveBucketDisplayPointerII();
-            Clients.All.updateCompressorDisplayPointer();
-            Clients.All.updateLfoDisplayPointerI();
-            Clients.All.updateLfoDisplayPointerII();
-            Clients.All.updateOscillatorDisplayPointerI();
-            Clients.All.updateOscillatorDisplayPointerII();
-            Clients.All.updateBiquadFilterIDisplayPointer();
-            Clients.All.updateBiquadFilterIIDisplayPointer();
+
+            Clients.All.lfoIRunner();
+            Clients.All.lfoIIRunner();
+
+            Clients.All.filterIRunner();
+            Clients.All.filterIIRunner();
+
+           // Clients.All.updateCompressorDisplayPointer();
+           // Clients.All.updateLfoDisplayPointerI();
+           // Clients.All.updateLfoDisplayPointerII();
+           // Clients.All.updateOscillatorDisplayPointerI();
+           // Clients.All.updateOscillatorDisplayPointerII();
+           // Clients.All.updateBiquadFilterIDisplayPointer();
+           // Clients.All.updateBiquadFilterIIDisplayPointer();
 
            // Clients.All.updateConnectionsPointer();
 

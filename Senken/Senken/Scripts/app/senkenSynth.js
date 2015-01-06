@@ -37,12 +37,12 @@ var context;
 
     var finalCompressor = new Compressor(context);
 
-    // oscillator II
+    // oscillator I & related modules
     var filterI = new BiquadFilter(context);
     var oscillatorI = new Oscillator(context, endController);
     var lfoI = new Lfo(context);
 
-    // oscillator II
+    // oscillator II & related modules
     var filterII = new BiquadFilter(context);
     var oscillatorII = new Oscillator(context, endController);
     var lfoII = new Lfo(context);
