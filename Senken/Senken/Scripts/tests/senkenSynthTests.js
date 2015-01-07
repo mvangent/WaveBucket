@@ -1,6 +1,6 @@
 ﻿/// <reference path="jquery-2.1.1.min.js" />
 /// <reference path="jquery-2.1.1.js" />
-
+/// <reference path="../app/senkenDelay.js" />
 /// <reference path="../app/senkenBiquadFilter.js" />
 /// <reference path="../app/senkenCompressor.js" />
 /// <reference path="../app/senkenMasterController.js" />
@@ -8,7 +8,7 @@
 /// <reference path="../app/senkenLfo.js" />
 /// <reference path="../app/senkenWaveBucket.js" />
 /// <reference path="../app/senkenOscillator.js" />
-/// <reference path="../app/senkenDelay.js" />
+
 /// <reference path="../app/senkenSynth.js" />
 
 
