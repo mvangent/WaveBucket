@@ -10,7 +10,7 @@ function Delay(context) {
     var channelSplitter = context.createChannelSplitter();
     var nonDelayGain = context.createGain();
     var delayGain = context.createGain();
-    var delay = context.createDelay();
+    var delay = context.createDelay(10);
     var dryWetRatioInPercentage = 0;
     
     // connection scheme
@@ -22,8 +22,10 @@ function Delay(context) {
     
     // initial setup
     var dryWetRatioInPercentage = 0;
+    var delayInMs = 0;
     nonDelayGain.gain.value = 1;
     delayGain.gain.value = 0;
+    
     
     console.log("delay module created");
 
@@ -31,10 +33,10 @@ function Delay(context) {
 
     this.setDelayTime = function (ms) {
 
-      
+        delayInMs = ms;
 
-        delay.delayTime.value = ms;
-        console.log("delay time is set to " + self.readDelayTime());
+        delay.delayTime.value = ms/1000;
+        console.log("delay time is set to " + self.readDelayTime() + " seconds");
     }
 
     this.readDelayTime = function () {
@@ -80,7 +82,7 @@ function Delay(context) {
     // displayMethod 
     this.updateDisplay = function (delayTime, delayRatio) {
 
-        $(delayTime).val(self.readDelayTime);
+        $(delayTime).val(delayInMs);
 
         $(delayRatio).val(self.readDryWetRatio);
 

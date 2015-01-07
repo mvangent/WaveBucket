@@ -37,6 +37,14 @@ namespace Senken.Controllers
             return View();
         }
 
+        public ActionResult DemoRoom()
+        {
+            ViewBag.Message = "Your demo page.";
+
+            return View();
+        }
+
+
        /* protected override void Dispose(bool disposing)
         {
             db.Dispose();

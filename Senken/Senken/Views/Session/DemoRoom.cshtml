@@ -1,0 +1,509 @@
+﻿
+
+<style type="text/css">
+    .senkenContainer {
+    }
+</style>
+
+<h2>Session Mode</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+
+        <hr />  <!-- BreakLine I -->
+        <!-- Visualiser-->
+
+        <div id="visualiserDiv">
+            <canvas id="oscIVisualiser" width="500" height="100"></canvas>
+        </div>
+
+
+
+        <hr />  <!-- BreakLine II -->
+
+
+        <input type="button" id="playButton" value="Activate">
+        <input type="button" id="stopButton" value="Pauze">
+
+
+
+        <!---MasterGain-->
+        <span class="senkenDescriptionsUnit">Volume: </span>
+
+        <span class="senkenDescriptions"> </span>
+        <input type = "range", id = "masterGain", min = "0", max = "65", step = "1" />
+        <span class="senkenDescriptions"> </span>
+       
+
+
+        <hr />
+
+
+        <!---Compressor-->
+
+        <span class="senkenDescriptionsUnit">Compressor: </span>
+
+        <span class="senkenDescriptions">Ratio: 0&nbsp; </span>
+        <input type="range" , id="compRatio" , min="0" , max="20" , step="1" />
+        <span class="senkenDescriptions">20 &nbsp;&nbsp;&nbsp;</span>
+       
+
+
+        <span class="senkenDescriptions">Knee: 0&nbsp; </span>
+        <input type ="range" , id="compKnee" , min="0" , max="40" , step="1" />
+        <span class="senkenDescriptions">40 &nbsp;&nbsp;&nbsp;</span>
+        
+
+        <span class="senkenDescriptions">Threshold: -30&nbsp; </span>
+        <input type="range" , id="compThreshold" , min="-30" , max="0" , step="1" />
+        <span class="senkenDescriptions">0 &nbsp;&nbsp;&nbsp;</span>
+        
+
+
+
+
+
+        <hr />
+    </div>
+
+    <!-- BreakLine III -->
+
+    <div class="senkenContainer">
+
+
+        <!---LEFT COLUMN: Oscillator I-->
+
+        <div id="senkenLeftColumn">
+
+            <!---Oscillator-->
+
+            <div class="form-group">
+
+
+                <div class="col-md-10">
+
+                    <h4>Oscillator I </h4>
+                    <br />
+
+                    <span class="senkenDescriptions">frequency: </span>
+                    <input type ="number" , id="OscIFrequency" , name="frequency" , min="1" , max="22000" , step="1" , maxlength="5" />
+                              
+
+                    <span class="senkenDescriptions">type: </span>
+
+                    <select id="oscIType">
+                        <option value=0>sine</option>
+                        <option value=1>square</option>
+                        <option value=2>triangle</option>
+                        <option value=3>sawtooth</option>
+
+                    </select>
+
+                   
+                    <br />
+                    <input type="button" id="oscStartButtonI" name="sineGen" value="stack Oscillation">
+                    <input type="button" id="oscStopButtonI" name="sineStop" value="remove Last Oscillation">
+
+
+                </div>
+            </div>
+
+
+            <br>
+
+            <!---LFO -->
+
+            <div id="lfoIDiv">
+
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Lfo I (gain) </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">on/off: </span>
+
+                        <input type="checkbox" id="LfoIActive" /> 
+                        
+                        <span class="senkenDescriptions">type: </span>
+
+                        <select id="LfoIType">
+                            <option value=0>sine</option>
+                            <option value=1>square</option>
+                            <option value=2>triangle</option>
+                            <option value=3>sawtooth</option>
+
+                        </select>
+
+                        
+                        <br />
+
+                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
+                        <input type = "range", id = "LfoIFrequency", min = "1", max = "50", step = "1" />
+                        <span class="senkenDescriptions">50 </span>
+                        
+                        <br />
+
+                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        <input type = "range", id = "LfoIScale", min = "1", max = "10", step = "1" />
+                        <span class="senkenDescriptions">50 </span>
+                        
+                        <br />
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!---FilterI -->
+
+            <div id="FilterIaDiv">
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>BiquadFilter I </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">Type: </span>
+
+                        <select id="filterTypeOne">
+                            <option value=0>lowpass</option>
+                            <option value=1>highpass</option>
+                            <option value=2>bandpass</option>
+                            <option value=3>lowshelf</option>
+                            <option value=1>highshelf</option>
+                            <option value=2>peaking</option>
+                            <option value=3>notch</option>
+                            <option value=3>allpass</option>
+
+                        </select>
+
+                     
+                        <br />
+
+                        <span class="senkenDescriptions">Hz:&nbsp;10</span>
+                        <input type = "range", id = "filterFrequencyOne", min = "0", max = "20000", step = "1" />
+
+                        <span class="senkenDescriptions">20000 </span>
+                        
+                        <br />
+
+                        <span class="senkenDescriptions">Q:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        <input "range", id = "filterQOne", min = "0", max = "5", step = "1" />
+
+                        <span class="senkenDescriptions">5 </span>
+                        
+                        <br />
+
+                        <span class="senkenDescriptions">A:&nbsp;-40</span>
+                        <input type = "range", id = "filterGainOne", min = "-40", max = "40", step = "1" />
+                        <span class="senkenDescriptions">40 </span>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <!---DelayI -->
+
+            <div id="DelayIDiv">
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Delay I </h4>
+                        <br />
+
+
+                        <span class="senkenDescriptions">Delay(ms):&nbsp;0</span>
+                        <input type = "range", id = "delayITime", min = "0", max = "10000", step = "1" />
+                        <span class="senkenDescriptions">1000 </span>
+                       
+                        <br />
+
+                        <span class="senkenDescriptions">Dry/Wet (%):&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        <input "range", id = "delayIDryWet", min = "0", max = "100", step = "1" />
+                        <span class="senkenDescriptions">100</span>
+                       
+                        <br />
+
+
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+
+            <!---WaveBucket-->
+
+            <div id="wavebucketIDiv">
+
+                <h4>WaveBucket </h4>
+                <br />
+
+                <span class="senkenDescriptions">
+                    <ul id="bucketlistI">
+                        <li>*-- empty --#</li>
+                    </ul>
+                </span>
+
+               
+
+
+            </div>
+
+
+
+
+        </div>
+
+        <!---RIGHT COLUMN: OscillatorII-->
+
+
+        <div id="senkenRightColumn">
+
+            <!---Oscillator-->
+
+            <div class="form-group">
+
+
+                <div class="col-md-10">
+
+                    <h4>Oscillator II </h4>
+                    <br />
+
+                    <span class="senkenDescriptions">frequency: </span>
+                    <input type="number" , id="OscIIFrequency" , name="frequency" , min="1" , max="22000" , step="1" , maxlength="5" />
+
+
+                    <span class="senkenDescriptions">type: </span>
+
+                    <select id="oscIIType">
+                        <option value=0>sine</option>
+                        <option value=1>square</option>
+                        <option value=2>triangle</option>
+                        <option value=3>sawtooth</option>
+
+                    </select>
+
+
+                    <br />
+                    <input type="button" id="oscStartButtonII" name="sineGen" value="stack Oscillation">
+                    <input type="button" id="oscStopButtonII" name="sineStop" value="remove Last Oscillation">
+
+
+                </div>
+            </div>
+
+
+            <br>
+
+            <!---LFO -->
+
+            <div id="lfoIIDiv">
+
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Lfo II (gain) </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">on/off: </span>
+
+                        <input type="checkbox" id="LfoIIActive" />
+
+                        <span class="senkenDescriptions">type: </span>
+
+                        <select id="LfoIIType">
+                            <option value=0>sine</option>
+                            <option value=1>square</option>
+                            <option value=2>triangle</option>
+                            <option value=3>sawtooth</option>
+
+                        </select>
+
+
+                        <br />
+
+                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
+                        <input type="range" , id="LfoIIFrequency" , min="1" , max="50" , step="1" />
+                        <span class="senkenDescriptions">50 </span>
+
+                        <br />
+
+                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        <input type="range" , id="LfoIIScale" , min="1" , max="10" , step="1" />
+                        <span class="senkenDescriptions">50 </span>
+
+                        <br />
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!---FilterII -->
+
+            <div id="FilterIbDiv">
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>BiquadFilter II </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">Type: </span>
+
+                        <select id="filterTypeTwo">
+                            <option value=0>lowpass</option>
+                            <option value=1>highpass</option>
+                            <option value=2>bandpass</option>
+                            <option value=3>lowshelf</option>
+                            <option value=1>highshelf</option>
+                            <option value=2>peaking</option>
+                            <option value=3>notch</option>
+                            <option value=3>allpass</option>
+
+                        </select>
+
+
+                        <br />
+
+                        <span class="senkenDescriptions">Hz:&nbsp;10</span>
+                        <input type="range" , id="filterFrequencyTwo" , min="0" , max="20000" , step="1" />
+
+                        <span class="senkenDescriptions">20000 </span>
+
+                        <br />
+
+                        <span class="senkenDescriptions">Q:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        <input "range" , id="filterQTwo" , min="0" , max="5" , step="1" />
+
+                        <span class="senkenDescriptions">5 </span>
+
+                        <br />
+
+                        <span class="senkenDescriptions">A:&nbsp;-40</span>
+                        <input type="range" , id="filterGainTwo" , min="-40" , max="40" , step="1" />
+                        <span class="senkenDescriptions">40 </span>
+
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <!---DelayII -->
+
+            <div id="DelayIIDiv">
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Delay II </h4>
+                        <br />
+
+
+                        <span class="senkenDescriptions">Delay(ms):&nbsp;0</span>
+                        <input type="range" , id="delayIITime" , min="0" , max="10000" , step="1" />
+                        <span class="senkenDescriptions">1000 </span>
+
+                        <br />
+
+                        <span class="senkenDescriptions">Dry/Wet (%):&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        <input "range" , id="delayIIDryWet" , min="0" , max="100" , step="1" />
+                        <span class="senkenDescriptions">100</span>
+
+                        <br />
+
+
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+
+            <!---WaveBucket-->
+
+            <div id="wavebucketIIDiv">
+
+                <h4>WaveBucket </h4>
+                <br />
+
+                <span class="senkenDescriptions">
+                    <ul id="bucketlistII">
+                        <li>*-- empty --#</li>
+                    </ul>
+                </span>
+
+
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+
+
+}
+
+
+
+
+@section Scripts {
+
+    <!--Script references. -->
+    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+    <!--Reference the SignalR library. -->
+    <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+    <!--Reference the autogenerated SignalR hub script. -->
+    <script src="~/signalr/hubs"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
+<!--Reference the autogenerated SignalR hub script. -->
+<script src="~/signalr/hubs"></script>
+
+<script type="text/javascript" src="~/Scripts/app/senkenDelay.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenBiquadFilter.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenCompressor.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenMasterController.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenVisualAnalyser.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenLfo.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenWaveBucket.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenOscillator.js"></script>
+
+<script type="text/javascript" src="~/Scripts/app/senkenSynth.js"></script>
+
+<script type="text/javascript" src="~/Scripts/app/hub.js">
+
+</script>
