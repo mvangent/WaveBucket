@@ -38,16 +38,18 @@ var context;
     var finalCompressor = new Compressor(context);
 
     // oscillator I & related modules
+    var delayI = new Delay(context);
     var filterI = new BiquadFilter(context);
     var oscillatorI = new Oscillator(context, endController);
     var lfoI = new Lfo(context);
-    var delayI = new Delay(context);
+    
 
     // oscillator II & related modules
+    var delayII = new Delay(context);
     var filterII = new BiquadFilter(context);
     var oscillatorII = new Oscillator(context, endController);
     var lfoII = new Lfo(context);
-    var delayII = new Delay(context);
+    
 
 
     var wiring = new Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI);
