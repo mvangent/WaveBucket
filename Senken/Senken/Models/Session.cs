@@ -63,7 +63,7 @@ namespace Senken.Models
         public float OscIFrequency { get; set; }
         public OscType OscIType { get; set;}
 
-      /* wavebucket I (hiddenField) */
+        /* wavebucket I (hiddenField) */
         public string hiddenWaveBucketI { get; set; }
 
        
@@ -79,7 +79,9 @@ namespace Senken.Models
         public float BiquadFilterQOne { get; set; }
         public float BiquadFilterGainOne { get; set; }
 
-        
+        /* DelayI */
+        public int DelayITime { get; set; }
+        public int DelayIDryWet { get; set; }
         
         
         /* oscillator II */
@@ -100,9 +102,11 @@ namespace Senken.Models
         public BiquadFilterType BiquadFilterTypeTwo { get; set; }
         public float BiquadFilterFrequencyTwo { get; set; }
         public float BiquadFilterQTwo { get; set; }
-        public float BiquadFilterGainTwo { get; set; } 
-        
-       
+        public float BiquadFilterGainTwo { get; set; }
+
+        /* DelayII */
+        public int DelayIITime { get; set; }
+        public int DelayIIDryWet { get; set; }
 
         
         

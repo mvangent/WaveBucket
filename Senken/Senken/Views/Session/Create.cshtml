@@ -223,6 +223,37 @@
 
             <br>
 
+            <!---DelayI -->
+
+            <div id="DelayIDiv">
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Delay I </h4>
+                        <br />
+
+                       
+                        <span class="senkenDescriptions">Delay(ms):&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.DelayITime, new { type = "range", id = "delayITime", min = "0", max = "10000", step = "1" })
+                        <span class="senkenDescriptions">1000 </span>
+                        @Html.ValidationMessageFor(model => model.DelayITime, "", new { @class = "text-danger" })
+                        <br />
+
+                        <span class="senkenDescriptions">Dry/Wet (%):&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.DelayIDryWet, new { type = "range", id = "delayIDryWet", min = "0", max = "100", step = "1" })
+                        <span class="senkenDescriptions">100</span>
+                        @Html.ValidationMessageFor(model => model.DelayIDryWet, "", new { @class = "text-danger" })
+                        <br />
+
+                       
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
 
             <!---WaveBucket-->
 
@@ -365,6 +396,39 @@
 
             <br>
 
+            <!---DelayII -->
+
+            <div id="DelayIIDiv">
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Delay II </h4>
+                        <br />
+
+
+                        <span class="senkenDescriptions">Delay(ms):&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.DelayIITime, new { type = "range", id = "delayIITime", min = "0", max = "10000", step = "1" })
+                        <span class="senkenDescriptions">1000 </span>
+                        @Html.ValidationMessageFor(model => model.DelayIITime, "", new { @class = "text-danger" })
+                        <br />
+
+                        <span class="senkenDescriptions">Dry/Wet (%):&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.DelayIIDryWet, new { type = "range", id = "delayIIDryWet", min = "0", max = "100", step = "1" })
+                        <span class="senkenDescriptions">100</span>
+                        @Html.ValidationMessageFor(model => model.DelayIIDryWet, "", new { @class = "text-danger" })
+                        <br />
+
+
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+
+
             <!---WaveBucket-->
 
             <div id="wavebucketIIDiv">
@@ -427,6 +491,7 @@
 <script type="text/javascript" src="~/Scripts/app/senkenLfo.js"></script>
 <script type="text/javascript" src="~/Scripts/app/senkenWaveBucket.js"></script>
 <script type="text/javascript" src="~/Scripts/app/senkenOscillator.js"></script>
+<script type="text/javascript" src="~/Scripts/app/senkenDelay.js"></script>
 <script type="text/javascript" src="~/Scripts/app/senkenSynth.js"></script>
 
 <script type="text/javascript" src="~/Scripts/app/hub.js">

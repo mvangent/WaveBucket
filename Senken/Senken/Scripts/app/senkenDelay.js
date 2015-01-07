@@ -6,60 +6,84 @@
 */
 
 function Delay(context) {
-    this.delay = context.createDelay();
-    console.log("filter created");
-
-    var delayTime = 0;  // ms
-    var dryWetRatio = 50; // percentage
+    
+    var channelSplitter = context.createChannelSplitter();
+    var nonDelayGain = context.createGain();
+    var delayGain = context.createGain();
+    var delay = context.createDelay();
+    var dryWetRatioInPercentage = 0;
+    
+    // connection scheme
+    channelSplitter.connect(nonDelayGain);
+    channelSplitter.connect(delay);
+    delay.connect(delayGain);
+    
+    
+    
+    // initial setup
+    var dryWetRatioInPercentage = 0;
+    nonDelayGain.gain.value = 1;
+    delayGain.gain.value = 0;
+    
+    console.log("delay module created");
 
     var self = this;
 
     this.setDelayTime = function (ms) {
 
-        delayTime = ms;
+      
 
-        self.delay.delayTime = delayTime;
-        console.log("delay time is set to " + self.delay.delayTime);
+        delay.delayTime.value = ms;
+        console.log("delay time is set to " + self.readDelayTime());
     }
 
     this.readDelayTime = function () {
-        return self.delay.delayTime;
+        return delay.delayTime.value;
     }
 
    
 
-    this.setDryWetRatio = function (frequency) {
-        self.biQuadFilter.frequency.value = frequency;
+    this.setDryWetRatio = function (ratio) {
+        nonDelayGain.gain.value = (100 - ratio) / 100.0;
+
+        console.log("non delay gain = " + nonDelayGain.gain.value);
+
+        delayGain.gain.value = ratio / 100.0;
+
+        console.log("delay gain = " + delayGain.gain.value);
+
+        dryWetRatioInPercentage = ratio;
     }
 
     this.readDryWetRatio = function () {
-        return self.biQuadFilter.frequency.value;
+
+        console.log("dryWet Ratio from read: " + delayGain.gain.value);
+        console.log("dryWet Ratio from read(%): " + dryWetRatioInPercentage);
+
+        return dryWetRatioInPercentage;
     }
 
     
-
     // connector methods: outputTo
     this.outputTo = function (destination) {
-        self.biQuadFilter.connect(destination);
+        nonDelayGain.connect(destination);
+        delayGain.connect(destination);
 
         return true;
     }
 
     // : input
     this.input = function () {
-        return self.biQuadFilter;
+        return channelSplitter;
     }
 
     // displayMethod 
-    this.updateDisplay = function (filterTypeId, filterFrequencyId, filterQId, filterGainId) {
+    this.updateDisplay = function (delayTime, delayRatio) {
 
-        $(filterTypeId).val(typeEnum);
+        $(delayTime).val(self.readDelayTime);
 
-        $(filterFrequencyId).val(self.biQuadFilter.frequency.value);
+        $(delayRatio).val(self.readDryWetRatio);
 
-        $(filterQId).val(self.biQuadFilter.Q.value);
-
-        $(filterGainId).val(self.biQuadFilter.gain.value);
     }
 
 }

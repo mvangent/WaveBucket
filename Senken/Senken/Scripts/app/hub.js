@@ -56,7 +56,42 @@ $(function() {
 
     }
 
+    jam.client.delayIRunner = function () {
 
+        delayI.setDelayTime($('#delayITime').val());
+        delayI.setDryWetRatio($('#delayIDryWet').val());
+        
+
+        console.log("delayI runner initiated");
+
+    }
+
+    jam.client.delayIIRunner = function () {
+
+        delayII.setDelayTime($('#delayIITime').val());
+        delayII.setDryWetRatio($('#delayIIDryWet').val());
+
+        console.log("delay II runner initiated");
+
+    }
+
+    jam.client.masterVolumeRunner = function () {
+
+        endController.gainAdjuster($('#masterGain').val());
+
+        console.log("masterGain RUNNER");
+
+    }
+
+    jam.client.compressorRunner = function () {
+
+        finalCompressor.ratioAdjuster($('#compRatio').val());
+        finalCompressor.kneeAdjuster($('#compKnee').val());
+        finalCompressor.thresholdAdjuster($('#compThreshold').val());
+
+        console.log("compressor RUNNER");
+
+    }
 
 
     // end controls: fields
@@ -81,11 +116,14 @@ $(function() {
     jam.client.changeFilterFrequencyOnePointer = filterI.setFrequency;
     jam.client.changeFilterQOnePointer = filterI.setQ;
     jam.client.changeFilterGainOnePointer = filterI.setGain;
+    jam.client.changeDelayITimePointer = delayI.setDelayTime;
+    jam.client.changeDelayIDryWetPointer = delayI.setDryWetRatio;
     // oscillator I & features: update displays
     jam.client.updateLfoDisplayPointerI = function (){setTimeout(function() {lfoI.updateDisplay('#LfoIActive', '#LfoIFrequency', '#LfoIScale', '#LfoIType')}, 100)}
     jam.client.updateOscillatorDisplayPointerI = function (){ oscillatorI.updateDisplay('#OscIFrequency', '#oscIType');}
     jam.client.updateWaveBucketDisplayPointerI = function (){ oscillatorI.updateWaveBucketDisplay('bucketlistI');} // temp solution: get element by ID => double quotes, no #
-    jam.client.updateBiquadFilterIDisplayPointer = function (){ filterI.updateDisplay('#filterTypeOne', '#filterFrequencyOne', '#filterQOne', '#filterGainOne');}
+    jam.client.updateBiquadFilterIDisplayPointer = function () { filterI.updateDisplay('#filterTypeOne', '#filterFrequencyOne', '#filterQOne', '#filterGainOne'); }
+    jam.client.updateDelayIDisplayPointer = function () { setTimeout(function () { delayI.updateDisplay('#delayITime', '#delayIDryWet') }, 100) }
     // oscillator I & features: wavebucket client-server connection
     jam.client.saveWaveBucketPointerI = function (){ oscillatorI.saveWaveBucket('#hiddenWaveBucketI');}
     jam.client.loadWaveBucketPointerI = function (){ oscillatorI.loadWaveBucket('#hiddenWaveBucketI');}
@@ -101,11 +139,14 @@ $(function() {
     jam.client.changeFilterFrequencyTwoPointer = filterII.setFrequency;
     jam.client.changeFilterQTwoPointer = filterII.setQ;
     jam.client.changeFilterGainTwoPointer = filterII.setGain;
+    jam.client.changeDelayIITimePointer = delayII.setDelayTime;
+    jam.client.changeDelayIIDryWetPointer = delayII.setDryWetRatio;
     // oscillator II & features: update displays
     jam.client.updateLfoDisplayPointerII = function () { setTimeout(function () { lfoII.updateDisplay('#LfoIIActive', '#LfoIIFrequency', '#LfoIIScale', '#LfoIIType') }, 100) }
     jam.client.updateOscillatorDisplayPointerII = function() { oscillatorII.updateDisplay('#OscIIFrequency', '#oscIIType'); }
     jam.client.updateWaveBucketDisplayPointerII = function (){ oscillatorII.updateWaveBucketDisplay('bucketlistII');} // temp solution: get element by ID => double quotes, no #
-    jam.client.updateBiquadFilterIDisplayPointer = function () {filterII.updateDisplay('#filterTypeTwo', '#filterFrequencyTwo','#filterQTwo','#filterGainTwo');}
+    jam.client.updateBiquadFilterIIDisplayPointer = function () {filterII.updateDisplay('#filterTypeTwo', '#filterFrequencyTwo','#filterQTwo','#filterGainTwo');}
+    jam.client.updateDelayIIDisplayPointer = function () { setTimeout(function () { delayII.updateDisplay('#delayIITime', '#delayIIDryWet') }, 100) }
     // oscillator II & features: wavebucket client-server connection
     jam.client.saveWaveBucketPointerII = function() { oscillatorII.saveWaveBucket('#hiddenWaveBucketII');}
     jam.client.loadWaveBucketPointerII = function (){ oscillatorII.loadWaveBucket('#hiddenWaveBucketII');}
@@ -215,6 +256,17 @@ $(function() {
             jam.server.changeFilterGainOne($('#filterGainOne').val());
         });
 
+        /* Delay I Event Listeners */
+
+        // time
+        $('#delayITime').change(function () {
+            jam.server.changeDelayITime($('#delayITime').val());
+        })
+
+        // dryWetRatio
+        $('#delayIDryWet').change(function () {
+            jam.server.changeDelayIDryWet($('#delayIDryWet').val());
+        })
 
       
 
@@ -313,6 +365,18 @@ $(function() {
 
 
 
+        /* Delay II Event Listeners */
+        // time
+        $('#delayIITime').change(function () {
+            jam.server.changeDelayIITime($('#delayIITime').val());
+        })
+
+        // dryWetRatio
+        $('#delayIIDryWet').change(function () {
+            jam.server.changeDelayIIDryWet($('#delayIIDryWet').val());
+        })
+
+
         /* Master Controller Event Listeners */
         // event listener gain field
         $('#masterGain').change(function () {
@@ -349,7 +413,7 @@ $(function() {
             jam.server.adjustCompThreshold($('#compThreshold').val());
         });
 
-
+        
 
       
 

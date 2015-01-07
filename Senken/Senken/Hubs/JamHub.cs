@@ -99,6 +99,23 @@ namespace Senken.Hubs
             return true;
         }
 
+        /* Delay I */
+        public bool ChangeDelayITime(string ms)
+        {
+            Clients.All.changeDelayITimePointer(ms);
+            Clients.All.updateDelayIDisplayPointer();
+
+            return true;
+        }
+
+        public bool ChangeDelayIDryWet(string ratio)
+        {
+            Clients.All.changeDelayIDryWetPointer(ratio);
+            Clients.All.updateDelayIDisplayPointer();
+
+            return true;
+        }
+
         /* OscillatorII */
 
         public bool StackASoundWaveII(string OscIFrequency, string OscIType, bool updateConnectionsBool)
@@ -181,6 +198,23 @@ namespace Senken.Hubs
             return true;
         }
 
+        /* Delay II */
+        public bool ChangeDelayIITime(string ms)
+        {
+            Clients.All.changeDelayIITimePointer(ms);
+            Clients.All.updateDelayIIDisplayPointer();
+
+            return true;
+        }
+
+        public bool ChangeDelayIIDryWet(string ratio)
+        {
+            Clients.All.changeDelayIIDryWetPointer(ratio);
+            Clients.All.updateDelayIIDisplayPointer();
+
+            return true;
+        }
+
 
         /* Master Controls */
 
@@ -208,6 +242,9 @@ namespace Senken.Hubs
 
         public bool PlaySession()
         {
+            Clients.All.masterVolumeRunner();
+            Clients.All.compressorRunner();
+            
             Clients.All.startSessionPointer(); // must come first otherwise the session will not be flagged as started
             
            
@@ -220,7 +257,7 @@ namespace Senken.Hubs
             
             
             
-            Clients.All.updateEndControlDisplayPointer();
+            
             Clients.All.updateWaveBucketDisplayPointerI();
             Clients.All.updateWaveBucketDisplayPointerII();
 
@@ -229,6 +266,14 @@ namespace Senken.Hubs
 
             Clients.All.filterIRunner();
             Clients.All.filterIIRunner();
+
+            Clients.All.delayIRunner();
+            Clients.All.delayIIRunner();
+
+            Clients.All.masterVolumeRunner();
+
+
+            Clients.All.updateEndControlDisplayPointer();
 
            // Clients.All.updateCompressorDisplayPointer();
            // Clients.All.updateLfoDisplayPointerI();

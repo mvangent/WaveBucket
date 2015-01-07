@@ -41,11 +41,13 @@ var context;
     var filterI = new BiquadFilter(context);
     var oscillatorI = new Oscillator(context, endController);
     var lfoI = new Lfo(context);
+    var delayI = new Delay(context);
 
     // oscillator II & related modules
     var filterII = new BiquadFilter(context);
     var oscillatorII = new Oscillator(context, endController);
     var lfoII = new Lfo(context);
+    var delayII = new Delay(context);
 
 
     var wiring = new Wiring(context, filterI, analyser, endController, finalCompressor, oscillatorI, lfoI);
@@ -80,12 +82,14 @@ var context;
             endController.outputTo(analyser.input());
             finalCompressor.outputTo(endController.input());
             // oscillator I with lfo and filter
-            filterI.outputTo(finalCompressor.input());
+            delayI.outputTo(finalCompressor.input());
+            filterI.outputTo(delayI.input());
             oscillatorI.outputTo(filterI.input());
             lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
 
             // oscillator I with lfo and filter
-            filterII.outputTo(finalCompressor.input());
+            delayII.outputTo(finalCompressor.input());
+            filterII.outputTo(delayII.input());
             oscillatorII.outputTo(filterII.input());
             lfoII.outputTo(oscillatorII.gainNodeInputForLfo());
 
