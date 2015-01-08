@@ -37,6 +37,7 @@ namespace Senken.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult DemoRoom()
         {
             ViewBag.Message = "Your demo page.";
