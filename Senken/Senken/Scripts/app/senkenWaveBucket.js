@@ -4,12 +4,15 @@
 */
 
 
-function WaveBucket() {
+function WaveBucket(idName) {
+
+    var id = idName;
 
     var self = this;
     
     // member variables: 
     this.waveBucket = [];
+    this.waveBucketVolumes = [0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50];
     this.activated = false;
 
     // methods: 
@@ -18,6 +21,19 @@ function WaveBucket() {
     this.addWave = function (osc) {
 
         self.waveBucket.push(osc);
+    }
+
+    this.readVolumeByIndex = function (index) {
+        return self.waveBucketVolumes[index];
+    }
+
+    // changeVolume(index, volume)
+    this.changeVolume = function (index, volume) {
+        console.log("changeVolume on Oscillator volume = " + volume);
+        var volumeInt = parseInt(volume);
+        self.waveBucketVolumes[index] = volumeInt;
+
+        console.log(self.waveBucketVolumes);
     }
 
     // removeLastWave()
@@ -79,8 +95,6 @@ function WaveBucket() {
 
         console.log(mydiv);
 
-        // var mydiv = document.getElementById(bucketTable);
-
         mydiv.innerHTML = "";
 
         for (var i = 0; i < arrayLength; i++) {
@@ -89,6 +103,20 @@ function WaveBucket() {
             newcontent.innerHTML = self.waveBucket[i].frequency.value + " " + self.waveBucket[i].type;
 
             mydiv.appendChild(newcontent);
+
+            // volume fader per wave in bucket
+
+            var volumeFaderID = "volumeFader" + id + i;
+
+            console.log(volumeFaderID + " = volumeFaderID");
+
+            var volumeFader = document.createElement("input");
+            volumeFader.setAttribute("id", volumeFaderID);
+            volumeFader.setAttribute("type", "range");                     
+            
+            volumeFader.setAttribute("class", "volumeFader");
+
+            $(mydiv).append(volumeFader);
 
         };
     }
@@ -118,11 +146,9 @@ function WaveBucket() {
         
         var arrayLength = self.waveBucket.length;
 
-        
-
-            for (var i = 0; i < arrayLength; i++) {
+                for (var i = 0; i < arrayLength; i++) {
                
-                returnString = returnString.concat(self.waveBucket[i].frequency.value + " " + self.waveBucket[i].type + ",");
+                    returnString = returnString.concat(self.waveBucket[i].frequency.value + " " + self.waveBucket[i].type + " " + self.readVolumeByIndex(i) + ",");
 
             };
         

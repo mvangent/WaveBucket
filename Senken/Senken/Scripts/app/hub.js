@@ -151,6 +151,13 @@ $(function() {
     jam.client.saveWaveBucketPointerII = function() { oscillatorII.saveWaveBucket('#hiddenWaveBucketII');}
     jam.client.loadWaveBucketPointerII = function (){ oscillatorII.loadWaveBucket('#hiddenWaveBucketII');}
 
+    // wavebucket I
+    jam.client.changeWaveVolumeInBucketIPointer =  oscillatorI.changeWaveVolume;
+
+     // wavebucket I
+    jam.client.changeWaveVolumeInBucketIIPointer = oscillatorII.changeWaveVolume;
+
+    // wavebucket II
 
 
     // update connections between sound modules
@@ -413,9 +420,169 @@ $(function() {
             jam.server.adjustCompThreshold($('#compThreshold').val());
         });
 
+
+
+        /* -------------------------------------------------------------------------------------
+        ** WaveBucket waves are listened for after a DOM mutation. Because the bucket is created 
+        ** dynamically, a mutation listener must be implemented first. Currently every bucket can
+        ** allow volume manipulation up until 10 waves/bucket
+        ** -------------------------------------------------------------------------------------
+        */
         
 
-      
+        MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+        var observer = new MutationObserver(function (mutations, observer) {
+            // fired when a mutation occurs
+            console.log(mutations);
+            
+
+
+            /* waveBucketI event listeners */
+            $('#volumeFaderoscI0').change(function () {
+
+                var volume = $('#volumeFaderoscI0').val() / 100;
+                console.log("volumeFaderoscI0 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 0)
+
+                ;
+            });
+
+            $('#volumeFaderoscI1').change(function () {
+                var volume = $('#volumeFaderoscI1').val() / 100;
+                console.log("volumeFaderoscI1 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 1);
+            });
+
+            $('#volumeFaderoscI2').change(function () {
+                var volume = $('#volumeFaderoscI2').val() / 100;
+                console.log("volumeFaderoscI2 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 2);
+            });
+
+            $('#volumeFaderoscI3').change(function () {
+                var volume = $('#volumeFaderoscI3').val() / 100;
+                console.log("volumeFaderoscI3 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 3);
+            });
+
+            $('#volumeFaderoscI4').change(function () {
+                var volume = $('#volumeFaderoscI4').val() / 100;
+                console.log("volumeFaderoscI4 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 4);
+            });
+
+            $('#volumeFaderoscI5').change(function () {
+                var volume = $('#volumeFaderoscI5').val() / 100;
+                console.log("volumeFaderoscI5 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 5);
+            });
+
+            $('#volumeFaderoscI6').change(function () {
+                var volume = $('#volumeFaderoscI6').val() / 100;
+                console.log("volumeFaderoscI6 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 6);
+            });
+
+            $('#volumeFaderoscI7').change(function () {
+                var volume = $('#volumeFaderoscI7').val() / 100;
+                console.log("volumeFaderoscI7 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 7);
+            });
+
+            $('#volumeFaderoscI8').change(function () {
+                var volume = $('#volumeFaderoscI8').val() / 100;
+                console.log("volumeFaderoscI8 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 8);
+            });
+
+            $('#volumeFaderoscI9').change(function () {
+                var volume = $('#volumeFaderoscI9').val() / 100;
+                console.log("volumeFaderoscI9 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 0, 9);
+            });
+
+
+            /* waveBucketII event listeners */
+            $('#volumeFaderoscII0').change(function () {
+                
+                var volume = $('#volumeFaderoscII0').val() / 100;
+                console.log("volumeFaderoscII0 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 0)
+
+                ;
+            });
+
+            $('#volumeFaderoscII1').change(function () {
+                var volume = $('#volumeFaderoscII1').val() / 100;
+                console.log("volumeFaderoscII1 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 1);
+            });
+
+            $('#volumeFaderoscII2').change(function () {
+                var volume = $('#volumeFaderoscII2').val() / 100;
+                console.log("volumeFaderoscII2 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 2);
+            });
+
+            $('#volumeFaderoscII3').change(function () {
+                var volume = $('#volumeFaderoscII3').val() / 100;
+                console.log("volumeFaderoscII3 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 3);
+            });
+
+            $('#volumeFaderoscII4').change(function () {
+                var volume = $('#volumeFaderoscII4').val() / 100;
+                console.log("volumeFaderoscII4 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 4);
+            });
+
+            $('#volumeFaderoscII5').change(function () {
+                var volume = $('#volumeFaderoscII5').val() / 100;
+                console.log("volumeFaderoscII5 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 5);
+            });
+
+            $('#volumeFaderoscII6').change(function () {
+                var volume = $('#volumeFaderoscII6').val() / 100;
+                console.log("volumeFaderoscII6 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 6);
+            });
+
+            $('#volumeFaderoscII7').change(function () {
+                var volume = $('#volumeFaderoscII7').val() / 100;
+                console.log("volumeFaderoscII7 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 7);
+            });
+
+            $('#volumeFaderoscII8').change(function () {
+                var volume = $('#volumeFaderoscII8').val() / 100;
+                console.log("volumeFaderoscII8 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 8);
+            });
+
+            $('#volumeFaderoscII9').change(function () {
+                var volume = $('#volumeFaderoscII9').val() / 100;
+                console.log("volumeFaderoscII9 adjusted with volume: " + volume);
+                jam.server.adjustWaveVolume(volume, 1, 9);
+            });
+
+
+
+        });
+
+        // define what element should be observed by the observer
+        // and what types of mutations trigger the callback
+        observer.observe(document, {
+            subtree: true,
+            attributes: true,
+            childList: true,
+            characterData: true,
+            attributeOldValue: true,
+            characterDataOldValue: true
+        });
+
+           
 
     });
 

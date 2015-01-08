@@ -40,14 +40,14 @@ var context;
     // oscillator I & related modules
     var delayI = new Delay(context);
     var filterI = new BiquadFilter(context);
-    var oscillatorI = new Oscillator(context, endController);
+    var oscillatorI = new Oscillator(context, endController, "oscI");
     var lfoI = new Lfo(context);
     
 
     // oscillator II & related modules
     var delayII = new Delay(context);
     var filterII = new BiquadFilter(context);
-    var oscillatorII = new Oscillator(context, endController);
+    var oscillatorII = new Oscillator(context, endController, "oscII");
     var lfoII = new Lfo(context);
     
 

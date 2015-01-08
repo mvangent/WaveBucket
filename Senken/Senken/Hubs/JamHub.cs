@@ -15,6 +15,38 @@ namespace Senken.Hubs
     public class JamHub : Hub
     {
         
+        /* WaveBucket(s) */
+
+        public bool AdjustWaveVolume(string volume, string bucketNumber, string waveNumber) 
+        {
+            if (int.Parse(bucketNumber) == 0)
+            {
+                // do stuff for wavebucket I 
+                Clients.All.freezeBucketPointerI();
+                Clients.All.changeWaveVolumeInBucketIPointer(waveNumber, volume);
+                Clients.All.startBucketPointerI(); // bucket activation must come before loading: NEW IMPLEMENTATION NEEDED
+                Clients.All.loadWaveBucketPointerI(); // LOAD BUCKET SHOULD STORE VALUE IN THE ARRAY AND NOT KICK OFF WAVES
+                
+         
+            }
+            else if (int.Parse(bucketNumber) == 1)
+            {
+                // do stuff for waveBucket II
+                Clients.All.changeWaveVolumeInBucketIIPointer(waveNumber, volume);
+                Clients.All.freezeBucketPointerII();
+                Clients.All.startBucketPointerII(); // bucket activation must come before loading: NEW IMPLEMENTATION NEEDED
+                Clients.All.loadWaveBucketPointerII(); // LOAD BUCKET SHOULD STORE VALUE IN THE ARRAY AND NOT KICK OFF WAVES
+            }
+            else
+            {
+                // do nothing
+            }
+
+            return true;
+
+        }         
+        
+        
         /* OscillatorI */
         
         public bool StackASoundWaveI(string OscIFrequency, string OscIType, bool updateConnectionsBool)

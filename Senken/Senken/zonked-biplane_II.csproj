@@ -435,7 +435,6 @@
     <Content Include="signin-google.cshtml" />
     <Content Include="Views\Account\ExternalLogin.cshtml" />
     <Content Include="Views\Session\Error.cshtml" />
-    <Content Include="Views\Session\DemoRoom.cshtml" />
     <Content Include="Views\Home\DemoRoom.cshtml" />
   </ItemGroup>
   <ItemGroup>
