@@ -30,8 +30,8 @@ function WaveBucket(idName) {
     // changeVolume(index, volume)
     this.changeVolume = function (index, volume) {
         console.log("changeVolume on Oscillator volume = " + volume);
-        var volumeInt = parseInt(volume);
-        self.waveBucketVolumes[index] = volumeInt;
+        var volumeFloat = parseFloat(volume);
+        self.waveBucketVolumes[index] = volumeFloat;
 
         console.log(self.waveBucketVolumes);
     }
