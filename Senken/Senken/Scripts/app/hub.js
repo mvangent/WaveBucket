@@ -173,7 +173,7 @@ $(function() {
 
         $('#oscStartButtonI').click(function () {
             console.log("oscStartButtonI clicked");
-            jam.server.stackASoundWaveI($('#OscIFrequency').val(), $('#oscIType').val(), true);
+            jam.server.stackASoundWaveI($('#OscIFrequency').val(), $('#oscIType').val(), true); // standard start volume is 0.5;
         });
 
 
@@ -281,7 +281,7 @@ $(function() {
 
         $('#oscStartButtonII').click(function () {
             console.log("oscStartButtonII clicked");
-            jam.server.stackASoundWaveII($('#OscIIFrequency').val(), $('#oscIIType').val(), true);
+            jam.server.stackASoundWaveII($('#OscIIFrequency').val(), $('#oscIIType').val(), true); // standard start volume is 0.5
         });
 
 

@@ -186,7 +186,7 @@
                     <br />
 
                     <span class="senkenDescriptions">frequency: </span>
-                    @Html.TextBoxFor(model => model.OscIFrequency, new { @class = "textboxforBig", type = "number", id = "OscIFrequency", name = "frequency", min = "1", max = "22000", step = "1", maxlength = "5" })
+                    @Html.TextBoxFor(model => model.OscIFrequency, new { @class = "textboxforBig", type = "number", id = "OscIFrequency", name = "frequency", min = "0", max = "22000", step = "1", maxlength = "5" })
                     @Html.ValidationMessageFor(model => model.OscIFrequency, "", new { @class = "text-danger" })
 
                     <span class="senkenDescriptions">type: </span>
@@ -355,7 +355,7 @@
                     <br />
 
                     <span class="senkenDescriptions">frequency: </span>
-                    @Html.TextBoxFor(model => model.OscIIFrequency, new { @class = "textboxforBig", type = "number", id = "OscIIFrequency", name = "frequency", min = "1", max = "22000", step = "1", maxlength = "5" })
+                    @Html.TextBoxFor(model => model.OscIIFrequency, new { @class = "textboxforBig", type = "number", id = "OscIIFrequency", name = "frequency", min = "0", max = "22000", step = "1", maxlength = "5" })
                     @Html.ValidationMessageFor(model => model.OscIIFrequency, "", new { @class = "text-danger" })
 
                     <span class="senkenDescriptions">type: </span>

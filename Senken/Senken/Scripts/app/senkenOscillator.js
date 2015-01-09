@@ -21,16 +21,23 @@ function Oscillator(context, endController, name) {
     this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
     this.gainNode = context.createGain();
 
+    
+
+
     /* wavebucket */
-    this.wavebucket = new WaveBucket(oscName);
+    this.wavebucket = new WaveBucket(context, oscName, selfOsc);
     this.lastWaveRemoved = true;
     this.bucketLoaded = false;
+    this.currentFreeIndexInBucket = 0;
+
+    
+
     
 
     
 
 
-    /* Method: this.waveGenerator = function (int frequency, string oscType, bool updateConnectionsBool) : Oscillation
+    /* Method: this.waveGenerator = function (int frequency, string oscType, int waveBucketIndex, bool updateConnectionsBool) : Oscillation
     ------------------------------------------------------------------------------------------------------------------------
     IMPORTANT => this function has an dependency outside the object: global callbackfunction updateWiringCallback() is called  everytime
     a newly generated wave is added. Through this functionality the wavebucket feature becomes possible in an object oriented
@@ -38,7 +45,7 @@ function Oscillator(context, endController, name) {
     the wavebucket is loaded, and instead only the last sound is generated. 
     -----------------------------------------------------------------------------------------------------------------------*/
 
-    this.waveGenerator = function (frequency, oscType, volume, updateConnections) {
+    this.waveGenerator = function (frequency, oscType, volume, waveBucketIndex, updateConnections) {
 
         console.log("waveGenerator reached");
 
@@ -46,15 +53,22 @@ function Oscillator(context, endController, name) {
         selfOsc.osc.type = oscType;
         selfOsc.osc.frequency.value = frequency;
         
-        var gainForWaveNode = context.createGain();
+        /*var gainForWaveNode = context.createGain();
         gainForWaveNode.gain.value = volume;
+        console.log("gainForWaveNode gain value = " + gainForWaveNode.gain.value);
         selfOsc.osc.connect(gainForWaveNode);
-        gainForWaveNode.connect(selfOsc.gainNode);
+        gainForWaveNode.gain.connect(selfOsc.gainNode.gain);
+
+        */
+
+        selfOsc.wavebucket.changeVolume(waveBucketIndex, volume);
 
 
         selfOsc.osc.start(context.currentTime);
         //osc.stop(context.currentTime + DURATION);
         console.log("Osc I: started at freq " + selfOsc.osc.frequency.value + ", with shape " + selfOsc.osc.type + " with volume: " + volume);
+
+        selfOsc.osc.connect(selfOsc.wavebucket.gainNode(waveBucketIndex));
 
         /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE BY UPDATING THE CONNECTIONS OF ALL OBJECTS*/
         if (updateConnections === true) {
@@ -117,18 +131,24 @@ function Oscillator(context, endController, name) {
     ** the the mastercontroller object. 
     */
 
-    this.stackSoundWave = function (frequency, oscTypeEnum, volume, updateConnections) {
+    this.stackSoundWave = function (frequency, oscTypeEnum, updateConnections) {
 
         console.log("stack soundwave reached");
 
         /*!!!! */   selfOsc.oscTypeEnum = oscTypeEnum;
 
+        var volume = 0.5;
+
         var oscType = selfOsc.translateOscTypeEnumToString(selfOsc.oscTypeEnum);
 
         console.log("osctype is NOWWW: " + oscType);
 
+        var waveBucketIndex = selfOsc.currentFreeIndexInBucket;
+
         if (endController.isActive()) {
-            selfOsc.wavebucket.addWave(selfOsc.waveGenerator(frequency, oscType, volume, updateConnections));
+            selfOsc.wavebucket.addWave(selfOsc.waveGenerator(frequency, oscType, volume, waveBucketIndex, updateConnections));
+            selfOsc.currentFreeIndexInBucket += 1;
+            console.log("currentFreeBucketIndex = " + selfOsc.currentFreeIndexInBucket);
             selfOsc.lastWaveRemoved = false;
         }
     };
@@ -185,7 +205,10 @@ function Oscillator(context, endController, name) {
 
             for (i = 0; i < arrayLength; i++) {
                 console.log("i = " + i);
-                selfOsc.wavebucket.addWave(selfOsc.waveGenerator(selfOsc.wavebucket.select(i).frequency.value, selfOsc.wavebucket.select(i).type, selfOsc.wavebucket.readVolumeByIndex(i), true));
+                selfOsc.wavebucket.addWave(selfOsc.waveGenerator(selfOsc.wavebucket.select(i).frequency.value, selfOsc.wavebucket.select(i).type, selfOsc.wavebucket.readVolumeByIndex(i), i, true)); // i is wavebucket index
+
+                selfOsc.currentFreeIndexInBucket += 1;
+                console.log("currentFreeBucketIndex = " + selfOsc.currentFreeIndexInBucket);
             }
 
             for (i = 0; i < arrayLength; i++) {
@@ -222,7 +245,8 @@ function Oscillator(context, endController, name) {
 
             console.log(selfOsc.wavebucket.isActive());
 
-            
+            selfOsc.currentFreeIndexInBucket = 0;
+            console.log("currentFreeBucketIndex = " + selfOsc.currentFreeIndexInBucket);
 
             return true;
         }
@@ -279,9 +303,15 @@ function Oscillator(context, endController, name) {
 
                     console.log("load wave in loadbucket function");
 
+                    var waveBucketIndex = selfOsc.currentFreeIndexInBucket;
 
+                    selfOsc.wavebucket.addWave(selfOsc.waveGenerator(oscillationInStrings[0], selfOsc.translateStringToTypeEnum(oscillationInStrings[1]), oscillationInStrings[2], waveBucketIndex, true));
 
-                    selfOsc.stackSoundWave(oscillationInStrings[0], selfOsc.translateStringToTypeEnum(oscillationInStrings[1]), oscillationInStrings[2], true);
+                    selfOsc.currentFreeIndexInBucket += 1;
+                    console.log("currentFreeBucketIndex = " + selfOsc.currentFreeIndexInBucket);
+
+                    selfOsc.lastWaveRemoved = false;
+                                        
                 }
 
        //     }
@@ -297,15 +327,29 @@ function Oscillator(context, endController, name) {
     this.outputTo = function (destination) {
         console.log("osc output refreshed");
 
-        selfOsc.osc.connect(selfOsc.gainNode);
+        // selfOsc.osc.connect(selfOsc.gainNode);
         selfOsc.gainNode.connect(destination);
 
+        return true;
+    }
+
+    // Method: generatorOutputTo(destination)
+    this.generatorOutputTo = function (destination) {
+        console.log("generator output reached to destination: " + destination);
+
+        selfOsc.osc.connect(destination);
+        
         return true;
     }
 
     // Method: gainNodeInputForLfo() -> return gainNode.gain
     this.gainNodeInputForLfo = function () {
         return selfOsc.gainNode.gain;
+    }
+
+    // Method: gainNodeInputForWaveBucket() -> return gainNode
+    this.gainNodeInputForWaveBucket = function () {
+        return selfOsc.gainNode;
     }
 
     // Method: updateWaveBucketDisplay() -> bucketListId : void

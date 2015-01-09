@@ -89,12 +89,89 @@ var context;
             oscillatorI.outputTo(filterI.input());
             lfoI.outputTo(oscillatorI.gainNodeInputForLfo());
 
-            // oscillator I with lfo and filter
+            // hardwired connections
+            console.log(oscillatorI.wavebucket.gainNode(0));
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(0));
+            //(oscillatorI.wavebucket.gainNode(0)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(0)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(1));
+            //(oscillatorI.wavebucket.gainNode(1)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(1)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(2));
+            //(oscillatorI.wavebucket.gainNode(2)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(2)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(3));
+            //(oscillatorI.wavebucket.gainNode(3)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(3)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(4));
+            //(oscillatorI.wavebucket.gainNode(4)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(4)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(5));
+            //(oscillatorI.wavebucket.gainNode(5)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(5)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(6));
+            //(oscillatorI.wavebucket.gainNode(6)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(6)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(7));
+            //(oscillatorI.wavebucket.gainNode(7)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(7)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(8));
+            //(oscillatorI.wavebucket.gainNode(8)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(8)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            //oscillatorI.generatorOutputTo(oscillatorI.wavebucket.gainNode(9));
+            //(oscillatorI.wavebucket.gainNode(9)).connect(oscillatorI.gainNodeInputForWaveBucket);
+            (oscillatorI.wavebucket.gainNode(9)).connect(oscillatorI.gainNodeInputForWaveBucket());
+
+            
+
+            // oscillator II with lfo and filter
             delayII.outputTo(finalCompressor.input());
             filterII.outputTo(delayII.input());
             oscillatorII.outputTo(filterII.input());
             lfoII.outputTo(oscillatorII.gainNodeInputForLfo());
 
+            // hardwired connections
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(0));
+            (oscillatorII.wavebucket.gainNode(0)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(1));
+            (oscillatorII.wavebucket.gainNode(1)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(2));
+            (oscillatorII.wavebucket.gainNode(2)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+           // oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(3));
+            (oscillatorII.wavebucket.gainNode(3)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(4));
+            (oscillatorII.wavebucket.gainNode(4)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(5));
+            (oscillatorII.wavebucket.gainNode(5)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(6));
+            (oscillatorII.wavebucket.gainNode(6)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(7));
+            (oscillatorII.wavebucket.gainNode(7)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(8));
+            (oscillatorII.wavebucket.gainNode(8)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            //oscillatorII.generatorOutputTo(oscillatorII.wavebucket.gainNode(9));
+            (oscillatorII.wavebucket.gainNode(9)).connect(oscillatorII.gainNodeInputForWaveBucket());
+
+            
 
             return true;
         }
