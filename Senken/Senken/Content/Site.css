@@ -1,13 +1,13 @@
 ﻿html {
-    background-color: #FFD9CB;
+    background-color: #000000;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #7F7D7C; /* #FFF9F8; top menu  background color*/
+    background-color: #FFFFFF; /* #FFF9F8; top menu  background color*/
     border-top: solid 10px #000;
-    color: #CCC8C6;
+    color: #000000;
     font-size: .85em;
     font-family: Helvetica, Sans-Serif;
     margin: 0;
@@ -62,7 +62,7 @@ mark {
 
 h1, h2, h3,
 h4, h5, h6 {
-    color: #888DB2;
+    color: #00CC52;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -101,7 +101,7 @@ h5, h6 {
 }
 
 #body {
-    background-color:  #7F7D7C; /* #FFF9F8; */
+    background-color:  #FFFFFF; /* #FFF9F8; */
     clear: both;
     padding-bottom: 35px;
    
@@ -123,7 +123,7 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #FFD9CB;
+    background-color: #000000;
     font-size: .8em;
     height: 100px;
 }
@@ -132,7 +132,7 @@ footer {
 /* site title
 ----------------------------------------------------------*/
 .site-title {
-    color: #B28B7C;
+    color: #007F33;
     font-family: Helvetica, Consolas, "Courier New", Courier, monospace;
     font-size: 2.3em;
     margin: 0;
@@ -140,7 +140,7 @@ footer {
 
 .site-title a, .site-title a:hover, .site-title a:active {
     background: none;
-    color:#B28B7C;
+    color:#007F33;
     outline: none;
     text-decoration: none;
 }
@@ -197,8 +197,8 @@ ul#menu {
     }
 
         ul#menu li a {
-            background:#FFD9CB ;
-            color: #7F7D7C;
+            background:#5EFF9F ;
+            color: #007F33;
             text-decoration: none;
         }
 
@@ -430,11 +430,11 @@ label.checkbox {
 input, textarea {
     border: 1px solid #7F5D51;
     background: #FFF9F8;
-    color: #B28B7C;
+    color: #487F5E;
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 1px;
     /* width: 300px; */
 }
 
@@ -463,9 +463,9 @@ textarea {
     input[type="range"],
     input[type="radio"],
     button {
-        color: #B28B7C; 
+        color: #487F5E; 
         background-color: #FFF9F8;
-        border: 1px solid #7F5D51;
+        border: 1px solid #487F5E;
         cursor: pointer;
         font-size: 1.2em;
         font-weight: 600;
@@ -791,9 +791,9 @@ tr.pager td {
     /*margin: 5px;
     padding: 2em; */
     
-    border-radius: 5px;
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
+    border-radius: 1px;
+    -moz-border-radius:1px;
+    -webkit-border-radius:1px;
     
 }
 
@@ -861,66 +861,10 @@ table .privateSessionRow .visitTableData {
 
 /* wavebucket related*/
 
-#visualiserDiv {
-
-}
-
-#senkenLeftColumn {
-
-}
-
-#oscIDiv {
-
-}
-
-#lfoIDiv {
-
-}
-
-#FilterIaDiv {
-
-}
-
-#DelayIDiv {
-
-}
-
-#wavebucketIDiv {
-
-}
-
-#visualiserDiv {
-
-}
-
-#senkenRightColumn {
-
-}
-
-#oscIIDiv {
-
-}
-
-#lfoIIDiv {
-
-}
-
-#FilterIbDiv {
-
-}
-
-#DelayIIDiv {
-
-}
-
-#wavebucketIIDiv {
-
-}
-
 .waveBucketUnit {
-    border: 2px solid #7F5D51;
-    color: #FFF9F8/* #22788D; */ ;
-    background-color: #CCC8C6;
+    border: 1px solid #487F5E;
+    color: #000000/* #22788D; */ ;
+    background-color:  #007F33; /* #CCC8C6; */
     text-align: center;
     /*width: 30%; */
     margin: 5px;
@@ -932,13 +876,72 @@ table .privateSessionRow .visitTableData {
 }
 
 #visualiserDiv {
+
+}
+
+#senkenLeftColumn {
+
+}
+
+#oscIDiv {
+    background-color: #5EFF9F;
+}
+
+#lfoIDiv {
+     background-color: #487F5E;
+}
+
+#FilterIaDiv {
+    background-color: #007F33;
+}
+
+#DelayIDiv {
+    background-color: #007F33;
+}
+
+#wavebucketIDiv {
+    background-color: #5EFF9F;
+}
+
+#visualiserDiv {
+
+}
+
+#senkenRightColumn {
+
+}
+
+#oscIIDiv {
+    background-color: #5EFF9F;
+}
+
+#lfoIIDiv {
+    background-color: #487F5E;
+}
+
+#FilterIbDiv {
+    background-color: #007F33;
+}
+
+#DelayIIDiv {
+    background-color: #007F33;
+}
+
+#wavebucketIIDiv {
+    background-color: #5EFF9F;
+}
+
+
+
+#visualiserDiv {
     width: 93%;
     align-content: center;
-    border-radius: 5px;
+    border-radius: 1px;
+    background-color: #007F33;
 }
 
 canvas {
     align-self: center;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 1px;
 }
