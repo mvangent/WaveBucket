@@ -145,44 +145,23 @@
 
             <br>
 
-            <!---LFO -->
 
-            <div id="lfoIDiv" class="waveBucketUnit">
+            <!---WaveBucket-->
 
+            <div id="wavebucketIDiv" class="waveBucketUnit">
 
-                <div class="form-group">
+                <h4>WaveBucket </h4>
+                <br />
 
-                    <div class="col-md-10">
+                <span class="senkenDescriptions">
+                    <ul id="bucketlistI">
+                        <li>*-- empty --#</li>
+                    </ul>
+                </span>
 
-                        <h4>Lfo I (gain) </h4>
-                        <br />
-
-                        <span class="senkenDescriptions">on/off: </span>
-
-                        @Html.CheckBoxFor(model => model.LfoIActive, "LfoIActive")
-                        <span class="senkenDescriptions">type: </span>
-
-                        @Html.EnumDropDownListFor(model => model.LfoIType, htmlAttributes: new { id = "LfoIType", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LfoIType, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.hiddenWaveBucketI, "hiddenWaveBucketI");
 
 
-                        <br />
-
-                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIFrequency, new { type = "range", id = "LfoIFrequency", min = "1", max = "50", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LfoIFrequency, "", new { @class = "text-danger" })
-                        <br />
-
-                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIScale, new { type = "range", id = "LfoIScale", min = "1", max = "10", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LfoIScale, "", new { @class = "text-danger" })
-                        <br />
-
-                    </div>
-
-                </div>
             </div>
 
             <br />
@@ -256,27 +235,54 @@
                 </div>
             </div>
 
+            <!---LFO -->
+
+            <div id="lfoIDiv" class="waveBucketUnit">
+
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Lfo I (gain) </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">on/off: </span>
+
+                        @Html.CheckBoxFor(model => model.LfoIActive, "LfoIActive")
+                        <span class="senkenDescriptions">type: </span>
+
+                        @Html.EnumDropDownListFor(model => model.LfoIType, htmlAttributes: new { id = "LfoIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LfoIType, "", new { @class = "text-danger" })
+
+
+                        <br />
+
+                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.LfoIFrequency, new { type = "range", id = "LfoIFrequency", min = "1", max = "50", step = "1" })
+                        <span class="senkenDescriptions">50 </span>
+                        @Html.ValidationMessageFor(model => model.LfoIFrequency, "", new { @class = "text-danger" })
+                        <br />
+
+                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.LfoIScale, new { type = "range", id = "LfoIScale", min = "1", max = "10", step = "1" })
+                        <span class="senkenDescriptions">50 </span>
+                        @Html.ValidationMessageFor(model => model.LfoIScale, "", new { @class = "text-danger" })
+                        <br />
+
+                    </div>
+
+                </div>
+            </div>
+
+            <br />
+
+          
+
             <br>
 
 
-            <!---WaveBucket-->
-
-            <div id="wavebucketIDiv" class="waveBucketUnit">
-
-                <h4>WaveBucket </h4>
-                <br />
-
-                <span class="senkenDescriptions">
-                    <ul id="bucketlistI">
-                        <li>*-- empty --#</li>
-                    </ul>
-                </span>
-
-                @Html.HiddenFor(model => model.hiddenWaveBucketI, "hiddenWaveBucketI");
-
-
-            </div>
-
+          
 
 
 
@@ -318,49 +324,25 @@
 
             <br>
 
-            <!---LFOII -->
+            <!---WaveBucket-->
 
-            <div id="lfoIIDiv" class="waveBucketUnit">
+            <div id="wavebucketIIDiv" class="waveBucketUnit">
 
+                <h4>WaveBucket </h4>
+                <br />
 
-                <div class="form-group">
+                <span class="senkenDescriptions">
+                    <ul id="bucketlistII">
+                        <li>*-- empty --#</li>
+                    </ul>
+                </span>
 
-                    <div class="col-md-10">
-
-                        <h4>Lfo I (gain) </h4>
-                        <br />
-
-                        <span class="senkenDescriptions">on/off: </span>
-
-                        @Html.CheckBoxFor(model => model.LfoIIActive, "LfoIIActive")
-                        <span class="senkenDescriptions">type: </span>
-
-                        @Html.EnumDropDownListFor(model => model.LfoIIType, htmlAttributes: new { id = "LfoIIType", @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.LfoIIType, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.hiddenWaveBucketII, "hiddenWaveBucketII");
 
 
-                        <br />
-
-                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIIFrequency, new { type = "range", id = "LfoIIFrequency", min = "1", max = "50", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LfoIIFrequency, "", new { @class = "text-danger" })
-                        <br />
-
-                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIIScale, new { type = "range", id = "LfoIIScale", min = "1", max = "10", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
-                        @Html.ValidationMessageFor(model => model.LfoIIScale, "", new { @class = "text-danger" })
-                        <br />
-
-                    </div>
-
-                </div>
             </div>
 
-            <br>
-           
-
+            <br /> 
 
             <!---FilterII -->
 
@@ -429,28 +411,57 @@
                 </div>
             </div>
 
+            <!---LFOII -->
+
+            <div id="lfoIIDiv" class="waveBucketUnit">
+
+
+                <div class="form-group">
+
+                    <div class="col-md-10">
+
+                        <h4>Lfo I (gain) </h4>
+                        <br />
+
+                        <span class="senkenDescriptions">on/off: </span>
+
+                        @Html.CheckBoxFor(model => model.LfoIIActive, "LfoIIActive")
+                        <span class="senkenDescriptions">type: </span>
+
+                        @Html.EnumDropDownListFor(model => model.LfoIIType, htmlAttributes: new { id = "LfoIIType", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LfoIIType, "", new { @class = "text-danger" })
+
+
+                        <br />
+
+                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.LfoIIFrequency, new { type = "range", id = "LfoIIFrequency", min = "1", max = "50", step = "1" })
+                        <span class="senkenDescriptions">50 </span>
+                        @Html.ValidationMessageFor(model => model.LfoIIFrequency, "", new { @class = "text-danger" })
+                        <br />
+
+                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
+                        @Html.TextBoxFor(model => model.LfoIIScale, new { type = "range", id = "LfoIIScale", min = "1", max = "10", step = "1" })
+                        <span class="senkenDescriptions">50 </span>
+                        @Html.ValidationMessageFor(model => model.LfoIIScale, "", new { @class = "text-danger" })
+                        <br />
+
+                    </div>
+
+                </div>
+            </div>
+
+            <br>
+           
+
+
+            
+
             <br>
 
 
 
-            <!---WaveBucket-->
-
-            <div id="wavebucketIIDiv" class="waveBucketUnit">
-
-                <h4>WaveBucket </h4>
-                <br />
-
-                <span class="senkenDescriptions">
-                    <ul id="bucketlistII">
-                        <li>*-- empty --#</li>
-                    </ul>
-                </span>
-
-                @Html.HiddenFor(model => model.hiddenWaveBucketII, "hiddenWaveBucketII");
-
-
-            </div>
-
+            
 
 
 
