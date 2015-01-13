@@ -230,7 +230,7 @@ function WaveBucket(context, idName, oscillator) {
         
     }
 
-    // : input
+    // : gainNode
     this.gainNode = function (index) {
         switch (index)
         {

@@ -428,8 +428,8 @@ label.checkbox {
 }
 
 input, textarea {
-    border: 1px solid #000000;
-    background: #FFFFFF;
+    border: 1px solid #7F5D51;
+    background: #FFF9F8;
     color: #22788D;
     font-size: 1.2em;
     margin: 5px 0 6px 0;
@@ -448,13 +448,13 @@ textarea {
     }
 
     input[type="checkbox"] {
-        background: #FFFFFF;
+        background: #FFF9F8;
         border: inherit;
         width: auto;
     }
 
     input[type="range"] {
-        background-color: #FFFFFF;
+        background-color: #FFF9F8;
     }
 
     input[type="submit"],
@@ -463,8 +463,8 @@ textarea {
     input[type="range"],
     input[type="radio"],
     button {
-        background-color: #FFFFFF;
-        border: 1px solid #000000;
+        background-color: #FFF9F8;
+        border: 1px solid #7F5D51;
         cursor: pointer;
         font-size: 1.2em;
         font-weight: 600;
@@ -782,7 +782,7 @@ tr.pager td {
 /* session index view*/
 
 #sessionsTable {
-    border: 4px solid #000000;
+    border: 1px solid #7F5D51;
     color: #22788D;
     
     text-align: center;
@@ -793,12 +793,12 @@ tr.pager td {
     border-radius: 5px;
     -moz-border-radius:10px;
     -webkit-border-radius:10px;
-    box-shadow: 1px 1px 1px #010101;
+    
 }
 
 table .sharableSessionRow {
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: #FFF9F8;
+    color: #7F7D7C;
     border-radius: 5px;
     opacity: 1.0;
 }
@@ -810,9 +810,9 @@ table .sharableSessionRow:hover {
 }
 
 table .privateSessionRow {
-    background-color: #000000;
-    color: #FFFFFF;
-    opacity: 0.2;
+    background-color: #CCC8C6;
+    color: #7F7D7C;
+    opacity: 0.8;
 }
 
 table .privateSessionRow:hover {
@@ -820,8 +820,8 @@ table .privateSessionRow:hover {
     background-color: #FFD9CB;
 }
 
-table .sharableSessionRow .visitTableData {
-     background-color: #FFFFFF;
+/* table .sharableSessionRow .visitTableData {
+    background-color: #FFFFFF;
     color: #000000;
     border-radius: 5px;
     opacity: 1.0;
@@ -832,7 +832,7 @@ table .privateSessionRow .visitTableData {
      background-color: #000000;
     color: #FFFFFF;
     opacity: 0.2;
-}
+} */
 
 /* session create view synth layout*/
 
@@ -917,16 +917,16 @@ table .privateSessionRow .visitTableData {
 }
 
 .waveBucketUnit {
-    border: 4px solid #000000;
-    color: #22788D;
-    background-color: #FEFFFE;
+    border: 2px solid #7F5D51;
+    color: #FFF9F8/* #22788D; */ ;
+    background-color: #CCC8C6;
     text-align: center;
     /*width: 30%; */
     margin: 5px;
     padding: 2em;
     opacity: 0.9;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px #010101;
+    border-radius: 1px;
+    /* box-shadow: 1px 1px 1px #010101; */
 
 }
 
