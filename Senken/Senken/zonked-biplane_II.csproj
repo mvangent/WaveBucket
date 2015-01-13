@@ -347,6 +347,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Images\waveBucketTypeLogo.jpg" />
     <Content Include="phantomjs-license.txt" />
     <Content Include="Scripts\app\hub.js" />
     <Content Include="Scripts\app\senkenBiquadFilter.js" />
@@ -441,6 +442,7 @@
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
