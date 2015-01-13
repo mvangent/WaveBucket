@@ -5,9 +5,9 @@
 }
 
 body {
-    background-color:#FFF9F8; /* top menu  background color*/
+    background-color: #7F7D7C; /* #FFF9F8; top menu  background color*/
     border-top: solid 10px #000;
-    color: #7F7D7C;
+    color: #CCC8C6;
     font-size: .85em;
     font-family: Helvetica, Sans-Serif;
     margin: 0;
@@ -101,7 +101,7 @@ h5, h6 {
 }
 
 #body {
-    background-color: #FFF9F8;
+    background-color:  #7F7D7C; /* #FFF9F8; */
     clear: both;
     padding-bottom: 35px;
    
@@ -198,7 +198,7 @@ ul#menu {
 
         ul#menu li a {
             background:#FFD9CB ;
-            color: #FFF9F8;
+            color: #7F7D7C;
             text-decoration: none;
         }
 
