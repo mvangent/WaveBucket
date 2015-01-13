@@ -1,5 +1,5 @@
 ﻿html {
-    background-color: #000000;
+    background-color: #FFFFFF;
     margin: 0;
     padding: 0;
 }
@@ -123,7 +123,7 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #000000;
+    background-color: #FFFFFF;
     font-size: .8em;
     height: 100px;
 }
@@ -779,7 +779,14 @@ tr.pager td {
 
 .homeButton {
     text-align: center;
+   
     
+}
+
+.homeButton input 
+{
+     background-color: #000000;
+    color: white;
 }
 
 /* session index view*/
@@ -936,15 +943,16 @@ table .privateSessionRow .visitTableData {
 
 
 
-#visualiserDiv {
+/*#visualiserDiv {
     width: 93%;
     align-content: center;
     border-radius: 1px;
     background-color: #007F33;
-}
+} */
 
 canvas {
     align-self: center;
     width: 100%;
+    height: 100%;
     border-radius: 1px;
 }
