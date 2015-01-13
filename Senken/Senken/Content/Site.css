@@ -62,7 +62,7 @@ mark {
 
 h1, h2, h3,
 h4, h5, h6 {
-    color: #B30028;
+    color: #888DB2;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -132,7 +132,7 @@ footer {
 /* site title
 ----------------------------------------------------------*/
 .site-title {
-    color: #B30028;
+    color: #B28B7C;
     font-family: Helvetica, Consolas, "Courier New", Courier, monospace;
     font-size: 2.3em;
     margin: 0;
@@ -140,7 +140,7 @@ footer {
 
 .site-title a, .site-title a:hover, .site-title a:active {
     background: none;
-    color:#22788D;
+    color:#B28B7C;
     outline: none;
     text-decoration: none;
 }
@@ -430,7 +430,7 @@ label.checkbox {
 input, textarea {
     border: 1px solid #7F5D51;
     background: #FFF9F8;
-    color: #22788D;
+    color: #B28B7C;
     font-size: 1.2em;
     margin: 5px 0 6px 0;
     padding: 5px;
@@ -463,6 +463,7 @@ textarea {
     input[type="range"],
     input[type="radio"],
     button {
+        color: #B28B7C; 
         background-color: #FFF9F8;
         border: 1px solid #7F5D51;
         cursor: pointer;
