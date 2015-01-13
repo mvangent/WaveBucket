@@ -428,8 +428,8 @@ label.checkbox {
 }
 
 input, textarea {
-    border: 1px solid #7F5D51;
-    background: #FFF9F8;
+    border: 1px solid #000000;
+    background: #FFFFFF;
     color: #487F5E;
     font-size: 1.2em;
     margin: 5px 0 6px 0;
@@ -448,23 +448,20 @@ textarea {
     }
 
     input[type="checkbox"] {
-        background: #FFF9F8;
+        background: #FFFFFF;
         border: inherit;
         width: auto;
     }
 
-    input[type="range"] {
-        background-color: #FFF9F8;
-    }
-
+    
     input[type="submit"],
     input[type="button"],
     input[type="checkbox"],
     input[type="range"],
     input[type="radio"],
     button {
-        color: #487F5E; 
-        background-color: #FFF9F8;
+        color: #000000; 
+        background-color: #FFFFFF;
         border: 1px solid #487F5E;
         cursor: pointer;
         font-size: 1.2em;
@@ -473,6 +470,11 @@ textarea {
         margin-right: 8px;
         width: auto;
     }
+
+    input[type="range"] {
+        background-color: inherit;
+    }
+
 
     td input[type="submit"],
     td input[type="button"],
