@@ -785,8 +785,8 @@ tr.pager td {
 
 .homeButton input 
 {
-     background-color: #000000;
-    color: white;
+     background:#5EFF9F ;
+            color: #007F33;
 }
 
 /* session index view*/
@@ -880,6 +880,7 @@ table .privateSessionRow .visitTableData {
     padding: 2em;
     opacity: 0.9;
     border-radius: 1px;
+    
     /* box-shadow: 1px 1px 1px #010101; */
 
 }
