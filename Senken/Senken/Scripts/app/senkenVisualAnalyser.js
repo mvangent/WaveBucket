@@ -51,11 +51,11 @@ function Analyser(context) {
         analyser.getByteTimeDomainData(dataArray);
 
         //set canvas background
-        canvasCtx.fillStyle = 'rgb(190, 230, 180)';
+        canvasCtx.fillStyle = 'rgb(34, 120, 141)';
         canvasCtx.fillRect(0, 0, canvasWidth, canvasHeight);
         // set canvas linewidth and stroke
         canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = 'rgb(90, 205, 90)';
+        canvasCtx.strokeStyle = 'rgb(179, 0, 40)';
         // begin drawing a path
         canvasCtx.beginPath();
 
