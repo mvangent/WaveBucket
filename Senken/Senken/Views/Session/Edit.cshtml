@@ -4,7 +4,13 @@
     ViewBag.Title = "Edit";
 }
 
+@Html.HiddenFor(model => model.SessionID, "SessionID");
+@Html.HiddenFor(model => model.UserIsOwner, "UserIsOwner");
+@Html.HiddenFor(model => model.OpenToEvolution, "OpenToEvolution");
+
 <h2>Session Mode</h2>
+
+
 
 @using (Html.BeginForm()) 
 { 
@@ -14,12 +20,15 @@
 
 
         <!---SaveButton & CopyButton-->
-        @if (Model.UserIsOwner)
+        @if (Model.UserIsOwner && !Model.OpenToEvolution)
         {
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save & Quit" class="btn btn-default" />
+                    
+                    <input type="button" id="OnOffButton" value="Controller" />
+                    
+                    <input type="submit" id="SaveButton" value="Save & Quit" class="btn btn-default" />
 
                     <a href="~/Home/About">
                         <input type="button" id="QuitButton" value="Quit" />
@@ -38,11 +47,43 @@
             </div>
 
         }
+        else if (Model.UserIsOwner && Model.OpenToEvolution)
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+
+
+                    <input type="button" id="JoinButton" value="Connect" />
+
+                    <input type="submit" id="SaveButton" value="Save and Quit Session" class="btn btn-default" />
+
+                    <a href="~/Home/About">
+                        <input type="button" id="QuitButton" value="Quit" />
+                    </a>
+
+                    <a href="~/Session/Index">
+                        <input type="button" id="ExploreAgainButton" value="Explore Sessions" />
+                    </a>
+
+                    <!---Title-->
+
+                    <span class="senkenDescriptions">Title: </span>
+                    @Html.TextBoxFor(model => model.Title, new { @class = "textboxforTitle", type = "text", id = "sessiontitle", minLength = "1", maxlength = "15" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+        } 
         else if (!Model.UserIsOwner && Model.OpenToEvolution)
         {
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Acquire Session" class="btn btn-default" />
+                    
+                  
+                    <input type="button" id="JoinButton" value="Connect" />
+                    
+                    <input type="submit" id="SaveButton" value="Save and Quit Session" class="btn btn-default" />
 
                     <a href="~/Home/About">
                         <input type="button" id="QuitButton" value="Quit" />
@@ -84,16 +125,7 @@
 
 
         
-        
-
-
-
-
-
-
-
-
-
+                
 
         <hr />  <!-- BreakLine I -->
         <!-- Visualiser-->
@@ -106,50 +138,55 @@
 
         <hr />  <!-- BreakLine II -->
 
+        <div id="masterControls">
 
-        <input type="button" id="playButton" value="Activate">
-        <input type="button" id="stopButton" value="Pauze">
+            <input type="button" id="playButton" value="Activate">
+            <input type="button" id="stopButton" value="Pauze">
 
-        <span class="senkenDescriptions">Allow evolution through others? </span>
+            <span class="senkenDescriptions">Allow evolution through others? </span>
 
-        @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution")
+            @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution")
 
-        <!---MasterGain-->
-        <span class="senkenDescriptionsUnit">Volume: </span>
+            <!---MasterGain-->
+            <span class="senkenDescriptionsUnit">Volume: </span>
 
-        <span class="senkenDescriptions"> </span>
-        @Html.TextBoxFor(model => model.MasterGain, new { type = "range", id = "masterGain", min = "0", max = "65", step = "1" })
-        <span class="senkenDescriptions"> </span>
-        @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
+            <span class="senkenDescriptions"> </span>
+            @Html.TextBoxFor(model => model.MasterGain, new { type = "range", id = "masterGain", min = "0", max = "65", step = "1" })
+            <span class="senkenDescriptions"> </span>
+            @Html.ValidationMessageFor(model => model.MasterGain, "", new { @class = "text-danger" })
 
 
-        <hr />
+            
+        </div>
 
+        <hr /> <!-- BreakLine III -->
 
         <!---Compressor-->
 
-        <span class="senkenDescriptionsUnit">Compressor: </span>
+        <div id="compressor">
 
-        <span class="senkenDescriptions">Ratio: 0&nbsp; </span>
-        @Html.TextBoxFor(model => model.CompressorRatio, new { type = "range", id = "compRatio", min = "0", max = "20", step = "1" })
-        <span class="senkenDescriptions">20 &nbsp;&nbsp;&nbsp;</span>
-        @Html.ValidationMessageFor(model => model.CompressorRatio, "", new { @class = "text-danger" })
+            <span class="senkenDescriptionsUnit">Compressor: </span>
 
-
-        <span class="senkenDescriptions">Knee: 0&nbsp; </span>
-        @Html.TextBoxFor(model => model.CompressorKnee, new { type = "range", id = "compKnee", min = "0", max = "40", step = "1" })
-        <span class="senkenDescriptions">40 &nbsp;&nbsp;&nbsp;</span>
-        @Html.ValidationMessageFor(model => model.CompressorKnee, "", new { @class = "text-danger" })
-
-        <span class="senkenDescriptions">Threshold: -30&nbsp; </span>
-        @Html.TextBoxFor(model => model.CompressorThreshold, new { type = "range", id = "compThreshold", min = "-30", max = "0", step = "1" })
-        <span class="senkenDescriptions">0 &nbsp;&nbsp;&nbsp;</span>
-        @Html.ValidationMessageFor(model => model.CompressorThreshold, "", new { @class = "text-danger" })
+            <span class="senkenDescriptions">Ratio: 0&nbsp; </span>
+            @Html.TextBoxFor(model => model.CompressorRatio, new { type = "range", id = "compRatio", min = "0", max = "20", step = "1" })
+            <span class="senkenDescriptions">20 &nbsp;&nbsp;&nbsp;</span>
+            @Html.ValidationMessageFor(model => model.CompressorRatio, "", new { @class = "text-danger" })
 
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <span class="senkenDescriptions">Knee: 0&nbsp; </span>
+            @Html.TextBoxFor(model => model.CompressorKnee, new { type = "range", id = "compKnee", min = "0", max = "40", step = "1" })
+            <span class="senkenDescriptions">40 &nbsp;&nbsp;&nbsp;</span>
+            @Html.ValidationMessageFor(model => model.CompressorKnee, "", new { @class = "text-danger" })
+
+            <span class="senkenDescriptions">Threshold: -30&nbsp; </span>
+            @Html.TextBoxFor(model => model.CompressorThreshold, new { type = "range", id = "compThreshold", min = "-30", max = "0", step = "1" })
+            <span class="senkenDescriptions">0 &nbsp;&nbsp;&nbsp;</span>
+            @Html.ValidationMessageFor(model => model.CompressorThreshold, "", new { @class = "text-danger" })
 
 
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        </div>
 
 
 

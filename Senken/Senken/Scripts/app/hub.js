@@ -169,31 +169,226 @@ $(function() {
 
     $.connection.hub.start().done(function () {
 
-        /* OscillatorI Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** Membership Buttons Event Listeners 
+        ** ---------------------------------------------------------------------------
+        ** !! Important: Both the OnOffButton and JoinGroup eventListeners are necessary
+        ** to establish a signalR connection. Clicking these buttons does not only result in 
+        ** visual effects, but a least equally importantly calls a method that connects the 
+        ** user to the jamRoom. 
+        */
+
+        var sessionInt = $('#SessionID').val();
+        var sessionIDString = sessionInt.toString();
+
+       /*----------------------------------------------------------------------------
+       ** Event Listener: OnOffButton: values (Controller, Minimize)
+       ** ---------------------------------------------------------------------------
+       ** Sets up a single user connection with the signalR hub. 
+       */
+
+        $('#OnOffButton').click(function () {
+
+            console.log($('#SessionID').val() + " OnOffButton clicked");
+
+           
+
+            if ($('#SessionID').val() != null && $('#OnOffButton').val() === "Controller") {
+
+
+
+                jam.server.joinRoom(sessionIDString);
+
+                // non server methods
+                $('.senkenContainer').show("slow");
+                $('#compressor').show("fast");
+                $('#masterControls').show("fast");
+                $('#SaveButton').show("fast");
+
+                // set join button to disjoin and colors to complementary color scheme
+                $('#OnOffButton').val("Minimize");
+                $('#OnOffButton').css({ 'background': '#FFFFFF' });
+                $('#OnOffButton').css({ 'color': '#7f004c' });
+
+
+
+
+
+            } else {
+
+                jam.server.leaveRoom(sessionIDString);
+
+                // non server methods
+                $('.senkenContainer').hide("fast");
+                $('#compressor').hide("slow");
+                $('#masterControls').hide("slow");
+               
+
+                // set join button to disjoin and colors to complementary color scheme
+                $('#OnOffButton').val("Controller");
+                $('#OnOffButton').css({ 'background': '#5EFF9F' });
+                $('#OnOffButton').css({ 'color': '#007f33' });
+
+
+            }
+        });
+
+        /*----------------------------------------------------------------------------
+      ** Event Listener: JoinButton: values (Join, Disengage)
+      ** ---------------------------------------------------------------------------
+      ** Sets up a multi-user connection with the signalR hub. 
+      */
+
+        $('#JoinButton').click(function () {
+
+            console.log($('#SessionID').val() + " JoinButton clicked");
+            
+           // var sessionInt = $('#SessionID').val();
+           // var sessionIDString = sessionInt.toString();
+
+            if ($('#SessionID').val() != null && $('#JoinButton').val() === "Connect") {
+
+                
+
+                jam.server.joinRoom(sessionIDString);
+
+                // non server methods
+                $('.senkenContainer').show("slow");
+                $('#compressor').show("fast");
+                $('#masterControls').show("fast");
+                $('#SaveButton').show("fast");
+
+                // set join button to disjoin and colors to complementary color scheme
+                $('#JoinButton').val("Disengage");
+                $('#JoinButton').css({ 'background': '#FFFFFF' });
+                $('#JoinButton').css({ 'color': '#7f004c' });
+                
+                
+             
+
+
+            } else {
+
+                jam.server.leaveRoom(sessionIDString);
+
+                // non server methods
+                $('.senkenContainer').hide("fast");
+                $('#compressor').hide("slow");
+                $('#masterControls').hide("slow");
+                
+
+                // set join button to disjoin and colors to complementary color scheme
+                $('#JoinButton').val("Connect");
+                $('#JoinButton').css({ 'background': '#5EFF9F' });
+                $('#JoinButton').css({ 'color': '#007f33' });
+
+
+            }
+        });
+
+
+        $('#SaveButton').click(function () {
+            if ($('#sessionId').val() != null) {
+                jam.server.leaveRoom(sessionIDString);
+            }
+        });
+
+        $('#QuitButton').click(function () {
+            if ($('#sessionId').val() != null) {
+                jam.server.leaveRoom(sessionIDString);
+            }
+        });
+
+        /* membership initializers */
+        $('#ExploreAgainButton').click(function () {
+            if ($('#sessionId').val() != null) {
+                jam.server.leaveRoom(sessionIDString);
+            }
+        });
+
+
+        /*----------------------------------------------------------------------------
+        ** Master Controller Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
+
+
+        // event listener gain field
+        $('#masterGain').change(function () {
+            jam.server.changeMasterGain(sessionIDString, $('#masterGain').val());
+        });
+
+        // event listener suspend button
+        $('#stopButton').click(function () {
+            jam.server.stopSession(sessionIDString);
+        });
+
+        // event listener start button
+        $('#playButton').click(function () {
+
+            console.log(sessionIDString);
+            jam.server.playSession(sessionIDString);
+        });
+
+
+        
+
+        /*----------------------------------------------------------------------------
+        ** Compressor Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
+
+        /* Compressor Event Listeners */
+        // event listener ratio Compressor 
+        $('#compRatio').change(function () {
+            console.log("compressor ratio adjusted");
+            jam.server.adjustCompRatio(sessionIDString, $('#compRatio').val());
+        });
+
+        // event listener knee Compressor 
+        $('#compKnee').change(function () {
+            console.log("compressor knee adjusted");
+            jam.server.adjustCompKnee(sessionIDString, $('#compKnee').val());
+        });
+
+        // event listener treshold Compressor 
+        $('#compThreshold').change(function () {
+            console.log("compressor treshold adjusted");
+            jam.server.adjustCompThreshold(sessionIDString, $('#compThreshold').val());
+        });
+
+        /*----------------------------------------------------------------------------
+        ** Oscillator I Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
+
 
         $('#oscStartButtonI').click(function () {
             console.log("oscStartButtonI clicked");
-            jam.server.stackASoundWaveI($('#OscIFrequency').val(), $('#oscIType').val(), true); // standard start volume is 0.5;
+            jam.server.stackASoundWaveI(sessionIDString, $('#OscIFrequency').val(), $('#oscIType').val(), true); // standard start volume is 0.5;
         });
 
 
         $('#oscStopButtonI').click(function () {
             console.log("oscStopButtonI clicked");
-            jam.server.removeLastSoundI();
+            jam.server.removeLastSoundI(sessionIDString);
         });
 
-        /* Lfo I Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** LFO I Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
 
         // event listener activation LFO 
         $('#LfoIActive').change(
             function () {
                 if ($('#LfoIActive').is(':checked')) {
                     console.log("LfoIButton clicked");
-                    jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val());
+                    jam.server.activateLFOI(sessionIDString, $('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val());
 
                 } else {
                     console.log("LFOStopButtonI clicked");
-                    jam.server.deactivateLFOI();
+                    jam.server.deactivateLFOI(sessionIDString);
                 }
         });
 
@@ -203,8 +398,8 @@ $(function() {
               var lfoType = $('#LfoIType').find("option:selected").attr("value");
 
                if ($('#LfoIActive').is(':checked')) {
-                   jam.server.deactivateLFOI();
-                   setTimeout(function () { jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()) }, 0);
+                   jam.server.deactivateLFOI(sessionIDString);
+                   setTimeout(function () { jam.server.activateLFOI(sessionIDString, $('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()) }, 0);
                    console.log("LFO type I is changed, while activated");
                } else {
                    console.log($('#LfoIActive').is(':checked'));
@@ -217,8 +412,8 @@ $(function() {
           function () {
 
               if ($('#LfoIActive').is(':checked')) {
-                  jam.server.deactivateLFOI();
-                  setTimeout(function() { jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()); }, 0);
+                  jam.server.deactivateLFOI(sessionIDString);
+                  setTimeout(function() { jam.server.activateLFOI(sessionIDString, $('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()); }, 0);
                   console.log("LFO freq I is changed, while activated");
               } else {
                   console.log($('#LfoIActive').is(':checked'));
@@ -231,8 +426,8 @@ $(function() {
        function () {
 
            if ($('#LfoIActive').is(':checked')) {
-               jam.server.deactivateLFOI();
-               setTimeout(function () { jam.server.activateLFOI($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()); }, 10);
+               jam.server.deactivateLFOI(sessionIDString);
+               setTimeout(function () { jam.server.activateLFOI(sessionIDString, $('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val()); }, 10);
 
                console.log("LFO scale I is changed, while activated");
            } else {
@@ -242,66 +437,78 @@ $(function() {
            }
        });
 
-        /* BiquadFilter I Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** BiquadFilter I Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
         // event listener type box
         $('#filterTypeOne').change(function () {
-            jam.server.changeFilterTypeOne($('#filterTypeOne').val());
+            jam.server.changeFilterTypeOne(sessionIDString, $('#filterTypeOne').val());
         });
 
         // event listener frequency field
         $('#filterFrequencyOne').change(function () {
-            jam.server.changeFilterFrequencyOne($('#filterFrequencyOne').val());
+            jam.server.changeFilterFrequencyOne(sessionIDString, $('#filterFrequencyOne').val());
         });
 
         // event listener Q field
         $('#filterQOne').change(function () {
-            jam.server.changeFilterQOne($('#filterQOne').val());
+            jam.server.changeFilterQOne(sessionIDString, $('#filterQOne').val());
         });
 
         // event listener gain field
         $('#filterGainOne').change(function () {
-            jam.server.changeFilterGainOne($('#filterGainOne').val());
+            jam.server.changeFilterGainOne(sessionIDString, $('#filterGainOne').val());
         });
 
-        /* Delay I Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** Delay I Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
 
         // time
         $('#delayITime').change(function () {
-            jam.server.changeDelayITime($('#delayITime').val());
+            jam.server.changeDelayITime(sessionIDString, $('#delayITime').val());
         })
 
         // dryWetRatio
         $('#delayIDryWet').change(function () {
-            jam.server.changeDelayIDryWet($('#delayIDryWet').val());
+            jam.server.changeDelayIDryWet(sessionIDString, $('#delayIDryWet').val());
         })
 
       
 
-        /* Oscillator II Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** Oscillator II Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
 
         $('#oscStartButtonII').click(function () {
             console.log("oscStartButtonII clicked");
-            jam.server.stackASoundWaveII($('#OscIIFrequency').val(), $('#oscIIType').val(), true); // standard start volume is 0.5
+            jam.server.stackASoundWaveII(sessionIDString, $('#OscIIFrequency').val(), $('#oscIIType').val(), true); // standard start volume is 0.5
         });
 
 
         $('#oscStopButtonII').click(function () {
             console.log("oscStopButtonII clicked");
-            jam.server.removeLastSoundII();
+            jam.server.removeLastSoundII(sessionIDString);
         });
 
-        /* Lfo II Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** LFO II Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
 
         // event listener activation LFO 
         $('#LfoIIActive').change(
             function () {
                 if ($('#LfoIIActive').is(':checked')) {
                     console.log("LfoButtonII clicked");
-                    jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val());
+                    jam.server.activateLFOII(sessionIDString, $('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val());
 
                 } else {
                     console.log("LFOStopButtonII clicked");
-                    jam.server.deactivateLFOII();
+                    jam.server.deactivateLFOII(sessionIDString);
                 }
             });
 
@@ -311,8 +518,8 @@ $(function() {
                var lfoType = $('#LfoIIType').find("option:selected").attr("value");
 
                if ($('#LfoIIActive').is(':checked')) {
-                   jam.server.deactivateLFOII();
-                   setTimeout(function () { jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), lfoType) }, 10);
+                   jam.server.deactivateLFOII(sessionIDString);
+                   setTimeout(function () { jam.server.activateLFOII(sessionIDString, $('#LfoIIFrequency').val(), $('#LfoIIScale').val(), lfoType) }, 10);
                    console.log("LFO type II is changed, while activated");
                } else {
                    console.log($('#LfoIIActive').is(':checked'));
@@ -325,8 +532,8 @@ $(function() {
           function () {
 
               if ($('#LfoIIActive').is(':checked')) {
-                  jam.server.deactivateLFOII();
-                  setTimeout(function () { jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val()); }, 10);
+                  jam.server.deactivateLFOII(sessionIDString);
+                  setTimeout(function () { jam.server.activateLFOII(sessionIDString, $('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val()); }, 10);
                   console.log("LFO freq II is changed, while activated");
               } else {
                   console.log($('#LfoIIActive').is(':checked'));
@@ -339,8 +546,8 @@ $(function() {
        function () {
 
            if ($('#LfoIIActive').is(':checked')) {
-               jam.server.deactivateLFOII();
-               setTimeout(function () { jam.server.activateLFOII($('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val()); }, 10);
+               jam.server.deactivateLFOII(sessionIDString);
+               setTimeout(function () { jam.server.activateLFOII(sessionIDString, $('#LfoIIFrequency').val(), $('#LfoIIScale').val(), $('#LfoIIType').val()); }, 10);
                console.log("LFO scale II is changed, while activated");
            } else {
                console.log($('#LfoIIActive').is(':checked'));
@@ -349,76 +556,50 @@ $(function() {
            }
        });
 
-        /* BiquadFilter II Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** BiquadFIlter II Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
+
         // event listener type box
         $('#filterTypeTwo').change(function () {
-            jam.server.changeFilterTypeTwo($('#filterTypeTwo').val());
+            jam.server.changeFilterTypeTwo(sessionIDString, $('#filterTypeTwo').val());
         });
 
         // event listener frequency field
         $('#filterFrequencyTwo').change(function () {
-            jam.server.changeFilterFrequencyTwo($('#filterFrequencyTwo').val());
+            jam.server.changeFilterFrequencyTwo(sessionIDString, $('#filterFrequencyTwo').val());
         });
 
         // event listener Q field
         $('#filterQTwo').change(function () {
-            jam.server.changeFilterQTwo($('#filterQTwo').val());
+            jam.server.changeFilterQTwo(sessionIDString, $('#filterQTwo').val());
         });
 
         // event listener gain field
         $('#filterGainTwo').change(function () {
-            jam.server.changeFilterGainTwo($('#filterGainTwo').val());
+            jam.server.changeFilterGainTwo(sessionIDString, $('#filterGainTwo').val());
         });
 
 
 
-        /* Delay II Event Listeners */
+        /*----------------------------------------------------------------------------
+        ** Delay II Event Listeners 
+        ** ---------------------------------------------------------------------------
+        */
         // time
         $('#delayIITime').change(function () {
-            jam.server.changeDelayIITime($('#delayIITime').val());
+            jam.server.changeDelayIITime(sessionIDString, $('#delayIITime').val());
         })
 
         // dryWetRatio
         $('#delayIIDryWet').change(function () {
-            jam.server.changeDelayIIDryWet($('#delayIIDryWet').val());
+            jam.server.changeDelayIIDryWet(sessionIDString, $('#delayIIDryWet').val());
         })
 
 
-        /* Master Controller Event Listeners */
-        // event listener gain field
-        $('#masterGain').change(function () {
-            jam.server.changeMasterGain($('#masterGain').val());
-        });
-
-        // event listener suspend button
-        $('#stopButton').click(function () {
-            jam.server.stopSession();
-        });
-
-        // event listener start button
-        $('#playButton').click(function () {
-            jam.server.playSession();
-        });
-
-
-        /* Compressor Event Listeners */
-        // event listener ratio Compressor 
-        $('#compRatio').change(function () {
-            console.log("compressor ratio adjusted");
-            jam.server.adjustCompRatio($('#compRatio').val());
-        });
-
-        // event listener knee Compressor 
-        $('#compKnee').change(function () {
-            console.log("compressor knee adjusted");
-            jam.server.adjustCompKnee($('#compKnee').val());
-        });
-
-        // event listener treshold Compressor 
-        $('#compThreshold').change(function () {
-            console.log("compressor treshold adjusted");
-            jam.server.adjustCompThreshold($('#compThreshold').val());
-        });
+       
+        
 
 
 
@@ -443,7 +624,7 @@ $(function() {
 
                 var volume = $('#volumeFaderoscI0').val() / 100;
                 console.log("volumeFaderoscI0 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 0)
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 0)
 
                 ;
             });
@@ -451,55 +632,55 @@ $(function() {
             $('#volumeFaderoscI1').change(function () {
                 var volume = $('#volumeFaderoscI1').val() / 100;
                 console.log("volumeFaderoscI1 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 1);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 1);
             });
 
             $('#volumeFaderoscI2').change(function () {
                 var volume = $('#volumeFaderoscI2').val() / 100;
                 console.log("volumeFaderoscI2 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 2);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 2);
             });
 
             $('#volumeFaderoscI3').change(function () {
                 var volume = $('#volumeFaderoscI3').val() / 100;
                 console.log("volumeFaderoscI3 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 3);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 3);
             });
 
             $('#volumeFaderoscI4').change(function () {
                 var volume = $('#volumeFaderoscI4').val() / 100;
                 console.log("volumeFaderoscI4 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 4);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 4);
             });
 
             $('#volumeFaderoscI5').change(function () {
                 var volume = $('#volumeFaderoscI5').val() / 100;
                 console.log("volumeFaderoscI5 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 5);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 5);
             });
 
             $('#volumeFaderoscI6').change(function () {
                 var volume = $('#volumeFaderoscI6').val() / 100;
                 console.log("volumeFaderoscI6 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 6);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 6);
             });
 
             $('#volumeFaderoscI7').change(function () {
                 var volume = $('#volumeFaderoscI7').val() / 100;
                 console.log("volumeFaderoscI7 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 7);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 7);
             });
 
             $('#volumeFaderoscI8').change(function () {
                 var volume = $('#volumeFaderoscI8').val() / 100;
                 console.log("volumeFaderoscI8 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 8);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 8);
             });
 
             $('#volumeFaderoscI9').change(function () {
                 var volume = $('#volumeFaderoscI9').val() / 100;
                 console.log("volumeFaderoscI9 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 0, 9);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 0, 9);
             });
 
 
@@ -508,7 +689,7 @@ $(function() {
                 
                 var volume = $('#volumeFaderoscII0').val() / 100;
                 console.log("volumeFaderoscII0 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 0)
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 0)
 
                 ;
             });
@@ -516,55 +697,55 @@ $(function() {
             $('#volumeFaderoscII1').change(function () {
                 var volume = $('#volumeFaderoscII1').val() / 100;
                 console.log("volumeFaderoscII1 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 1);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 1);
             });
 
             $('#volumeFaderoscII2').change(function () {
                 var volume = $('#volumeFaderoscII2').val() / 100;
                 console.log("volumeFaderoscII2 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 2);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 2);
             });
 
             $('#volumeFaderoscII3').change(function () {
                 var volume = $('#volumeFaderoscII3').val() / 100;
                 console.log("volumeFaderoscII3 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 3);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 3);
             });
 
             $('#volumeFaderoscII4').change(function () {
                 var volume = $('#volumeFaderoscII4').val() / 100;
                 console.log("volumeFaderoscII4 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 4);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 4);
             });
 
             $('#volumeFaderoscII5').change(function () {
                 var volume = $('#volumeFaderoscII5').val() / 100;
                 console.log("volumeFaderoscII5 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 5);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 5);
             });
 
             $('#volumeFaderoscII6').change(function () {
                 var volume = $('#volumeFaderoscII6').val() / 100;
                 console.log("volumeFaderoscII6 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 6);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 6);
             });
 
             $('#volumeFaderoscII7').change(function () {
                 var volume = $('#volumeFaderoscII7').val() / 100;
                 console.log("volumeFaderoscII7 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 7);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 7);
             });
 
             $('#volumeFaderoscII8').change(function () {
                 var volume = $('#volumeFaderoscII8').val() / 100;
                 console.log("volumeFaderoscII8 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 8);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 8);
             });
 
             $('#volumeFaderoscII9').change(function () {
                 var volume = $('#volumeFaderoscII9').val() / 100;
                 console.log("volumeFaderoscII9 adjusted with volume: " + volume);
-                jam.server.adjustWaveVolume(volume, 1, 9);
+                jam.server.adjustWaveVolume(sessionIDString, volume, 1, 9);
             });
 
 

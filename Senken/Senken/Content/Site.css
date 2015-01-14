@@ -62,7 +62,7 @@ mark {
 
 h1, h2, h3,
 h4, h5, h6 {
-    color: #00CC52;
+    color: #000000;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -786,7 +786,7 @@ tr.pager td {
 .homeButton input 
 {
      background:#5EFF9F ;
-            color: #007F33;
+     color: #007F33;
 }
 
 /* session index view*/
@@ -956,4 +956,28 @@ canvas {
     width: 100%;
     height: 100%;
     border-radius: 1px;
+}
+
+#JoinButton {
+    background:#5EFF9F ;
+     color: #007F33;
+}
+
+#OnOffButton {
+    background:#5EFF9F ;
+     color: #007F33;
+}
+
+
+/* create Session view*/
+
+#createSession {
+    align-content: center;
+    align-self: center;
+    align-items:center;
+}
+
+#sessionTitle {
+    text-align: center;
+    width: 16em;
 }

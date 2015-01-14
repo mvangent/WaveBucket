@@ -95,7 +95,7 @@ namespace Senken.Controllers
                 ApplicationDbContext.Dispose();
 
 
-                return RedirectToAction("Index", "Session");
+                return RedirectToAction("Edit", "Session", new { @id = sessionInput.SessionID });
 
             }
 

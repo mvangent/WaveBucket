@@ -196,5 +196,47 @@ $('#senkenRightColumn').css({ 'float': 'right' }).width('49%'); // initialize fi
 //$('#compThreshold').val(-23);
 $('#masterGain').val(30);
 
+var visibilityCheck = function () {
+
+    console.log($('#UserIsOwner').val());
+    console.log($('#OpenToEvolution').val());
+
+    if (($('#UserIsOwner').val() === "False") && ($('#OpenToEvolution').val() === "True")) {
+
+       
+
+        $('.senkenContainer').hide();
+        $('#compressor').hide();
+        $('#masterControls').hide();
+        $('#SaveButton').hide();
+
+    } else if (($('#UserIsOwner').val() === "False") && ($('#OpenToEvolution').val() === "False")) {
+
+
+
+        $('.senkenContainer').hide();
+        $('#compressor').hide();
+        $('#masterControls').hide();
+        
+
+    } else if (($('#UserIsOwner').val() === "True" && ($('#OpenToEvolution').val() === "False"))) {
+
+        $('.senkenContainer').hide();
+        $('#compressor').hide();
+        $('#masterControls').hide();
+        $('#SaveButton').hide();
+
+    } else if (($('#UserIsOwner').val() === "True" && ($('#OpenToEvolution').val() === "True")))
+        $('.senkenContainer').hide();
+        $('#compressor').hide();
+        $('#masterControls').hide();
+        $('#SaveButton').hide();
+
+};
+
+visibilityCheck();
+
+
+
 
 

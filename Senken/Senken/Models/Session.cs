@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -45,9 +46,11 @@ namespace Senken.Models
         public virtual ApplicationUser User_Id { get; set; }
         public bool UserIsOwner { get; set; }
         public bool OpenToEvolution { get; set; }
-        
-       
+
+        [RegularExpression(@"^.{3,}$", ErrorMessage = "Minimum of 3 characters required")]
         public string Title { get; set; }
+        
+        
         public string ArtistAlias { get; set; }
         public Rating? Rating { get; set;}
 
