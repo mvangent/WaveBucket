@@ -17,21 +17,28 @@
        
        
         <br /><br /><br /><br />
+        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
         
         @Html.TextBoxFor(model => model.Title, new { @class = "textboxforTitle", type = "text", id = "sessionTitle", minLength = "1", maxlength = "15",  align="center", placeholder="Session Name (not permanent)", pattern=".{3,}", required="enter at least three characters" })
         <br />
-        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-        <br />
-        <p class="senkenDescriptions">MultiTweaking On? @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution") </p>
-
-
-
-        
-        
-        <br />
-        
-        
+       
         <input type="submit" id="CreateSessionButton" value="Start Session" class="btn btn-default" />
+        &nbsp; &nbsp;
+        <text class="senkenDescriptions">MultiTweaking On? @Html.CheckBoxFor(model => model.OpenToEvolution, "OpenToEvolution") </text>
+
+
+
+     
+        
+        
+       
+        
+        <br /> <br /> <br />
+
+        
+
+        
+        <text>or still <a href="~/Session/Index" id="exploreLink">explore</a> what is already out there?</text>
         
     </div> 
     

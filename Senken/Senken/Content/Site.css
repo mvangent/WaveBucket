@@ -1,4 +1,73 @@
-﻿html {
+﻿
+
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('fonts/raleway/raleway_thin-webfont.eot');
+    src: url('fonts/raleway/raleway_thin-webfont.eot') format('embedded-opentype'),
+         url('fonts/raleway/raleway_thin-webfont.woff') format('woff'),
+         url('fonts/raleway/raleway_thin-webfont.ttf') format('truetype'),
+         url('fonts/raleway/raleway_thin-webfont.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?-nr1467');
+	src:url('fonts/icomoon.eot?#iefix-nr1467') format('embedded-opentype'),
+		url('fonts/icomoon.woff?-nr1467') format('woff'),
+		url('fonts/icomoon.ttf?-nr1467') format('truetype'),
+		url('fonts/icomoon.svg?-nr1467#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cross:before {
+	content: "\ea0f";
+}
+
+.icon-play3:before {
+	content: "\ea1c";
+}
+
+.icon-pause2:before {
+	content: "\ea1d";
+}
+
+.icon-volume-medium:before {
+	content: "\ea27";
+}
+
+.icon-volume-mute2:before {
+	content: "\ea2a";
+}
+
+.icon-params:before {
+	content: "\e600";
+}
+
+
+
+html {
     background-color: #FFFFFF;
     margin: 0;
     padding: 0;
@@ -8,10 +77,11 @@ body {
     background-color: #FFFFFF; /* #FFF9F8; top menu  background color*/
     border-top: solid 10px #000;
     color: #000000;
-    font-size: .85em;
-    font-family: Helvetica, Sans-Serif;
+    font-size: 0.85em;
+    font-family: Raleway, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
+    line-height:1.5em;
 }
 
 a {
@@ -104,6 +174,9 @@ h5, h6 {
     background-color:  #FFFFFF; /* #FFF9F8; */
     clear: both;
     padding-bottom: 35px;
+    color: #000000;
+    font-size: 1.125em;
+    font-family: Raleway, Helvetica, Sans-Serif;
    
 }
 
@@ -133,7 +206,7 @@ footer {
 ----------------------------------------------------------*/
 .site-title {
     color: #007F33;
-    font-family: Helvetica, Consolas, "Courier New", Courier, monospace;
+    font-family: 'League Spartan', Helvetica, sans-serif;
     font-size: 2.3em;
     margin: 0;
 }
@@ -435,11 +508,12 @@ input, textarea {
     margin: 5px 0 6px 0;
     padding: 5px;
     border-radius: 1px;
+    font-family: Raleway;
     /* width: 300px; */
 }
 
 textarea {
-    font-family: inherit;
+    font-family: Raleway, Helvetica, sans-serif;
     /*width: 500px; */
 }
 
@@ -460,6 +534,8 @@ textarea {
     input[type="range"],
     input[type="radio"],
     button {
+        font-family: Raleway;
+        font-style: normal;
         color: #000000; 
         background-color: #FFFFFF;
         border: 1px solid #487F5E;
@@ -778,7 +854,9 @@ tr.pager td {
 /* home index view*/
 
 .homeButton {
-    text-align: center;
+    
+    
+    
    
     
 }
@@ -787,6 +865,18 @@ tr.pager td {
 {
      background:#5EFF9F ;
      color: #007F33;
+}
+
+#startButtons {
+    position: relative;
+    top: 50%;
+    left: 30%;
+    
+}
+
+/* session create view*/
+#exploreLink {
+    color: #007F33;
 }
 
 /* session index view*/
@@ -870,16 +960,30 @@ table .privateSessionRow .visitTableData {
 
 /* wavebucket related*/
 
+.stackList .volumeFader:before {
+    content: "\ea27";
+    font-family: icomoon;
+}
+
+ .stackList {
+    list-style-type: none;
+}
+
+
+
 .waveBucketUnit {
     border: 1px solid #487F5E;
     color: #000000/* #22788D; */ ;
     background-color:  #007F33; /* #CCC8C6; */
     text-align: center;
     /*width: 30%; */
-    margin: 5px;
-    padding: 2em;
+    margin: 1px;
+    padding: 0.125em;
     opacity: 0.9;
     border-radius: 1px;
+    font-size: 0.85em;
+    font-family: Raleway, Helvetica, Sans-Serif;
+    line-height:1em;
     
     /* box-shadow: 1px 1px 1px #010101; */
 
@@ -979,5 +1083,21 @@ canvas {
 
 #sessionTitle {
     text-align: center;
-    width: 16em;
+    width: 24em;
+    height: 3em;
+    font-size: 2em;
+}
+
+
+/* about view*/
+#browserDisclaimer {
+    font-size: 0.7em;
+    font-family: Raleway, Sans-Serif;
+    line-height:1em;
+}
+
+#aboutText {
+    font-size: 1.125em;
+    font-family: Raleway, Sans-Serif;
+    line-height:1.5em;
 }
