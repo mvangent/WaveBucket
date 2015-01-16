@@ -304,8 +304,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\fonts\leaguespartan\leaguespartan-bold.svg" />
-    <Content Include="Content\fonts\leaguespartan\stylesheet.css" />
     <Content Include="Content\fonts\raleway\raleway_thin-webfont.svg" />
     <Content Include="Content\icons\icomoon.svg" />
     <Content Include="Content\PagedList.css" />
@@ -348,10 +346,6 @@
     <Content Include="Content\fonts\raleway\raleway_thin-webfont.eot" />
     <Content Include="Content\fonts\raleway\raleway_thin-webfont.ttf" />
     <Content Include="Content\fonts\raleway\raleway_thin-webfont.woff" />
-    <Content Include="Content\fonts\leaguespartan\leaguespartan-bold.eot" />
-    <Content Include="Content\fonts\leaguespartan\leaguespartan-bold.ttf" />
-    <Content Include="Content\fonts\leaguespartan\leaguespartan-bold.woff" />
-    <Content Include="Content\fonts\leaguespartan\leaguespartan-bold.woff2" />
     <Content Include="Content\icons\icomoon.eot" />
     <Content Include="Content\icons\icomoon.ttf" />
     <Content Include="Content\icons\icomoon.woff" />
