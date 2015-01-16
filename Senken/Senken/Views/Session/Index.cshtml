@@ -6,15 +6,17 @@
 @model IEnumerable<Senken.Models.Session>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sessions";
 }
 
-<h2 align="center">Sessions</h2>
+<h2>@ViewBag.Title.</h2>
+<h4 >Create or connect to a session</h4>
+<hr />
 
 <br />
 <br />
 
-<div class="jumbotron" align="center">
+<div id="startSessionButtonDiv" align="center">
     <div class="col-md-4" align="center">
         <div class="homeButton">
             <a href="~/Session/Create">
@@ -26,108 +28,120 @@
     </div>
 </div>
 
-<br/>
 
+<br />
 
 
 <!--User's Sessions-->
 
 
-
-
-
-
-<!--All Sessions-->
-
-<h2 align="center">Explore</h2>
-
-<br />
-
-<div align="center">
-    <table class="table" id="sessionsTable">
+<div id="privateSessionTableDiv">
+    <table class="table" id="privateSessionsTable">
+        <caption> Private Sessions </caption>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
+            <th scope="col">
+                Session
             </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.ArtistAlias)
-            </th>
-            <th>
+            <th scope="col">
                 @Html.DisplayNameFor(model => model.User_Id.UserName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpenToEvolution)
+           
+            <th scope="col">
             </th>
-            <th>
-            </th>
-            
+
         </tr>
 
 
 
         @foreach (var item in ApplicationDbContext.Create().Sessions.ToList())
         {
-            if (item.OpenToEvolution)
-            {
-                <tr class="sharableSessionRow">
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Title)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ArtistAlias)
-
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User_Id.UserName)
-                            </td>
-
-                    
-                    
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OpenToEvolution)
-                    </td>
-                    
-                    <td class="visitTableData">
-                        @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
-
-                    </td>
-                </tr>
-            }
-            else
+            if (!item.OpenToEvolution)
             {
                 <tr class="privateSessionRow">
 
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
+                   
+
                     <td>
-                        @Html.DisplayFor(modelItem => item.ArtistAlias)
+                        @Html.DisplayFor(modelItem => item.User_Id.UserName)
+                    </td>
+
+                   
+                    <td class="visitTableData">
+                        @Html.ActionLink("Open", "Edit", new { id = item.SessionID }) 
 
                     </td>
+
+
+                </tr>
+            }
+            
+        }
+
+
+</table>
+
+
+</div>
+
+
+
+
+    <!--All Sessions-->
+
+
+
+
+
+    <div id="publicSessionTableDiv">
+        <table class="table" id="publicSessionsTable">
+            <caption> Open Sessions </caption>
+            <tr>
+                <th>
+                    Session
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.User_Id.UserName)
+                </th>
+                
+                <th>
+                </th>
+
+            </tr>
+
+
+
+            @foreach (var item in ApplicationDbContext.Create().Sessions.ToList())
+            {
+            if (item.OpenToEvolution)
+            {
+                <tr class="sharableSessionRow">
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+
 
                     <td>
                         @Html.DisplayFor(modelItem => item.User_Id.UserName)
                     </td>
                     
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OpenToEvolution)
-                    </td>
-
                     <td class="visitTableData">
-                        @Html.ActionLink("Visit", "Edit", new { id = item.SessionID }) |
-
+                        @Html.ActionLink("Connect", "Edit", new { id = item.SessionID }) 
                     </td>
-                    
-                    
                 </tr>
+                }
             }
 
+</table>
 
-        }
-
-    </table>
 
 </div>
+
+
+

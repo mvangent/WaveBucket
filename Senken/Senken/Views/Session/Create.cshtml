@@ -1,11 +1,13 @@
 ﻿@model Senken.Models.Session
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Session";
 }
 
-<hr />
 
+<h2>@ViewBag.Title.</h2>
+<h4>Setup work title and multitweaking mode</h4>
+<hr />
 
 @using (Html.BeginForm()) 
 {
@@ -16,7 +18,7 @@
     <div id="createSession" align="center">
        
        
-        <br /><br /><br /><br />
+        <br /><br />
         @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
         
         @Html.TextBoxFor(model => model.Title, new { @class = "textboxforTitle", type = "text", id = "sessionTitle", minLength = "1", maxlength = "15",  align="center", placeholder="Session Name (not permanent)", pattern=".{3,}", required="enter at least three characters" })
@@ -33,7 +35,7 @@
         
        
         
-        <br /> <br /> <br />
+        <br /> <br /> 
 
         
 

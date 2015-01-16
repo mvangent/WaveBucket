@@ -112,12 +112,22 @@ namespace Senken.Controllers
         {
             if (ModelState.IsValid)
             {
+                int idNumber;
 
-                int idNumber = (int)id;
+                if (id != null)
+                {
+                    idNumber = (int)id;
+                }
+                else
+                {
+                    idNumber = -1;
+                }
+                
+
 
                 if (id == null)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                    return RedirectToAction("Index", "Session");
                 }
                 else
                 {

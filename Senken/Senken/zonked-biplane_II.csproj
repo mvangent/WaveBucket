@@ -355,6 +355,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Images\Sogyologo.jpg" />
     <Content Include="Images\waveBucketTypeLogo.jpg" />
     <Content Include="phantomjs-license.txt" />
     <Content Include="Scripts\app\hub.js" />

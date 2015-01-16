@@ -1,14 +1,17 @@
 ﻿@model Senken.Models.Session
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Session";
 }
 
-@Html.HiddenFor(model => model.SessionID, "SessionID");
-@Html.HiddenFor(model => model.UserIsOwner, "UserIsOwner");
-@Html.HiddenFor(model => model.OpenToEvolution, "OpenToEvolution");
+@Html.HiddenFor(model => model.SessionID, "SessionID")
+@Html.HiddenFor(model => model.UserIsOwner, "UserIsOwner")
+@Html.HiddenFor(model => model.OpenToEvolution, "OpenToEvolution")
 
-<h2>Session Mode</h2>
+<h2>@ViewBag.Title.</h2>
+
+<h4>Communal Sound Designer</h4>
+<hr />
 
 
 
@@ -257,7 +260,7 @@
                     </ul>
                 </span>
 
-                @Html.HiddenFor(model => model.hiddenWaveBucketI, "hiddenWaveBucketI");
+                @Html.HiddenFor(model => model.hiddenWaveBucketI, "hiddenWaveBucketI")
 
 
             </div>
@@ -437,7 +440,7 @@
                     </ul>
                 </span>
 
-                @Html.HiddenFor(model => model.hiddenWaveBucketII, "hiddenWaveBucketII");
+                @Html.HiddenFor(model => model.hiddenWaveBucketII, "hiddenWaveBucketII")
 
 
             </div>
