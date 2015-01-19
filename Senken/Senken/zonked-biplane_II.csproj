@@ -355,6 +355,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Images\deleteSymbol.png" />
+    <Content Include="Images\muteSymbol.png" />
+    <Content Include="Images\volumeSymbol.png" />
     <Content Include="Images\Sogyologo.jpg" />
     <Content Include="Images\waveBucketTypeLogo.jpg" />
     <Content Include="phantomjs-license.txt" />
@@ -367,6 +370,7 @@
     <Content Include="Scripts\app\senkenVisualAnalyser.js" />
     <Content Include="Scripts\app\senkenWaveBucket.js" />
     <Content Include="Scripts\app\senkenOscillator.js" />
+    <Content Include="Scripts\app\Sogyologo.jpg" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.11.2.js" />

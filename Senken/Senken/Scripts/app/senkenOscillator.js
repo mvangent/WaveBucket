@@ -263,7 +263,9 @@ function Oscillator(context, endController, name) {
 
         console.log("save bucket reached on Osc");
 
-        selfOsc.wavebucket.saveBucket(hiddenBucketId);
+        var oscillationsString = selfOsc.wavebucket.oscillationsToString();
+
+        $(hiddenBucketId).val(oscillationsString);
 
         return true;
     }
@@ -283,11 +285,9 @@ function Oscillator(context, endController, name) {
 
             console.log("load bucket reached on Osc and starts loading: ");
 
-            var bucketString;
+            var bucketString = $(hiddenBucketId).attr('value');
 
-            bucketString = selfOsc.wavebucket.loadBucket(hiddenBucketId);
-
-            console.log(bucketString);
+            console.log("bucket string as from server: " + bucketString);
 
             var oscsArray = bucketString.split(",");
 

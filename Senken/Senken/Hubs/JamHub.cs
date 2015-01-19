@@ -34,21 +34,16 @@ namespace Senken.Hubs
         {
             if (int.Parse(bucketNumber) == 0)
             {
-                // do stuff for wavebucket I 
-                Clients.Group(roomName).freezeBucketPointerI();
+              
                 Clients.Group(roomName).changeWaveVolumeInBucketIPointer(waveNumber, volume);
-                Clients.Group(roomName).startBucketPointerI(); // bucket activation must come before loading: NEW IMPLEMENTATION NEEDED
-                Clients.Group(roomName).loadWaveBucketPointerI(); // LOAD BUCKET SHOULD STORE VALUE IN THE ARRAY AND NOT KICK OFF WAVES
-                
+                Clients.Group(roomName).updateWaveBucketDisplayPointerI();
          
             }
             else if (int.Parse(bucketNumber) == 1)
             {
                 // do stuff for waveBucket II
                 Clients.Group(roomName).changeWaveVolumeInBucketIIPointer(waveNumber, volume);
-                Clients.Group(roomName).freezeBucketPointerII();
-                Clients.Group(roomName).startBucketPointerII(); // bucket activation must come before loading: NEW IMPLEMENTATION NEEDED
-                Clients.Group(roomName).loadWaveBucketPointerII(); // LOAD BUCKET SHOULD STORE VALUE IN THE ARRAY AND NOT KICK OFF WAVES
+                Clients.Group(roomName).updateWaveBucketDisplayPointerII();
             }
             else
             {
@@ -57,8 +52,35 @@ namespace Senken.Hubs
 
             return true;
 
-        }         
+        }       
+  
+       
         
+          public bool RemoveWaveByIndex(string roomName, string bucketNumber, string waveNumber) 
+          {
+            if (int.Parse(bucketNumber) == 0)
+            {
+              
+                Clients.Group(roomName).removeWaveByIndexInBucketIPointer(waveNumber);
+                Clients.Group(roomName).updateWaveBucketDisplayPointerI();
+         
+            }
+            else if (int.Parse(bucketNumber) == 1)
+            {
+                // do stuff for waveBucket II
+                Clients.Group(roomName).removeWaveByIndexInBucketIIPointer(waveNumber);
+                Clients.Group(roomName).updateWaveBucketDisplayPointerII();
+            }
+            else
+            {
+                // do nothing
+            }
+
+            return true;
+
+        }   
+
+
         
         /* OscillatorI */
 

@@ -152,12 +152,14 @@ $(function() {
     jam.client.loadWaveBucketPointerII = function (){ oscillatorII.loadWaveBucket('#hiddenWaveBucketII');}
 
     // wavebucket I
-    jam.client.changeWaveVolumeInBucketIPointer =  oscillatorI.changeWaveVolume;
+    jam.client.changeWaveVolumeInBucketIPointer = oscillatorI.changeWaveVolume;
+    jam.client.removeWaveByIndexInBucketIPointer = oscillatorI.removeWave;
 
-     // wavebucket I
+     // wavebucket II
     jam.client.changeWaveVolumeInBucketIIPointer = oscillatorII.changeWaveVolume;
+    jam.client.removeWaveByIndexInBucketIIPointer = oscillatorII.removeWave;
 
-    // wavebucket II
+    
 
 
     // update connections between sound modules
@@ -618,8 +620,16 @@ $(function() {
             console.log(mutations);
             
 
+            /*-------------------------------------------------------------------------------
+            **                          ___   __          ____      ___  ______    ___      **
+            **  \      /   /\   \    / |     |  \  |   | |     | / |       |        |       **
+            **   \    /   / _\   \  /  |--   |---| |   | |     |   |--     |        |       **
+            **    \/\/   /    \   \/   |___  |__/  |___| |____ | \ |___    |       _|_      **
+            **                                                                              **
+            **-------------------------------------------------------------------------------
 
-            /* waveBucketI event listeners */
+            /* waveBucketI volume fader event listeners */
+
             $('#volumeFaderoscI0').change(function () {
 
                 var volume = $('#volumeFaderoscI0').val() / 100;
@@ -683,8 +693,68 @@ $(function() {
                 jam.server.adjustWaveVolume(sessionIDString, volume, 0, 9);
             });
 
+            /* wavebucket I removeSymbolEvent listeners */
 
-            /* waveBucketII event listeners */
+            $('#removeImageoscI0').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 0);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI1').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 1);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI2').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 2);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI3').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 3);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI4').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 4);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI5').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 5);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI6').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 6);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI7').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 7);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI8').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 8);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscI9').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 0, 9);
+                console.log("remove wave clicked");
+            });
+
+
+            /*-------------------------------------------------------------------------------
+            **                          ___   __          ____      ___  ______    ___ ___  **
+            **  \      /   /\   \    / |     |  \  |   | |     | / |       |        |   |   **
+            **   \    /   / _\   \  /  |--   |---| |   | |     |   |--     |        |   |   **
+            **    \/\/   /    \   \/   |___  |__/  |___| |____ | \ |___    |       _|_ _|_  **
+            **                                                                              **
+            **-------------------------------------------------------------------------------
+
+            /* waveBucketII volume fader event listeners */
             $('#volumeFaderoscII0').change(function () {
                 
                 var volume = $('#volumeFaderoscII0').val() / 100;
@@ -746,6 +816,59 @@ $(function() {
                 var volume = $('#volumeFaderoscII9').val() / 100;
                 console.log("volumeFaderoscII9 adjusted with volume: " + volume);
                 jam.server.adjustWaveVolume(sessionIDString, volume, 1, 9);
+            });
+
+
+            /* wavebucket II removeSymbolEvent listeners */
+
+            $('#removeImageoscII0').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 0);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII1').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 1);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII2').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 2);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII3').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 3);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII4').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 4);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII5').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 5);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII6').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 6);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII7').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 7);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII8').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 8);
+                console.log("remove wave clicked");
+            });
+
+            $('#removeImageoscII9').click(function () {
+                jam.server.removeWaveByIndex(sessionIDString, 1, 9);
+                console.log("remove wave clicked");
             });
 
 

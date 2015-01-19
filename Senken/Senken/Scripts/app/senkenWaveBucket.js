@@ -38,38 +38,6 @@ function WaveBucket(context, idName, oscillator) {
     self.gainCh9.gain.value = 0.5;
 
 
-    // hardwired connections
-    /*oscillator.generatorOutputTo(gainCh0);
-    gainCh0.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh1);
-    gainCh1.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh2);
-    gainCh2.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh3);
-    gainCh3.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh4);
-    gainCh4.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh5);
-    gainCh5.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh6);
-    gainCh6.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh7);
-    gainCh7.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh8);
-    gainCh8.connect(oscillator.gainNodeInputForWaveBucket);
-
-    oscillator.generatorOutputTo(gainCh9);
-    gainCh9.connect(oscillator.gainNodeInputForWaveBucket);
-
-    */
 
     // methods: 
 
@@ -114,6 +82,12 @@ function WaveBucket(context, idName, oscillator) {
 
     // remove(index) - wave will be removed from wavebucket by index
     this.remove = function (index) {
+
+        console.log("remove(index) on wavebucket reached");
+
+        // self.waveBucket[index].stop();
+
+        console.log("spliced on index:  " + index);
 
         self.waveBucket.splice(index, 1);
     }
@@ -171,9 +145,25 @@ function WaveBucket(context, idName, oscillator) {
         for (var i = 0; i < arrayLength; i++) {
 
             var newcontent = document.createElement('li');
-            newcontent.innerHTML = self.waveBucket[i].frequency.value + " " + self.waveBucket[i].type;
 
+            var removeImageID = "removeImage" + id + i;
+
+            var removeImage = document.createElement("img");
+            removeImage.setAttribute("src", "/../../Images/deleteSymbol.png");
+            removeImage.setAttribute("id", removeImageID);
+            removeImage.setAttribute("class", "removeImage");
+
+            var volumeImageID = "volumeImage" + id + i;
+
+            var volumeImage = document.createElement("img");
+            volumeImage.setAttribute("src", "/../../Images/volumeSymbol.png");
+            volumeImage.setAttribute("id", volumeImageID);
+            volumeImage.setAttribute("class", "volumeImage");
+
+            newcontent.innerHTML = self.waveBucket[i].frequency.value + " " + self.waveBucket[i].type;
             mydiv.appendChild(newcontent);
+            
+            mydiv.appendChild(volumeImage);
 
             // volume fader per wave in bucket
 
@@ -190,30 +180,15 @@ function WaveBucket(context, idName, oscillator) {
             volumeFader.setAttribute("class", "volumeFader");
 
             $(mydiv).append(volumeFader);
+            mydiv.appendChild(removeImage);
 
         };
     }
 
-    this.saveBucket = function (hiddenBucketId) {
+  
+    // returns a stringed version of all oscillations in the bucket
 
-        console.log("save bucket reached on WaveBucket");
-
-        var updateValue = "" + self.oscillationsToString();
-
-        $(hiddenBucketId).val(updateValue);
-
-        return true;
-    }
-
-    this.loadBucket = function(hiddenBucketId) {
-
-        var bucketString;
-        bucketString = $(hiddenBucketId).attr('value');
-
-        return bucketString;
-    }
-
-    this.oscillationsToString = function() {
+    this.oscillationsToString = function () {
 
        var returnString= "";
         
