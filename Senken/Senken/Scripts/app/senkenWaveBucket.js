@@ -12,30 +12,49 @@ function WaveBucket(context, idName, oscillator) {
     
     // member variables: 
     this.waveBucket = [];
-    this.waveBucketVolumes = [0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50, 0.50];
+    this.waveBucketVolumes = [];
     this.activated = false;
 
     // gain nodes
     this.gainCh0 = context.createGain();
     self.gainCh0.gain.value = 0.5;
+    this.waveBucketVolumes[0] = this.gainCh0;
+
     this.gainCh1 = context.createGain();
     self.gainCh1.gain.value = 0.5;
+    this.waveBucketVolumes[1] = this.gainCh1;
+
     this.gainCh2 = context.createGain();
     self.gainCh2.gain.value = 0.5;
+    this.waveBucketVolumes[2] = this.gainCh2;
+
     this.gainCh3 = context.createGain();
     self.gainCh3.gain.value = 0.5;
+    this.waveBucketVolumes[3] = this.gainCh3;
+
     this.gainCh4 = context.createGain();
     self.gainCh4.gain.value = 0.5;
+    this.waveBucketVolumes[4] = this.gainCh4;
+
     this.gainCh5 = context.createGain();
     self.gainCh5.gain.value = 0.5;
+    this.waveBucketVolumes[5] = this.gainCh5;
+
     this.gainCh6 = context.createGain();
     self.gainCh6.gain.value = 0.5;
+    this.waveBucketVolumes[6] = this.gainCh6;
+
     this.gainCh7 = context.createGain();
     self.gainCh7.gain.value = 0.5;
+    this.waveBucketVolumes[7] = this.gainCh7;
+
     this.gainCh8 = context.createGain();
     self.gainCh8.gain.value = 0.5;
+    this.waveBucketVolumes[8] = this.gainCh8;
+
     this.gainCh9 = context.createGain();
     self.gainCh9.gain.value = 0.5;
+    this.waveBucketVolumes[9] = this.gainCh9;
 
 
 
@@ -48,30 +67,16 @@ function WaveBucket(context, idName, oscillator) {
     }
 
     this.readVolumeByIndex = function (index) {
-        return self.waveBucketVolumes[index];
+        return self.waveBucketVolumes[index].gain.value;
     }
 
     // changeVolume(index, volume)
     this.changeVolume = function (index, volume) {
         console.log("changeVolume on Oscillator volume = " + volume);
         var volumeFloat = parseFloat(volume);
-        self.waveBucketVolumes[index] = volumeFloat;
+        self.waveBucketVolumes[index].gain.value = volumeFloat;
 
-        switch (index) {
-            case 0: return self.gainCh0.gain.value = volumeFloat;
-            case 1: return self.gainCh1.gain.value = volumeFloat;
-            case 2: return self.gainCh2.gain.value = volumeFloat;
-            case 3: return self.gainCh3.gain.value = volumeFloat;
-            case 4: return self.gainCh4.gain.value = volumeFloat;
-            case 5: return self.gainCh5.gain.value = volumeFloat;
-            case 6: return self.gainCh6.gain.value = volumeFloat;
-            case 7: return self.gainCh7.gain.value = volumeFloat;
-            case 8: return self.gainCh8.gain.value = volumeFloat;
-            case 9: return self.gainCh9.gain.value = volumeFloat;
-
-        }
-
-        
+               
         console.log(self.waveBucketVolumes);
     }
 
@@ -90,6 +95,12 @@ function WaveBucket(context, idName, oscillator) {
         console.log("spliced on index:  " + index);
 
         self.waveBucket.splice(index, 1);
+
+        // synching the gainNodes with the new wavebucket
+        var gainNodeToBeReplaced = self.waveBucketVolumes[index];
+        self.waveBucketVolumes.splice(index, 1);
+        self.waveBucketVolumes[9] = gainNodeToBeReplaced;
+
     }
 
     // removeFirstElement() -> wrapper for array.shift()
@@ -207,19 +218,9 @@ function WaveBucket(context, idName, oscillator) {
 
     // : gainNode
     this.gainNode = function (index) {
-        switch (index)
-        {
-            case 0: return self.gainCh0;
-            case 1: return self.gainCh1;
-            case 2: return self.gainCh2;
-            case 3: return self.gainCh3;
-            case 4: return self.gainCh4;
-            case 5: return self.gainCh5;
-            case 6: return self.gainCh6;
-            case 7: return self.gainCh7;
-            case 8: return self.gainCh8;
-            case 9: return self.gainCh9;
-        }
+
+       return self.waveBucketVolumes[index];
+
     }
 }
 
