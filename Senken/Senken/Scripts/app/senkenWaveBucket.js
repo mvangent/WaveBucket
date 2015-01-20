@@ -17,43 +17,43 @@ function WaveBucket(context, idName, oscillator) {
 
     // gain nodes
     this.gainCh0 = context.createGain();
-    self.gainCh0.gain.value = 0.5;
+    //self.gainCh0.gain.value = 0.5;
     this.waveBucketVolumes[0] = this.gainCh0;
 
     this.gainCh1 = context.createGain();
-    self.gainCh1.gain.value = 0.5;
+    //self.gainCh1.gain.value = 0.5;
     this.waveBucketVolumes[1] = this.gainCh1;
 
     this.gainCh2 = context.createGain();
-    self.gainCh2.gain.value = 0.5;
+    //self.gainCh2.gain.value = 0.5;
     this.waveBucketVolumes[2] = this.gainCh2;
 
     this.gainCh3 = context.createGain();
-    self.gainCh3.gain.value = 0.5;
+    //self.gainCh3.gain.value = 0.5;
     this.waveBucketVolumes[3] = this.gainCh3;
 
     this.gainCh4 = context.createGain();
-    self.gainCh4.gain.value = 0.5;
+    //self.gainCh4.gain.value = 0.5;
     this.waveBucketVolumes[4] = this.gainCh4;
 
     this.gainCh5 = context.createGain();
-    self.gainCh5.gain.value = 0.5;
+    //self.gainCh5.gain.value = 0.5;
     this.waveBucketVolumes[5] = this.gainCh5;
 
     this.gainCh6 = context.createGain();
-    self.gainCh6.gain.value = 0.5;
+    //self.gainCh6.gain.value = 0.5;
     this.waveBucketVolumes[6] = this.gainCh6;
 
     this.gainCh7 = context.createGain();
-    self.gainCh7.gain.value = 0.5;
+    //self.gainCh7.gain.value = 0.5;
     this.waveBucketVolumes[7] = this.gainCh7;
 
     this.gainCh8 = context.createGain();
-    self.gainCh8.gain.value = 0.5;
+    //.gainCh8.gain.value = 0.5;
     this.waveBucketVolumes[8] = this.gainCh8;
 
     this.gainCh9 = context.createGain();
-    self.gainCh9.gain.value = 0.5;
+    //self.gainCh9.gain.value = 0.5;
     this.waveBucketVolumes[9] = this.gainCh9;
 
 
@@ -208,7 +208,7 @@ function WaveBucket(context, idName, oscillator) {
                 for (var i = 0; i < arrayLength; i++) {
                
                     returnString = returnString.concat(self.waveBucket[i].frequency.value + " " + self.waveBucket[i].type + " " + self.readVolumeByIndex(i) + ",");
-
+                    console.log("saving bucket.... " + returnString);
             };
         
 

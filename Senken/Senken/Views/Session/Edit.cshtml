@@ -208,7 +208,7 @@
 
       <!-- BreakLine III -->
 
-    <div class="senkenContainer">
+    <div class="senkenContainer" ng-app="WaveBucket" ng-controller="MyCtrl">
 
         <!---LEFT COLUMN: Oscillator I-->
 
@@ -283,27 +283,29 @@
                         @Html.ValidationMessageFor(model => model.BiquadFilterTypeOne, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">Hz:&nbsp;10</span>
-                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { type = "range", id = "filterFrequencyOne", min = "0", max = "20000", step = "1" })
+                        <span class="senkenDescriptions">Hz</span>
+                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyOne, new { type = "range", id = "filterFrequencyOne", min = "0", max = "20000", step = "1", ng_model="filterIFreqValue" })
 
-                        <span class="senkenDescriptions">20000 </span>
+                        <span class="senkenDescriptions">{{filterIFreqValue}} </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyOne, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">Q:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.BiquadFilterQOne, new { type = "range", id = "filterQOne", min = "0", max = "5", step = "1" })
+                        <span class="senkenDescriptions">Q</span>
+                        @Html.TextBoxFor(model => model.BiquadFilterQOne, new { type = "range", id = "filterQOne", min = "0", max = "5", step = "1", ng_model="filterIQValue" })
 
-                        <span class="senkenDescriptions">5 </span>
+                        <span class="senkenDescriptions">{{filterIQValue}}</span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterQOne, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">A:&nbsp;-40</span>
-                        @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { type = "range", id = "filterGainOne", min = "-40", max = "40", step = "1" })
-                        <span class="senkenDescriptions">40 </span>
+                        <span class="senkenDescriptions">A</span>
+                        @Html.TextBoxFor(model => model.BiquadFilterGainOne, new { type = "range", id = "filterGainOne", min = "-40", max = "40", step = "1", ng_model="filterIAmpValue" })
+                        <span class="senkenDescriptions">{{filterIAmpValue}} </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterGainOne, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
+
+            
 
             <br>
 
@@ -319,18 +321,19 @@
                         <br />
 
 
-                        <span class="senkenDescriptions">Delay(ms):&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.DelayITime, new { type = "range", id = "delayITime", min = "0", max = "10000", step = "1" })
-                        <span class="senkenDescriptions">1000 </span>
+                        <span class="senkenDescriptions">Delay(ms)</span>
+                        @Html.TextBoxFor(model => model.DelayITime, new { type = "range", id = "delayITime", min = "0", max = "10000", step = "1", ng_model="delayIMsValue" })
+                        <span class="senkenDescriptions">{{delayIMsValue}} </span>
                         @Html.ValidationMessageFor(model => model.DelayITime, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">Dry/Wet (%):&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.DelayIDryWet, new { type = "range", id = "delayIDryWet", min = "0", max = "100", step = "1" })
-                        <span class="senkenDescriptions">100</span>
+                        <span class="senkenDescriptions">Dry/Wet (%)</span>
+                        @Html.TextBoxFor(model => model.DelayIDryWet, new { type = "range", id = "delayIDryWet", min = "0", max = "100", step = "1", ng_model="delayIDryWetValue" })
+                        <span class="senkenDescriptions">{{delayIDryWetValue}}</span>
                         @Html.ValidationMessageFor(model => model.DelayIDryWet, "", new { @class = "text-danger" })
                         <br />
 
+                  
 
                     </div>
                 </div>
@@ -361,15 +364,18 @@
 
                         <br />
 
-                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIFrequency, new { type = "range", id = "LfoIFrequency", min = "1", max = "50", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
+                        <span class="senkenDescriptions">Hz:</span>
+                        @Html.TextBoxFor(model => model.LfoIFrequency, new { type = "range", id = "LfoIFrequency", min = "1", max = "50", step = "1", ng_model="lfoIFreqValue" })
+
+                        <span class="senkenDescriptions">{{lfoIFreqValue}} </span>
                         @Html.ValidationMessageFor(model => model.LfoIFrequency, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIScale, new { type = "range", id = "LfoIScale", min = "1", max = "10", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
+                                               
+
+                        <span class="senkenDescriptions">A:</span>
+                        @Html.TextBoxFor(model => model.LfoIScale, new { type = "range", id = "LfoIScale", min = "1", max = "10", step = "1", ng_model="lfoIAmpValue"  })
+                        <span class="senkenDescriptions">{{lfoIAmpValue}} </span>
                         @Html.ValidationMessageFor(model => model.LfoIScale, "", new { @class = "text-danger" })
                         <br />
 
@@ -463,25 +469,27 @@
                         @Html.ValidationMessageFor(model => model.BiquadFilterTypeTwo, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">Hz:&nbsp;10</span>
-                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyTwo, new { type = "range", id = "filterFrequencyTwo", min = "0", max = "20000", step = "1" })
-                        <span class="senkenDescriptions">20000 </span>
+                        <span class="senkenDescriptions">Hz</span>
+                        @Html.TextBoxFor(model => model.BiquadFilterFrequencyTwo, new { type = "range", id = "filterFrequencyTwo", min = "0", max = "20000", step = "1", ng_model="filterIIFreqValue" })
+                        <span class="senkenDescriptions">{{filterIIFreqValue}} </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterFrequencyTwo, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">Q:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.BiquadFilterQTwo, new { type = "range", id = "filterQTwo", min = "0", max = "5", step = "1" })
-                        <span class="senkenDescriptions">5 </span>
+                        <span class="senkenDescriptions">Q</span>
+                        @Html.TextBoxFor(model => model.BiquadFilterQTwo, new { type = "range", id = "filterQTwo", min = "0", max = "5", step = "1", ng_model="filterIIQValue" })
+                        <span class="senkenDescriptions">{{filterIIQValue}} </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterQTwo, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">A:&nbsp;-40</span>
-                        @Html.TextBoxFor(model => model.BiquadFilterGainTwo, new { type = "range", id = "filterGainTwo", min = "-40", max = "40", step = "1" })
-                        <span class="senkenDescriptions">40 </span>
+                        <span class="senkenDescriptions">A</span>
+                        @Html.TextBoxFor(model => model.BiquadFilterGainTwo, new { type = "range", id = "filterGainTwo", min = "-40", max = "40", step = "1", ng_model="filterIIAmpValue" })
+                        <span class="senkenDescriptions">{{filterIIAmpValue}} </span>
                         @Html.ValidationMessageFor(model => model.BiquadFilterGainTwo, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
+
+           
 
             <br>
 
@@ -497,17 +505,20 @@
                         <br />
 
 
-                        <span class="senkenDescriptions">Delay(ms):&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.DelayIITime, new { type = "range", id = "delayIITime", min = "0", max = "10000", step = "1" })
-                        <span class="senkenDescriptions">1000 </span>
+                        <span class="senkenDescriptions">Delay(ms)</span>
+                        @Html.TextBoxFor(model => model.DelayIITime, new { type = "range", id = "delayIITime", min = "0", max = "10000", step = "1", ng_model="delayIIMsValue" })
+                        <span class="senkenDescriptions">{{delayIIMsValue}} </span>
                         @Html.ValidationMessageFor(model => model.DelayIITime, "", new { @class = "text-danger" })
                         <br />
 
                         <span class="senkenDescriptions">Dry/Wet (%):&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.DelayIIDryWet, new { type = "range", id = "delayIIDryWet", min = "0", max = "100", step = "1" })
-                        <span class="senkenDescriptions">100</span>
+                        @Html.TextBoxFor(model => model.DelayIIDryWet, new { type = "range", id = "delayIIDryWet", min = "0", max = "100", step = "1", ng_model="delayIIDryWetValue"})
+                        <span class="senkenDescriptions">{{delayIIDryWetValue}}</span>
                         @Html.ValidationMessageFor(model => model.DelayIIDryWet, "", new { @class = "text-danger" })
                         <br />
+
+                     
+
 
 
                     </div>
@@ -539,17 +550,19 @@
 
                         <br />
 
-                        <span class="senkenDescriptions">Hz:&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIIFrequency, new { type = "range", id = "LfoIIFrequency", min = "1", max = "50", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
+                        <span class="senkenDescriptions">Hz</span>
+                        @Html.TextBoxFor(model => model.LfoIIFrequency, new { type = "range", id = "LfoIIFrequency", min = "1", max = "50", step = "1", ng_model="lfoIIFreqValue"})
+                        <span class="senkenDescriptions">{{lfoIIFreqValue}} </span>
                         @Html.ValidationMessageFor(model => model.LfoIIFrequency, "", new { @class = "text-danger" })
                         <br />
 
-                        <span class="senkenDescriptions">A:&nbsp;&nbsp;&nbsp;&nbsp;0</span>
-                        @Html.TextBoxFor(model => model.LfoIIScale, new { type = "range", id = "LfoIIScale", min = "1", max = "10", step = "1" })
-                        <span class="senkenDescriptions">50 </span>
+                        <span class="senkenDescriptions">A</span>
+                        @Html.TextBoxFor(model => model.LfoIIScale, new { type = "range", id = "LfoIIScale", min = "1", max = "10", step = "1", ng_model="lfoIIAmpValue" })
+                        <span class="senkenDescriptions">{{lfoIIAmpValue}} </span>
                         @Html.ValidationMessageFor(model => model.LfoIIScale, "", new { @class = "text-danger" })
                         <br />
+
+                       
 
                     </div>
 
@@ -596,6 +609,8 @@
 }
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 <script src="~/Scripts/jquery.signalR-2.1.2.min.js"></script>
 <!--Reference the autogenerated SignalR hub script. -->
 <script src="~/signalr/hubs"></script>
@@ -611,6 +626,33 @@
 
 <script type="text/javascript" src="~/Scripts/app/senkenSynth.js"></script>
 
-<script type="text/javascript" src="~/Scripts/app/hub.js">
+<script type="text/javascript" src="~/Scripts/app/hub.js"></script>
+<script>
+    
 
+    angular.module("WaveBucket", [])
+        .controller("MyCtrl", function ($scope) {
+
+            // bucketI
+            $scope.lfoIFreqValue = 2;
+            $scope.lfoIAmpValue = 1;
+
+            $scope.filterIFreqValue = 500;
+            $scope.filterIQValue = 3;
+            $scope.filterIAmpValue = 1;
+
+            $scope.delayIMsValue = 2;
+            $scope.delayIDryWetValue = 1;
+
+            // bucketII
+            $scope.lfoIIFreqValue = 2;
+            $scope.lfoIIAmpValue = 1;
+
+            $scope.filterIIFreqValue = 500;
+            $scope.filterIIQValue = 3;
+            $scope.filterIIAmpValue = 1;
+
+            $scope.delayIIMsValue = 2;
+            $scope.delayIIDryWetValue = 1;
+        })
 </script>

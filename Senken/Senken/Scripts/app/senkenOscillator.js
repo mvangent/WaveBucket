@@ -63,6 +63,7 @@ function Oscillator(context, endController, name) {
             console.log("Osc I: started at freq " + selfOsc.osc.frequency.value + ", with shape " + selfOsc.osc.type + " with volume: " + volume);
 
             selfOsc.osc.connect(selfOsc.wavebucket.gainNode(waveBucketIndex));
+            selfOsc.wavebucket.changeVolume(waveBucketIndex, volume);
 
             /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE BY UPDATING THE CONNECTIONS OF ALL OBJECTS*/
             if (updateConnections === true) {
@@ -304,15 +305,23 @@ function Oscillator(context, endController, name) {
 
                 for (var i = 0; i < oscsArray.length - 1; i++) {
 
-                    var oscillationInStrings;
+                    var waveCharacteristics;
 
-                    oscillationInStrings = oscsArray[i].split(" ");
+                    waveCharacteristics = oscsArray[i].split(" ");
+
+                    console.log(waveCharacteristics);
 
                     console.log("load wave in loadbucket function");
 
                     var waveBucketIndex = selfOsc.currentFreeIndexInBucket;
 
-                    selfOsc.wavebucket.addWave(selfOsc.waveGenerator(oscillationInStrings[0], selfOsc.translateStringToTypeEnum(oscillationInStrings[1]), oscillationInStrings[2], waveBucketIndex, true));
+                    var frequency = waveCharacteristics[0];
+                    var waveForm = waveCharacteristics[1];
+                    var waveVolume = waveCharacteristics[2];
+
+                    
+
+                    selfOsc.wavebucket.addWave(selfOsc.waveGenerator(frequency, waveForm, waveVolume, waveBucketIndex, true));
 
                     
 
