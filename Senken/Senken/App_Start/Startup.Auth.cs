@@ -56,9 +56,9 @@ namespace Senken
         //        consumerKey: "",
           //      consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-                appId: "888579801155273",
-                appSecret: "3063561cff2b292fb27d559a5484975d");
+      //      app.UseFacebookAuthentication(
+        //        appId: "888579801155273",
+          //      appSecret: "3063561cff2b292fb27d559a5484975d");
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {

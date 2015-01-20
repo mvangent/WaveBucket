@@ -121,7 +121,7 @@ $(function() {
     // oscillator I & features: update displays
     jam.client.updateLfoDisplayPointerI = function (){setTimeout(function() {lfoI.updateDisplay('#LfoIActive', '#LfoIFrequency', '#LfoIScale', '#LfoIType')}, 100)}
     jam.client.updateOscillatorDisplayPointerI = function (){ oscillatorI.updateDisplay('#OscIFrequency', '#oscIType');}
-    jam.client.updateWaveBucketDisplayPointerI = function (){setTimeout(function() {oscillatorI.updateWaveBucketDisplay('bucketlistI')}, 250)} // temp solution: get element by ID => double quotes, no #
+    jam.client.updateWaveBucketDisplayPointerI = function (){setTimeout(function() {oscillatorI.updateWaveBucketDisplay('bucketlistI')}, 500)} // temp solution: get element by ID => double quotes, no #
     jam.client.updateBiquadFilterIDisplayPointer = function () { filterI.updateDisplay('#filterTypeOne', '#filterFrequencyOne', '#filterQOne', '#filterGainOne'); }
     jam.client.updateDelayIDisplayPointer = function () { setTimeout(function () { delayI.updateDisplay('#delayITime', '#delayIDryWet') }, 100) }
     // oscillator I & features: wavebucket client-server connection
@@ -144,7 +144,7 @@ $(function() {
     // oscillator II & features: update displays
     jam.client.updateLfoDisplayPointerII = function () { setTimeout(function () { lfoII.updateDisplay('#LfoIIActive', '#LfoIIFrequency', '#LfoIIScale', '#LfoIIType') }, 100) }
     jam.client.updateOscillatorDisplayPointerII = function() { oscillatorII.updateDisplay('#OscIIFrequency', '#oscIIType'); }
-    jam.client.updateWaveBucketDisplayPointerII = function (){setTimeout(function() { oscillatorII.updateWaveBucketDisplay('bucketlistII') }, 250)} // temp solution: get element by ID => double quotes, no #
+    jam.client.updateWaveBucketDisplayPointerII = function (){setTimeout(function() { oscillatorII.updateWaveBucketDisplay('bucketlistII') }, 500)} // temp solution: get element by ID => double quotes, no #
     jam.client.updateBiquadFilterIIDisplayPointer = function () {filterII.updateDisplay('#filterTypeTwo', '#filterFrequencyTwo','#filterQTwo','#filterGainTwo');}
     jam.client.updateDelayIIDisplayPointer = function () { setTimeout(function () { delayII.updateDisplay('#delayIITime', '#delayIIDryWet') }, 100) }
     // oscillator II & features: wavebucket client-server connection
