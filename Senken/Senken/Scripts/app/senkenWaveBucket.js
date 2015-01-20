@@ -85,7 +85,7 @@ function WaveBucket(context, idName, oscillator) {
 
         console.log("remove(index) on wavebucket reached");
 
-        // self.waveBucket[index].stop();
+        self.waveBucket[index].stop();
 
         console.log("spliced on index:  " + index);
 
