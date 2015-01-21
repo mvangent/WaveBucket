@@ -42,7 +42,7 @@ namespace Senken.Controllers
 
             //  return View(sessions.ToList());
 
-            ViewBag.Message = "Start anew or explore sessions";
+            ViewBag.Message = "Create or explore sessions";
 
             return View();
 
