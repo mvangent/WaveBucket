@@ -18,16 +18,19 @@ module.exports = function(config) {
 		'Senken/Scripts/jquery-2.1.1.min.js',
 		'Senken/Scripts/jquery-2.1.1.js',
 		'Senken/Scripts/app/senkenBiquadFilter.js', 
-		'Senken/Scripts/app/senkenCompressor.js',
+		'Senken/Scripts/app/senkenCompressor.js', 
+		'Senken/Scripts/app/senkenDelay.js', 
+		'Senken/Scripts/app/senkenLfo.js', 
 		'Senken/Scripts/app/senkenMasterController.js',
-		'Senken/Scripts/app/senkenVisualAnalyser.js',
-		'Senken/Scripts/app/senkenLfo.js',
-		'Senken/Scripts/app/senkenWaveBucket.js',
-		'Senken/Scripts/app/senkenOscillator.js',
+		'Senken/Scripts/app/senkenOscillator.js', 
+		'Senken/Scripts/app/senkenVisualAnalyser.js', 
+		'Senken/Scripts/app/senkenWaveBucket.js', 
 		'Senken/Scripts/app/senkenSynth.js',
+		'Senken/Scripts/app/*.js',			
 		'Senken/Scripts/*.js',
 		'Senken/Scripts/app/*.js',
 		'Senken/Scripts/tests/*.js'
+		
     ],
 
 

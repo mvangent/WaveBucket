@@ -53,16 +53,16 @@ var context;
         equal(testWaveI.frequency.value, 200, "sound wave stacked with correct frequency in wavebucket");
         equal(testWaveI.type, "square", "type is set and stored in wavebucket");
 
-        var testSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(0), false);
+        var testSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(0), 0, 0, false);
         equal(testSine.type, "sine", "translated into sinewave");
 
-        var testTriangle = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(2), false);
+        var testTriangle = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(2), 0, 1, false);
         equal(testTriangle.type, "triangle", "translated into triangle wave");
 
-        var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), false);
+        var testSawTooth = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(3), 0, 2, false);
         equal(testSawTooth.type, "sawtooth", "translated into triangle wave");
 
-        var testdefaultSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(5), false);
+        var testdefaultSine = testOscillator.waveGenerator(200, testOscillator.translateOscTypeEnumToString(5), 0, 3, false);
         equal(testdefaultSine.type, "sine", "translated into default sine wave");
 
 
@@ -231,16 +231,19 @@ QUnit.test("senkenSynth: masterController", function () {
 
 QUnit.test("senkenSynth: WaveBucket", function () {
 
-    var testBucket = new WaveBucket();
+    var testBucket = new WaveBucket(context, 0, new Oscillator(context));
 
     // add wave
     var testWave = context.createOscillator();
+
+    
+
     testBucket.addWave(testWave);
     var length = testBucket.getSize();
     equal(length, 1, "adding wave");
 
     // remove wave (by pop())
-    testBucket.remove();
+    testBucket.removeLastWave();
     equal(0, testBucket.getSize(), "removing wave")
 
     // remove wave (by index) 
@@ -248,7 +251,7 @@ QUnit.test("senkenSynth: WaveBucket", function () {
 
     // oscilliationsToString
 
-   var testBucketII = new WaveBucket();
+    var testBucketII = new WaveBucket(context, 0, new Oscillator(context));
 
     var testOscillationII = context.createOscillator();
 
@@ -261,7 +264,7 @@ QUnit.test("senkenSynth: WaveBucket", function () {
 
     var toStringWaveBucketTest = testBucketII.oscillationsToString();
 
-    equal(toStringWaveBucketTest, "200 sine,", "wavebucket toString with one oscillation");
+    equal(toStringWaveBucketTest, "200 sine 1,", "wavebucket toString with one oscillation");
 
 
     // saveBucket
