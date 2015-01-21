@@ -35,8 +35,9 @@ namespace Senken.Tests.Controllers
             ViewResult result = controller.About() as ViewResult;
 
             // Assert
-            Assert.AreEqual( "This is a place that tries to add to Adam Harper's definition of inifite musical possibilties. Created with variables," +
-                "and waiting for variables that simultanously can be inputted to create music with sound synthesis, I invite you to jam with your friends, wherever they might be.", result.ViewBag.Message);
+            Assert.AreEqual("WaveBucket is a chatbox for sound waves. Grounded in modular, additive synthesizing, it offers a communal space for sound design and electronic music experiments. Realtime tweaking a synthesizer with your friends in seperate locations is" +
+               " easy: You only need a web browser that supports audio synthesis,** create a new or join an existing public session, and you are good to go. Next to public jamming and sharing, WaveBucket also offers a private session mode, so that you can experiment with its wavestackers, filters, delays, " +
+               "and lfo's just by yourself. Either way, have a good time!", result.ViewBag.Message);
         }
 
         [TestMethod]
@@ -49,7 +50,7 @@ namespace Senken.Tests.Controllers
             ViewResult result = controller.Contact() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.AreEqual("Your contact page.", result.ViewBag.Message);
         }
     }
 }
