@@ -62,8 +62,8 @@ namespace Senken
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "601338649890-ofdqkdqir7dosida37bas0lqueqc5gr4.apps.googleusercontent.com",
-                ClientSecret = "1eQSWGrZu-WREOGEWJi-Ykp3"
+                ClientId = "928333459092-fpevg61ojqbjka7ndvrb1tb34gvem1p3.apps.googleusercontent.com",
+                ClientSecret = "YQEZLKn9BCAJ9PXxVNO2iFR7"
 
             });
         }
