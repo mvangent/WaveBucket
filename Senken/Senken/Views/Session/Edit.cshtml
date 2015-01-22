@@ -639,7 +639,7 @@
 
     //lfo
     var lfoIIFreqValueController = @Html.Raw(Json.Encode(Model.LfoIIFrequency));
-    var lfoIAmpValueController = @Html.Raw(Json.Encode(Model.LfoIIScale));
+    var lfoIIAmpValueController = @Html.Raw(Json.Encode(Model.LfoIIScale));
 
     // filter
     var filterIIFreqValueController = @Html.Raw(Json.Encode(Model.BiquadFilterFrequencyTwo));
@@ -667,7 +667,7 @@
 
             // bucketII
             $scope.lfoIIFreqValue = lfoIIFreqValueController;
-            $scope.lfoIIAmpValue = lfoIAmpValueController;
+            $scope.lfoIIAmpValue = lfoIIAmpValueController;
 
             $scope.filterIIFreqValue = filterIIFreqValueController;
             $scope.filterIIQValue = filterIIQValueController;
