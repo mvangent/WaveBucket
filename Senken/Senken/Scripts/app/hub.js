@@ -22,7 +22,7 @@ $(function() {
             wiring.updateConnections();
         }
         console.log("lfo runner I initiated")
-    };
+    }()
 
     jam.client.lfoIIRunner = function () {
         
@@ -32,7 +32,7 @@ $(function() {
         }
         console.log("lfo runner II initiated")
         wiring.updateConnections();
-    };
+    }()
 
     jam.client.filterIRunner = function () {
 
@@ -43,7 +43,7 @@ $(function() {
 
         console.log("filter runner I initiated");
 
-    }
+    }()
 
     jam.client.filterIIRunner = function () {
 
@@ -54,7 +54,7 @@ $(function() {
 
         console.log("filter runner II initiated");
 
-    }
+    }()
 
     jam.client.delayIRunner = function () {
 
@@ -64,7 +64,7 @@ $(function() {
 
         console.log("delayI runner initiated");
 
-    }
+    }()
 
     jam.client.delayIIRunner = function () {
 
@@ -73,7 +73,7 @@ $(function() {
 
         console.log("delay II runner initiated");
 
-    }
+    }()
 
     jam.client.masterVolumeRunner = function () {
 
@@ -81,7 +81,7 @@ $(function() {
 
         console.log("masterGain RUNNER");
 
-    }
+    }()
 
     jam.client.compressorRunner = function () {
 
@@ -91,7 +91,7 @@ $(function() {
 
         console.log("compressor RUNNER");
 
-    }
+    }()
 
 
     // end controls: fields

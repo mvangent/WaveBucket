@@ -617,32 +617,66 @@
 
 <script>
 
+    /* first values are loaded from the controller and then parsed to angular framework */
+
+    // wavebucket I
+
+    //lfo
+    var lfoIFreqValueController = @Html.Raw(Json.Encode(Model.LfoIFrequency));
+    var lfoIAmpValueController = @Html.Raw(Json.Encode(Model.LfoIFrequency));
+
+    // filter
+    var filterIFreqValueController = @Html.Raw(Json.Encode(Model.BiquadFilterFrequencyOne));
+    var filterIQValueController = @Html.Raw(Json.Encode(Model.BiquadFilterQOne));
+    var filterIAmpValueController = @Html.Raw(Json.Encode(Model.BiquadFilterGainOne));
+
+    // delay
+    var delayIMsValueController = @Html.Raw(Json.Encode(Model.DelayITime));
+    var delayIDryWetValueController = @Html.Raw(Json.Encode(Model.DelayIDryWet));
+
+
+    // wavebucket I
+
+    //lfo
+    var lfoIIFreqValueController = @Html.Raw(Json.Encode(Model.LfoIIFrequency));
+    var lfoIAmpValueController = @Html.Raw(Json.Encode(Model.LfoIIFrequency));
+
+    // filter
+    var filterIIFreqValueController = @Html.Raw(Json.Encode(Model.BiquadFilterFrequencyTwo));
+    var filterIIQValueController = @Html.Raw(Json.Encode(Model.BiquadFilterQTwo));
+    var filterIIAmpValueController = @Html.Raw(Json.Encode(Model.BiquadFilterGainTwo));
+
+    // delay
+    var delayIIMsValueController = @Html.Raw(Json.Encode(Model.DelayIITime));
+    var delayIIDryWetValueController = @Html.Raw(Json.Encode(Model.DelayIIDryWet));
+
 
     angular.module("WaveBucket", [])
         .controller("MyCtrl", function ($scope) {
 
             // bucketI
-            $scope.lfoIFreqValue = 2;
-            $scope.lfoIAmpValue = 1;
+            $scope.lfoIFreqValue = lfoIFreqValueController;
+            $scope.lfoIAmpValue = lfoIAmpValueController;
 
-            $scope.filterIFreqValue = 500;
-            $scope.filterIQValue = 3;
-            $scope.filterIAmpValue = 1;
+            $scope.filterIFreqValue = filterIFreqValueController;
+            $scope.filterIQValue = filterIQValueController;
+            $scope.filterIAmpValue = filterIAmpValueController;
 
-            $scope.delayIMsValue = 2;
-            $scope.delayIDryWetValue = 1;
+            $scope.delayIMsValue = delayIMsValueController;
+            $scope.delayIDryWetValue = delayIDryWetValueController;
 
             // bucketII
-            $scope.lfoIIFreqValue = 2;
-            $scope.lfoIIAmpValue = 1;
+            $scope.lfoIIFreqValue = lfoIIFreqValueController;
+            $scope.lfoIIAmpValue = lfoIAmpValueController;
 
-            $scope.filterIIFreqValue = 500;
-            $scope.filterIIQValue = 3;
-            $scope.filterIIAmpValue = 1;
+            $scope.filterIIFreqValue = filterIIFreqValueController;
+            $scope.filterIIQValue = filterIIQValueController;
+            $scope.filterIIAmpValue = filterIIAmpValueController;
 
-            $scope.delayIIMsValue = 2;
-            $scope.delayIIDryWetValue = 1;
+            $scope.delayIIMsValue = delayIIMsValueController;
+            $scope.delayIIDryWetValue = delayIIDryWetValueController;
         })
+
 </script>
 
 
@@ -655,8 +689,8 @@
 <script type="text/javascript" src="~/Scripts/app/senkenLfo.js"></script>
 <script type="text/javascript" src="~/Scripts/app/senkenWaveBucket.js"></script>
 <script type="text/javascript" src="~/Scripts/app/senkenOscillator.js"></script>
-
+<script type="text/javascript" src="~/Scripts/app/hub.js"></script>
 <script type="text/javascript" src="~/Scripts/app/senkenSynth.js"></script>
 
-<script type="text/javascript" src="~/Scripts/app/hub.js"></script>
+
 
