@@ -15,7 +15,7 @@ $(function() {
     // create a function that the hub can call back to create sounds
 
     // module runners
-   /* jam.client.lfoIRunner = function () {
+    jam.client.lfoIRunner = function () {
         if ($('#LfoIActive').is(':checked')) {
             console.log("lfo active in runner ONE is true");
             lfoI.lfoActivator($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val())
@@ -75,7 +75,7 @@ $(function() {
 
     }()
 
-    */
+    
     jam.client.masterVolumeRunner = function () {
 
         endController.gainAdjuster($('#masterGain').val());
