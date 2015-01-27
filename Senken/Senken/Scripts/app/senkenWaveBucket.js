@@ -71,13 +71,13 @@ function WaveBucket(context, idName, oscillator) {
     }
 
     // changeVolume(index, volume)
-    this.changeVolume = function (index, volume, bucketID) {
+    this.changeVolume = function (index, volume) {
         console.log("changeVolume on Oscillator volume = " + volume);
         var volumeFloat = parseFloat(volume);
         self.waveBucketVolumes[index].gain.value = volumeFloat;       
         console.log(self.waveBucketVolumes);
-        console.log(bucketID);
-        self.updateDisplay(bucketID);
+       // console.log(bucketID);
+       // self.updateDisplay(bucketID);
     }
 
     // removeLastWave()
@@ -86,7 +86,7 @@ function WaveBucket(context, idName, oscillator) {
     }
 
     // remove(index) - wave will be removed from wavebucket by index
-    this.remove = function (index, bucketID) {
+    this.remove = function (index) {
 
         console.log("remove(index) on wavebucket reached");
 
@@ -101,7 +101,7 @@ function WaveBucket(context, idName, oscillator) {
         self.waveBucketVolumes.splice(index, 1);
         self.waveBucketVolumes[9] = gainNodeToBeReplaced;
 
-        self.updateDisplay(bucketID);
+        
 
     }
 

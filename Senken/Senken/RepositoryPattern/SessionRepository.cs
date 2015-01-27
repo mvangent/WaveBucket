@@ -78,6 +78,8 @@ namespace Senken.RepositoryPattern
 
             user.sessions.Remove(id);
 
+            db.Sessions.Remove(id);
+
             return user;
         }
 

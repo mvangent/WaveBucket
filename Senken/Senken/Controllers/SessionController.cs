@@ -189,7 +189,7 @@ namespace Senken.Controllers
                     await repository.Delete(sessionInDb);
 
                     // update user profile
-                    var result = await repository.Update(user);
+                    await repository.Update(user);
 
                     await repository.Save();
 

@@ -119,6 +119,7 @@ function Oscillator(context, endController, name) {
             selfOsc.osc.stop();
             selfOsc.wavebucket.removeLastWave();
             selfOsc.lastWaveRemoved = true;
+            selfOsc.currentFreeIndexInBucket -= 1;
 
             return true;
         } else {

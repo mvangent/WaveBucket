@@ -153,12 +153,12 @@ $(function() {
     jam.client.loadWaveBucketPointerII = function (){ oscillatorII.loadWaveBucket('#hiddenWaveBucketII');}
 
     // wavebucket I
-    jam.client.changeWaveVolumeInBucketIPointer = oscillatorI.changeWaveVolume, function (){ oscillatorI.updateWaveBucketDisplay('bucketlistI')};
-    jam.client.removeWaveByIndexInBucketIPointer = oscillatorI.removeWave, function () { oscillatorI.updateWaveBucketDisplay('bucketlistI') };
+    jam.client.changeWaveVolumeInBucketIPointer = function(waveNumber, volume){oscillatorI.changeWaveVolume(waveNumber, volume); oscillatorI.updateWaveBucketDisplay('bucketlistI')};
+    jam.client.removeWaveByIndexInBucketIPointer = function (waveNumber) {oscillatorI.removeWave(waveNumber); oscillatorI.updateWaveBucketDisplay('bucketlistI') };
 
      // wavebucket II
-    jam.client.changeWaveVolumeInBucketIIPointer = oscillatorII.changeWaveVolume, function () { oscillatorII.updateWaveBucketDisplay('bucketlistII') };
-    jam.client.removeWaveByIndexInBucketIIPointer = oscillatorII.removeWave, function () { oscillatorII.updateWaveBucketDisplay('bucketlistII') };
+    jam.client.changeWaveVolumeInBucketIIPointer = function (waveNumber, volume) {oscillatorII.changeWaveVolume(waveNumber, volume); oscillatorII.updateWaveBucketDisplay('bucketlistII') };
+    jam.client.removeWaveByIndexInBucketIIPointer = function (waveNumber) {oscillatorII.removeWave(waveNumber); oscillatorII.updateWaveBucketDisplay('bucketlistII') };
 
     
 
