@@ -35,15 +35,15 @@ namespace Senken.Hubs
             if (int.Parse(bucketNumber) == 0)
             {
               
-                Clients.Group(roomName).changeWaveVolumeInBucketIPointer(waveNumber, volume);
-                Clients.Group(roomName).updateWaveBucketDisplayPointerI();
+                Clients.Group(roomName).changeWaveVolumeInBucketIPointer(waveNumber, volume, "bucketlistI");
+              //  Clients.Group(roomName).updateWaveBucketDisplayPointerI();
          
             }
             else if (int.Parse(bucketNumber) == 1)
             {
                 // do stuff for waveBucket II
-                Clients.Group(roomName).changeWaveVolumeInBucketIIPointer(waveNumber, volume);
-                Clients.Group(roomName).updateWaveBucketDisplayPointerII();
+                Clients.Group(roomName).changeWaveVolumeInBucketIIPointer(waveNumber, volume, "bucketlistII");
+               // Clients.Group(roomName).updateWaveBucketDisplayPointerII();
             }
             else
             {
@@ -60,16 +60,16 @@ namespace Senken.Hubs
           {
             if (int.Parse(bucketNumber) == 0)
             {
-              
-                Clients.Group(roomName).removeWaveByIndexInBucketIPointer(waveNumber);
-                Clients.Group(roomName).updateWaveBucketDisplayPointerI();
+
+                Clients.Group(roomName).removeWaveByIndexInBucketIPointer(waveNumber, "bucketlistII");
+              //  Clients.Group(roomName).updateWaveBucketDisplayPointerI();
          
             }
             else if (int.Parse(bucketNumber) == 1)
             {
                 // do stuff for waveBucket II
-                Clients.Group(roomName).removeWaveByIndexInBucketIIPointer(waveNumber);
-                Clients.Group(roomName).updateWaveBucketDisplayPointerII();
+                Clients.Group(roomName).removeWaveByIndexInBucketIIPointer(waveNumber, "bucketlistII");
+              //  Clients.Group(roomName).updateWaveBucketDisplayPointerII();
             }
             else
             {

@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using NUnit.Core;
 using Senken.Models;
+using Senken.RepositoryPattern;
 
 
 namespace Senken.Controllers
@@ -23,15 +24,16 @@ namespace Senken.Controllers
         /// <summary>
         /// Application DB context
         /// </summary>
-        public ApplicationDbContext ApplicationDbContext { get; set; }
-        protected UserStore<ApplicationUser> UserStore { get; private set; }
-        protected UserManager<ApplicationUser> UserManager { get; set; }
+        private ISessionRepository repository = null; 
 
         public SessionController()
         {
-            this.ApplicationDbContext = ApplicationDbContext.Create();
-            this.UserStore = new UserStore<ApplicationUser>(this.ApplicationDbContext);
-            this.UserManager = new UserManager<ApplicationUser>(this.UserStore);
+            this.repository = new SessionRepository();
+        }
+
+        public SessionController(ISessionRepository repository)
+        {
+            this.repository = repository;
         }
 
 
@@ -84,23 +86,15 @@ namespace Senken.Controllers
             {
 
 
-                ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                ApplicationUser currentUser = await repository.Insert(sessionInput);
 
-                user.sessions.Add(sessionInput);
-
-                var result = await UserManager.UpdateAsync(user);
-
-                await UserStore.Context.SaveChangesAsync();
-
-                ApplicationDbContext.Dispose();
-
-
+                await repository.Update(currentUser);
+                
+                await repository.Save();
+                
                 return RedirectToAction("Edit", "Session", new { @id = sessionInput.SessionID });
 
             }
-
-
-
 
             return View(sessionInput);
         }
@@ -131,18 +125,14 @@ namespace Senken.Controllers
                 }
                 else
                 {
-                    //Session session = db.Sessions.Find(id);
-                    var user = UserManager.FindById(User.Identity.GetUserId());
+                    ApplicationUser user = await repository.GetCurrentUser();
+                   
 
-                    var databaseSession = await ApplicationDbContext.Create().Sessions.FindAsync(idNumber);
-
-                    ApplicationDbContext.Dispose();
-
-
+                    var databaseSession = await repository.SelectByID(idNumber);
 
 
                     try
-                    {
+                    { 
                         var userIsOwner = databaseSession.User_Id.UserName == user.UserName;
 
                         databaseSession.UserIsOwner = userIsOwner;
@@ -154,9 +144,6 @@ namespace Senken.Controllers
 
                         return RedirectToAction("Index", "Session");
                     }
-
-
-
 
                 }
 
@@ -185,9 +172,9 @@ namespace Senken.Controllers
 
                 int currentSessionInDB = (int)id;
 
-                ApplicationUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                ApplicationUser user = await repository.GetCurrentUser();
 
-                Session sessionInDb = await ApplicationDbContext.Sessions.FindAsync(id);
+                Session sessionInDb = await repository.SelectByID(currentSessionInDB);
 
                 // update session
 
@@ -199,14 +186,14 @@ namespace Senken.Controllers
                     user.sessions[indexToBeUpdated] = sessionInput;
 
                     // delete orphan in sessions table
-                    ApplicationDbContext.Sessions.Remove(sessionInDb);
+                    await repository.Delete(sessionInDb);
 
                     // update user profile
-                    var result = await UserManager.UpdateAsync(user);
+                    var result = await repository.Update(user);
 
-                    await UserStore.Context.SaveChangesAsync();
+                    await repository.Save();
 
-                    ApplicationDbContext.Dispose();
+                // ?    ApplicationDbContext.Dispose();
 
                     return RedirectToAction("Index", "Session");
                 }
@@ -216,11 +203,11 @@ namespace Senken.Controllers
 
                     // update user profile with session
 
-                    var result = await UserManager.UpdateAsync(user);
+                    var result = await repository.Update(user);
 
-                    await UserStore.Context.SaveChangesAsync();
+                    await repository.Save();
 
-                    ApplicationDbContext.Dispose();
+           // ?         ApplicationDbContext.Dispose();
 
                     return RedirectToAction("Index", "Session");
 
@@ -268,7 +255,7 @@ namespace Senken.Controllers
                }
            */
 
-        protected override void Dispose(bool disposing)
+     /*   protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -277,5 +264,6 @@ namespace Senken.Controllers
             }
             base.Dispose(disposing);
         }
+      */
     }
 }

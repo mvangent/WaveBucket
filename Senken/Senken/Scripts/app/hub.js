@@ -15,7 +15,7 @@ $(function() {
     // create a function that the hub can call back to create sounds
 
     // module runners
-    jam.client.lfoIRunner = function () {
+   /* jam.client.lfoIRunner = function () {
         if ($('#LfoIActive').is(':checked')) {
             console.log("lfo active in runner ONE is true");
             lfoI.lfoActivator($('#LfoIFrequency').val(), $('#LfoIScale').val(), $('#LfoIType').val())
@@ -75,6 +75,7 @@ $(function() {
 
     }()
 
+    */
     jam.client.masterVolumeRunner = function () {
 
         endController.gainAdjuster($('#masterGain').val());
@@ -121,7 +122,7 @@ $(function() {
     // oscillator I & features: update displays
     jam.client.updateLfoDisplayPointerI = function (){setTimeout(function() {lfoI.updateDisplay('#LfoIActive', '#LfoIFrequency', '#LfoIScale', '#LfoIType')}, 100)}
     jam.client.updateOscillatorDisplayPointerI = function (){ oscillatorI.updateDisplay('#OscIFrequency', '#oscIType');}
-    jam.client.updateWaveBucketDisplayPointerI = function (){setTimeout(function() {oscillatorI.updateWaveBucketDisplay('bucketlistI')}, 500)} // temp solution: get element by ID => double quotes, no #
+    jam.client.updateWaveBucketDisplayPointerI = function (){ oscillatorI.updateWaveBucketDisplay('bucketlistI')} // temp solution: get element by ID => double quotes, no #
     jam.client.updateBiquadFilterIDisplayPointer = function () { filterI.updateDisplay('#filterTypeOne', '#filterFrequencyOne', '#filterQOne', '#filterGainOne'); }
     jam.client.updateDelayIDisplayPointer = function () { setTimeout(function () { delayI.updateDisplay('#delayITime', '#delayIDryWet') }, 100) }
     // oscillator I & features: wavebucket client-server connection
@@ -152,12 +153,12 @@ $(function() {
     jam.client.loadWaveBucketPointerII = function (){ oscillatorII.loadWaveBucket('#hiddenWaveBucketII');}
 
     // wavebucket I
-    jam.client.changeWaveVolumeInBucketIPointer = oscillatorI.changeWaveVolume;
-    jam.client.removeWaveByIndexInBucketIPointer = oscillatorI.removeWave;
+    jam.client.changeWaveVolumeInBucketIPointer = oscillatorI.changeWaveVolume, function (){ oscillatorI.updateWaveBucketDisplay('bucketlistI')};
+    jam.client.removeWaveByIndexInBucketIPointer = oscillatorI.removeWave, function () { oscillatorI.updateWaveBucketDisplay('bucketlistI') };
 
      // wavebucket II
-    jam.client.changeWaveVolumeInBucketIIPointer = oscillatorII.changeWaveVolume;
-    jam.client.removeWaveByIndexInBucketIIPointer = oscillatorII.removeWave;
+    jam.client.changeWaveVolumeInBucketIIPointer = oscillatorII.changeWaveVolume, function () { oscillatorII.updateWaveBucketDisplay('bucketlistII') };
+    jam.client.removeWaveByIndexInBucketIIPointer = oscillatorII.removeWave, function () { oscillatorII.updateWaveBucketDisplay('bucketlistII') };
 
     
 
@@ -697,52 +698,52 @@ $(function() {
 
             $('#removeImageoscI0').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 0);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI0");
             });
 
             $('#removeImageoscI1').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 1);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI1");
             });
 
             $('#removeImageoscI2').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 2);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI2");
             });
 
             $('#removeImageoscI3').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 3);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI3");
             });
 
             $('#removeImageoscI4').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 4);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI4");
             });
 
             $('#removeImageoscI5').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 5);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI5");
             });
 
             $('#removeImageoscI6').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 6);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI6");
             });
 
             $('#removeImageoscI7').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 7);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI7");
             });
 
             $('#removeImageoscI8').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 8);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI8");
             });
 
             $('#removeImageoscI9').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 0, 9);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscI9");
             });
 
 
@@ -823,52 +824,52 @@ $(function() {
 
             $('#removeImageoscII0').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 0);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII0");
             });
 
             $('#removeImageoscII1').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 1);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII1");
             });
 
             $('#removeImageoscII2').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 2);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII2");
             });
 
             $('#removeImageoscII3').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 3);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII3");
             });
 
             $('#removeImageoscII4').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 4);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII4");
             });
 
             $('#removeImageoscII5').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 5);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII5");
             });
 
             $('#removeImageoscII6').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 6);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII6");
             });
 
             $('#removeImageoscII7').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 7);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII7");
             });
 
             $('#removeImageoscII8').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 8);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII8");
             });
 
             $('#removeImageoscII9').click(function () {
                 jam.server.removeWaveByIndex(sessionIDString, 1, 9);
-                console.log("remove wave clicked");
+                console.log("remove wave clicked oscII9");
             });
 
 
