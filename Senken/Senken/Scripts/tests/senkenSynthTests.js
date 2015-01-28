@@ -66,10 +66,7 @@ var context;
         equal(testdefaultSine.type, "sine", "translated into default sine wave");
 
 
-        endController.stopSession();
-        var bucketStopTest = testOscillator.freezeBucket();
-        equal(bucketStopTest, true, "bucket stopped");
-
+     
         
         lastWaveRemoved = testOscillator.removeLastWave();
         equal(lastWaveRemoved, true, "last soundWave removed");
@@ -78,6 +75,10 @@ var context;
         lastWaveRemoved = testOscillator.removeLastWave();
         equal(lastWaveRemoved, false, "last soundWave already removed");
 
+
+        endController.stopSession();
+        var bucketStopTest = testOscillator.freezeBucket();
+        equal(bucketStopTest, true, "bucket stopped");
 
 
          endController.startSession();

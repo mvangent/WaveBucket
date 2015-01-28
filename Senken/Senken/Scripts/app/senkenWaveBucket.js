@@ -18,43 +18,43 @@ function WaveBucket(context, idName, oscillator) {
     // gain nodes
     this.gainCh0 = context.createGain();
     //self.gainCh0.gain.value = 0.5;
-    this.waveBucketVolumes[0] = self.gainCh0;
+    self.waveBucketVolumes[0] = self.gainCh0;
 
     this.gainCh1 = context.createGain();
     //self.gainCh1.gain.value = 0.5;
-    this.waveBucketVolumes[1] = self.gainCh1;
+    self.waveBucketVolumes[1] = self.gainCh1;
 
     this.gainCh2 = context.createGain();
     //self.gainCh2.gain.value = 0.5;
-    this.waveBucketVolumes[2] = self.gainCh2;
+    self.waveBucketVolumes[2] = self.gainCh2;
 
     this.gainCh3 = context.createGain();
     //self.gainCh3.gain.value = 0.5;
-    this.waveBucketVolumes[3] = self.gainCh3;
+    self.waveBucketVolumes[3] = self.gainCh3;
 
     this.gainCh4 = context.createGain();
     //self.gainCh4.gain.value = 0.5;
-    this.waveBucketVolumes[4] = self.gainCh4;
+    self.waveBucketVolumes[4] = self.gainCh4;
 
     this.gainCh5 = context.createGain();
     //self.gainCh5.gain.value = 0.5;
-    this.waveBucketVolumes[5] = self.gainCh5;
+    self.waveBucketVolumes[5] = self.gainCh5;
 
     this.gainCh6 = context.createGain();
     //self.gainCh6.gain.value = 0.5;
-    this.waveBucketVolumes[6] = self.gainCh6;
+    self.waveBucketVolumes[6] = self.gainCh6;
 
     this.gainCh7 = context.createGain();
     //self.gainCh7.gain.value = 0.5;
-    this.waveBucketVolumes[7] = self.gainCh7;
+    self.waveBucketVolumes[7] = self.gainCh7;
 
     this.gainCh8 = context.createGain();
     //.gainCh8.gain.value = 0.5;
-    this.waveBucketVolumes[8] = self.gainCh8;
+    self.waveBucketVolumes[8] = self.gainCh8;
 
     this.gainCh9 = context.createGain();
     //self.gainCh9.gain.value = 0.5;
-    this.waveBucketVolumes[9] = self.gainCh9;
+    self.waveBucketVolumes[9] = self.gainCh9;
 
 
 
