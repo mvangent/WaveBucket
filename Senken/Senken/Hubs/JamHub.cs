@@ -364,7 +364,7 @@ namespace Senken.Hubs
         {
             Clients.Group(roomName).compRatioAdjusterPointer(ratio);
 
-            Clients.Group(roomName).updateCompressorDisplayPointer();
+         // Clients.Group(roomName).updateCompressorDisplayPointer();
 
             return true;
 

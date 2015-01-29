@@ -394,6 +394,7 @@
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\app\senkenSynth.js" />
     <Content Include="Scripts\tests\senkenSynthTests.js" />
+    <Content Include="Scripts\viewmodels\compressorViewModel.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

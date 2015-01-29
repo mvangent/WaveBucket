@@ -349,15 +349,7 @@ function Oscillator(context, endController, name) {
         return true;
     }
 
-    // Method: generatorOutputTo(destination)
-    this.generatorOutputTo = function (destination) {
-        console.log("generator output reached to destination: " + destination);
-
-        selfOsc.osc.connect(destination);
-        
-        return true;
-    }
-
+ 
     // Method: gainNodeInputForLfo() -> return gainNode.gain
     this.gainNodeInputForLfo = function () {
         return selfOsc.gainNode.gain;
