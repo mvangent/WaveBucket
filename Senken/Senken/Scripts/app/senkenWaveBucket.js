@@ -81,9 +81,9 @@ function WaveBucket(context, idName, oscillator) {
     }
 
     // removeLastWave() DEPRECEATED
-    /*this.removeLastWave = function () {
+    this.removeLastWave = function () {
         self.waveBucket.pop();
-    } */
+    } 
 
     // remove(index) - wave will be removed from wavebucket by index
     this.remove = function (index) {
