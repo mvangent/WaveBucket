@@ -105,7 +105,7 @@ $(function() {
 
     // end controls: display
     jam.client.updateEndControlDisplayPointer = endController.updateDisplay;
-    jam.client.updateCompressorDisplayPointer = finalCompressor.updateDisplay('#compRatio', '#compKnee', '#compThreshold');
+    jam.client.updateCompressorDisplayPointer = function () { setTimeout(function () { finalCompressor.updateDisplay('#compRatio', '#compKnee', '#compThreshold') }, 150) };
 
     // oscillator I & features: fields
     jam.client.stackSoundWavePointerI = oscillatorI.stackSoundWave,
@@ -152,7 +152,7 @@ $(function() {
     jam.client.updateOscillatorDisplayPointerII = function() { oscillatorII.updateDisplay('#OscIIFrequency', '#oscIIType'); }
     jam.client.updateWaveBucketDisplayPointerII = function (){setTimeout(function() { oscillatorII.updateWaveBucketDisplay('bucketlistII') }, 300)} // temp solution: get element by ID => double quotes, no #
     jam.client.updateBiquadFilterIIDisplayPointer = function () {filterII.updateDisplay('#filterTypeTwo', '#filterFrequencyTwo','#filterQTwo','#filterGainTwo');}
-    jam.client.updateDelayIIDisplayPointer = function () { setTimeout(function () { delayII.updateDisplay('#delayIITime', '#delayIIDryWet') }, 100) }
+    jam.client.updateDelayIIDisplayPointer = function () { setTimeout(function () { delayII.updateDisplay('#delayIITime', '#delayIIDryWet') }, 150) }
 
     // oscillator II & features: wavebucket client-server connection
     jam.client.saveWaveBucketPointerII = function() { oscillatorII.saveWaveBucket('#hiddenWaveBucketII');}
