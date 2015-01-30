@@ -362,6 +362,7 @@
     <Content Include="Images\muteSymbol.png" />
     <Content Include="Images\volumeSymbol.png" />
     <Content Include="Images\Sogyologo.jpg" />
+    <Content Include="Images\wavebucketLogo.png" />
     <Content Include="Images\waveBucketTypeLogo.jpg" />
     <Content Include="phantomjs-license.txt" />
     <Content Include="Scripts\app\hub.js" />
