@@ -8,7 +8,7 @@ function Compressor(context) {
 
     var selfCompressor = this;
 
-    selfCompressor.compressorInstance.ratio.value = 
+    selfCompressor.compressorInstance.ratio.value = 1;
 
 
     // ratio 
