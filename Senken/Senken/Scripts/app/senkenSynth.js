@@ -127,13 +127,9 @@ function Wiring(context, filterI, analyser, endController, finalCompressor, osci
 ** View: Initialising values in the view
 --------------------------------------------------------------------------------------------------------
 */
-
 $('.senkenContainer').css({ 'opacity': 0.4 });
 $('#senkenLeftColumn').css({ 'float': 'left' }).width('50%');
 $('#senkenRightColumn').css({ 'float': 'right' }).width('49%'); // initialize fields
-//$('#compRatio').val(12);
-//$('#compKnee').val(30);
-//$('#compThreshold').val(-23);
 $('#masterGain').val(30);
 
 var visibilityCheck = function () {
@@ -142,24 +138,17 @@ var visibilityCheck = function () {
     console.log($('#OpenToEvolution').val());
 
     if (($('#UserIsOwner').val() === "False") && ($('#OpenToEvolution').val() === "True")) {
-
-
-
         $('.senkenContainer').hide();
         $('#compressor').hide();
         $('#masterControls').hide();
         $('#SaveButton').hide();
 
     } else if (($('#UserIsOwner').val() === "False") && ($('#OpenToEvolution').val() === "False")) {
-
-
-
         $('.senkenContainer').hide();
         $('#compressor').hide();
         $('#masterControls').hide();
 
     } else if (($('#UserIsOwner').val() === "True" && ($('#OpenToEvolution').val() === "False"))) {
-
         $('.senkenContainer').hide();
         $('#compressor').hide();
         $('#masterControls').hide();
