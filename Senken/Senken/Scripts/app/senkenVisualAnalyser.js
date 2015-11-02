@@ -4,8 +4,9 @@
 */
 
 function Analyser(context) {
+    var self = this;
 
-    /* canvas related code */
+    /* privates */
     var canvas;
     var canvasCtx;
 
@@ -15,38 +16,25 @@ function Analyser(context) {
         canvas = document.createElement('canvas');
         document.getElementsByTagName('body')[0].appendChild(canvas);
     }
+
     canvasCtx = canvas.getContext("2d");
-
-
 
     var canvasWidth = canvas.width;
     var canvasHeight = canvas.height;
-
-    //var intendedWidth = document.querySelector('.wrapper').clientWidth;
-    //canvas.setAttribute('width', intendedWidth);
-    //var visualSelect = document.getElementById("visual");
-
     var drawVisual;
     var analyser = context.createAnalyser();
-
-
     analyser.fftSize = 2048;
     var bufferLength = analyser.frequencyBinCount;
     var dataArray = new Uint8Array(bufferLength);
 
-    var self = this;
-
     // clear canvas
     canvasCtx.clearRect(0, 0, canvasWidth, canvasHeight);
-
 
     /* Method: draw()
     ------------------------------------------------------------------------------
     ** Call this function once, and it will keep updating itself through callback
     ------------------------------------------------------------------------------*/
-    this.draw = function () {
-        //console.log("draw OscI function entered");
-
+    self.draw = function () {
         drawVisual = requestAnimationFrame(self.draw);
         analyser.getByteTimeDomainData(dataArray);
 
@@ -67,36 +55,26 @@ function Analyser(context) {
             var v = dataArray[i] / 128.0;
             var y = v * canvasHeight / 2;
 
-            if (i == 0) {
+            if (i === 0) {
                 canvasCtx.moveTo(position, y);
-
             } else {
                 canvasCtx.lineTo(position, y);
             }
-
             position += sliceWidth;
-
-
         }
         canvasCtx.lineTo(canvas.width, canvas.height / 2);
-
         canvasCtx.stroke();
-
     }
 
     // connector methods: outputTo
-    this.outputTo = function (destination) {
+    self.outputTo = function (destination) {
         analyser.connect(destination);
-
         return true;
-
     }
 
     // : input
-    this.input = function () {
+    self.input = function () {
         return analyser;
     }
-
-
 }
 

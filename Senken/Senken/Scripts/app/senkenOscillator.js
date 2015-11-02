@@ -6,106 +6,69 @@
 ** generatad sounds in a wavebucket                                                                         **
 --------------------------------------------------------------------------------------------------------------
 */
-
-
 function Oscillator(context, endController, name) {
-
     // self reference
-    var selfOsc = this;
+    var self = this;
 
+    // private
     var oscName = name;
 
     // member variables oscillatorNode
-    this.osc = context.createOscillator();
-    selfOsc.osc.frequency.value = 220;
-    this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
-    this.gainNode = context.createGain();
-
-    
-
+    self.osc = context.createOscillator();
+    self.osc.frequency.value = 220;
+    self.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
+    self.gainNode = context.createGain();
 
     /* wavebucket */
-    this.wavebucket = new WaveBucket(context, oscName, selfOsc);
-    this.lastWaveRemoved = true;
-    this.bucketLoaded = false;
-    this.currentFreeIndexInBucket = 0;
+    self.wavebucket = new WaveBucket(context, oscName, self);
+    self.lastWaveRemoved = true;
+    self.bucketLoaded = false;
+    self.currentFreeIndexInBucket = 0;
 
-    
-
-    
-
-    
-
-
-    /* Method: this.waveGenerator = function (int frequency, string oscType, int volume, int waveBucketIndex, bool updateConnectionsBool) : Oscillation
+    /* Method: self.waveGenerator = function (int frequency, string oscType, int volume, int waveBucketIndex, bool updateConnectionsBool) : Oscillation
     ------------------------------------------------------------------------------------------------------------------------
     IMPORTANT => this function has an dependency outside the object: global callbackfunction updateWiringCallback() is called  everytime
     a newly generated wave is added. Through this functionality the wavebucket feature becomes possible in an object oriented
     setting. The dependency is activated by setting the third parameter to true, otherwise generated sound won't stack when
     the wavebucket is loaded, and instead only the last sound is generated. 
     -----------------------------------------------------------------------------------------------------------------------*/
+    self.waveGenerator = function (frequency, oscType, volume, waveBucketIndex, updateConnections) {
+        self.osc = context.createOscillator();
+        self.osc.type = oscType;
+        self.osc.frequency.value = frequency;
+        self.wavebucket.changeVolume(waveBucketIndex, volume);
 
-    this.waveGenerator = function (frequency, oscType, volume, waveBucketIndex, updateConnections) {
+        self.osc.start(context.currentTime);
+        self.osc.connect(self.wavebucket.gainNode(waveBucketIndex));
+        self.wavebucket.changeVolume(waveBucketIndex, volume);
 
-        console.log("waveGenerator reached");
+        /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE BY UPDATING THE CONNECTIONS OF ALL OBJECTS*/
+        if (updateConnections === true) {
+            updateWiringCallBack();
+        }
 
-       
+        self.currentFreeIndexInBucket += 1;
 
-            selfOsc.osc = context.createOscillator();
-            selfOsc.osc.type = oscType;
-            selfOsc.osc.frequency.value = frequency;
-
-
-            selfOsc.wavebucket.changeVolume(waveBucketIndex, volume);
-
-            selfOsc.osc.start(context.currentTime);
-            //osc.stop(context.currentTime + DURATION);
-            console.log("Osc I: started at freq " + selfOsc.osc.frequency.value + ", with shape " + selfOsc.osc.type + " with volume: " + volume);
-
-            selfOsc.osc.connect(selfOsc.wavebucket.gainNode(waveBucketIndex));
-            selfOsc.wavebucket.changeVolume(waveBucketIndex, volume);
-
-            /* GLOBAL DEPENDENCY TO MAKE WAVEBUCKET POSSIBLE BY UPDATING THE CONNECTIONS OF ALL OBJECTS*/
-            if (updateConnections === true) {
-                console.log("update connections called");
-                updateWiringCallBack();
-            }
-
-            selfOsc.currentFreeIndexInBucket += 1;
-            console.log("currentFreeBucketIndex = " + selfOsc.currentFreeIndexInBucket);
-
-            // add wave to the bucket
-            return selfOsc.osc;
-
-        
+        // add wave to the bucket
+        return self.osc;
     };
 
     /* Method: this.changeWaveVolume = function (int index, int volume): void  
    -----------------------------------------------------------------------------------------------------------
    ** Changes wave's volume from wavebucket by index
    */
-
-    this.changeWaveVolume = function (index, volume) { // set index
-        console.log("changeVolume on Oscillator volume = " + volume);
-        
-        selfOsc.wavebucket.changeVolume(index, volume);
-       
+    self.changeWaveVolume = function (index, volume) { // set index
+        self.wavebucket.changeVolume(index, volume);
     };
-
 
     /* Method: this.removeWave = function (int index): void  
     -----------------------------------------------------------------------------------------------------------
     ** Removes wave from wavebucket by index. 
     */
 
-    this.removeWave = function (index) { // set index
-
-       
-        selfOsc.wavebucket.remove(index);
-
-        selfOsc.currentFreeIndexInBucket -= 1;
-      
-       
+    self.removeWave = function (index) { // set index
+        self.wavebucket.remove(index);
+        self.currentFreeIndexInBucket -= 1;
     };
 
     /* Method: this.removeWave = function (): bool  
@@ -113,20 +76,17 @@ function Oscillator(context, endController, name) {
    ** Removes last wave added to the wavebucket. This function creates a better performance than removing by index, 
    ** because no reload and connectionUpdate is needed. 
    */
-
-    this.removeLastWave = function () {
-        if (!selfOsc.lastWaveRemoved) {
-            selfOsc.osc.stop();
-            selfOsc.wavebucket.removeLastWave();
-            selfOsc.lastWaveRemoved = true;
-            selfOsc.currentFreeIndexInBucket -= 1;
-
+    self.removeLastWave = function () {
+        if (!self.lastWaveRemoved) {
+            self.osc.stop();
+            self.wavebucket.removeLastWave();
+            self.lastWaveRemoved = true;
+            self.currentFreeIndexInBucket -= 1;
             return true;
         } else {
             return false;
         }
     }
-
 
     /* Method: this.stackSoundWave = function (int frequency, int oscTypeEnum, int volume, bool updateConnections): void  
     ----------------------------------------------------------------------------------------------------------------------
@@ -134,43 +94,27 @@ function Oscillator(context, endController, name) {
     ** oscillation to the wave bucket. Checks if it can perform this action, by making a call to IsActive() of 
     ** the the mastercontroller object. 
     */
-
-    this.stackSoundWave = function (frequency, oscTypeEnum, updateConnections) {
-
-        console.log("stack soundwave reached");
-
-        if (selfOsc.currentFreeIndexInBucket < 10) {
-
-            /*!!!! */   selfOsc.oscTypeEnum = oscTypeEnum;
-
+    self.stackSoundWave = function (frequency, oscTypeEnum, updateConnections) {
+        if (self.currentFreeIndexInBucket < 10) {
+            self.oscTypeEnum = oscTypeEnum;
             var volume = 0.5;
-
-            var oscType = selfOsc.translateOscTypeEnumToString(selfOsc.oscTypeEnum);
-
-            console.log("osctype is NOWWW: " + oscType);
-
-            console.log("currentFreeBucketIndex as read by stackSoundWave = " + selfOsc.currentFreeIndexInBucket);
-            var waveBucketIndex = selfOsc.currentFreeIndexInBucket;
+            var oscType = self.translateOscTypeEnumToString(self.oscTypeEnum);
+            var waveBucketIndex = self.currentFreeIndexInBucket;
 
             if (endController.isActive()) {
-                selfOsc.wavebucket.addWave(selfOsc.waveGenerator(frequency, oscType, volume, waveBucketIndex, updateConnections));
-
-                selfOsc.lastWaveRemoved = false;
+                self.wavebucket.addWave(self.waveGenerator(frequency, oscType, volume, waveBucketIndex, updateConnections));
+                self.lastWaveRemoved = false;
             }
-
         } else {
             alert("maximum amount of oscillations on this bucket has been reached");
         }
     };
 
-
     /* Method: this.translateOscTypeEnumToString = function (int oscTypeEnum): string oscType  
      -----------------------------------------------------------------------------------------------------------
     ** Translates enum of OscType into the corresponding string. Default value is sine. 
     */
-
-    this.translateOscTypeEnumToString = function (oscTypeEnum) {
-
+    self.translateOscTypeEnumToString = function (oscTypeEnum) {
         switch (parseInt(oscTypeEnum)) {
             case 0: return "sine";
             case 1: return "square";
@@ -180,14 +124,12 @@ function Oscillator(context, endController, name) {
         }
     }
 
-
     /* Method: this.translateStringToTypeEnum = function (string type): enum oscType  
     -----------------------------------------------------------------------------------------------------------
    ** Translates string of of OscType into the corresponding enum. Default value is sine. 
    */
 
-    this.translateStringToTypeEnum = function (type) {
-
+    self.translateStringToTypeEnum = function (type) {
         switch (type) {
             case "sine": return 0;
             case "square": return 1;
@@ -195,39 +137,31 @@ function Oscillator(context, endController, name) {
             case "sawtooth": return 3;
             default: return 0;
         }
-
     };
 
-    
+
     /* Method: this.startBucket = function (): bool  
      -----------------------------------------------------------------------------------------------------------
     ** Starts up the oscillations present in the wavebucket after they have been frozen on the client side.
     */
-
-    this.startBucket = function () {
-
-        if (!selfOsc.wavebucket.isActive()) {
-
-            var arrayLength = selfOsc.wavebucket.getSize();
+    self.startBucket = function () {
+        if (!self.wavebucket.isActive()) {
+            var arrayLength = self.wavebucket.getSize();
             console.log(arrayLength);
-
             var i;
-
             for (i = 0; i < arrayLength; i++) {
                 console.log("i = " + i);
-                selfOsc.wavebucket.addWave(selfOsc.waveGenerator(selfOsc.wavebucket.select(i).frequency.value, selfOsc.wavebucket.select(i).type, selfOsc.wavebucket.readVolumeByIndex(i), i, true)); // i is wavebucket index
-
-                
+                self.wavebucket.addWave(self.waveGenerator(self.wavebucket.select(i).frequency.value, self.wavebucket.select(i).type, self.wavebucket.readVolumeByIndex(i), i, true)); // i is wavebucket index
             }
 
             for (i = 0; i < arrayLength; i++) {
-                selfOsc.wavebucket.removeFirstElement();
+                self.wavebucket.removeFirstElement();
             }
-
-            selfOsc.wavebucket.activate();
+            self.wavebucket.activate();
 
             return true;
         }
+        return false;
     };
 
 
@@ -236,147 +170,83 @@ function Oscillator(context, endController, name) {
     ** Calls the stop method on every Oscillation Node in the wavebucket and checks if the wavebucket is 
     ** active. This all happens on the client side.
     */
-
-    this.freezeBucket = function () {
-
-        if (selfOsc.wavebucket.isActive()) {
-
-            console.log("stop function wavebucket activated,");
-
-            for (var i = 0; i < selfOsc.wavebucket.getSize() ; i++) {
-                console.log(i + " " + typeof selfOsc.wavebucket.select(i));
-                selfOsc.wavebucket.select(i).stop();
+    self.freezeBucket = function () {
+        if (self.wavebucket.isActive()) {
+            for (var i = 0; i < self.wavebucket.getSize() ; i++) {
+                console.log(i + " " + typeof self.wavebucket.select(i));
+                self.wavebucket.select(i).stop();
             }
-
-            console.log(selfOsc.wavebucket.isActive());
-
-            selfOsc.wavebucket.deactivate();
-
-            console.log(selfOsc.wavebucket.isActive());
-
-            selfOsc.currentFreeIndexInBucket = 0;
-            console.log("currentFreeBucketIndex = " + selfOsc.currentFreeIndexInBucket);
-
+            self.wavebucket.deactivate();
+            self.currentFreeIndexInBucket = 0;
             return true;
         }
+        return false;
     };
 
 
-    /* Method: this.saveWaveBucket = function (): bool  
+    /* Method: self.saveWaveBucket = function (): bool  
    -----------------------------------------------------------------------------------------------------------
    ** Saves wave bucket to hidden field. 
-   ** !! SET INPUT FOR FIELD NAME !! 
    */
-
-    this.saveWaveBucket = function (hiddenBucketId) {
-
-        console.log("save bucket reached on Osc");
-
-        var oscillationsString = selfOsc.wavebucket.oscillationsToString();
-
+    self.saveWaveBucket = function (hiddenBucketId) {
+        var oscillationsString = self.wavebucket.oscillationsToString();
         $(hiddenBucketId).val(oscillationsString);
-
         return true;
     }
 
 
-    /* Method: this.loadWaveBucket = function (): bool  
+    /* Method: self.loadWaveBucket = function (): bool  
   -----------------------------------------------------------------------------------------------------------
   ** Loads wave bucket from hidden field value that is loaded from the server side
   ** !! SET INPUT FOR FIELD NAME !! 
   */
 
-    this.loadWaveBucket = function (hiddenBucketId) {
-
-        console.log("load bucket reached on Osc but not loading (yet): ");
-
-        if (!selfOsc.bucketLoaded) {
-
-            console.log("load bucket reached on Osc and starts loading: ");
-
+    self.loadWaveBucket = function (hiddenBucketId) {
+        if (!self.bucketLoaded) {
             var bucketString = $(hiddenBucketId).attr('value');
-
-            console.log("bucket string as from server: " + bucketString);
-
             var oscsArray = bucketString.split(",");
 
-            console.log("Oscillation Array in loadWaveBucket method: "+  oscsArray);
+            for (var i = 0; i < oscsArray.length - 1; i++) {
+                var waveCharacteristics = oscsArray[i].split(" ");
+                var waveBucketIndex = self.currentFreeIndexInBucket;
+                var frequency = waveCharacteristics[0];
+                var waveForm = waveCharacteristics[1];
+                var waveVolume = waveCharacteristics[2];
 
-           // if (oscsArray[0].length > 4) { // check if the first element in the array is really an array carrying oscillation info
-
-                for (var i = 0; i < oscsArray.length - 1; i++) {
-
-                    var waveCharacteristics;
-
-                    waveCharacteristics = oscsArray[i].split(" ");
-
-                    console.log(waveCharacteristics);
-
-                    console.log("load wave in loadbucket function");
-
-                    var waveBucketIndex = selfOsc.currentFreeIndexInBucket;
-
-                    var frequency = waveCharacteristics[0];
-                    var waveForm = waveCharacteristics[1];
-                    var waveVolume = waveCharacteristics[2];
-
-                    
-
-                    selfOsc.wavebucket.addWave(selfOsc.waveGenerator(frequency, waveForm, waveVolume, waveBucketIndex, true));
-
-                    
-
-                    selfOsc.lastWaveRemoved = false;
-                                        
-                }
-
-       //     }
-
-            selfOsc.bucketLoaded = true; 
+                self.wavebucket.addWave(self.waveGenerator(frequency, waveForm, waveVolume, waveBucketIndex, true));
+                self.lastWaveRemoved = false;
+            }
+            self.bucketLoaded = true;
         }
-
-    return true;
-
-    }
-
-    // Method: outputTo(destination)
-    this.outputTo = function (destination) {
-        console.log("osc output refreshed");
-
-        // selfOsc.osc.connect(selfOsc.gainNode);
-        selfOsc.gainNode.connect(destination);
-
         return true;
     }
 
- 
+    // Method: outputTo(destination)
+    self.outputTo = function (destination) {
+        self.gainNode.connect(destination);
+        return true;
+    }
+
+
     // Method: gainNodeInputForLfo() -> return gainNode.gain
-    this.gainNodeInputForLfo = function () {
-        return selfOsc.gainNode.gain;
+    self.gainNodeInputForLfo = function () {
+        return self.gainNode.gain;
     }
 
     // Method: gainNodeInputForWaveBucket() -> return gainNode
-    this.gainNodeInputForWaveBucket = function () {
-        return selfOsc.gainNode;
+    self.gainNodeInputForWaveBucket = function () {
+        return self.gainNode;
     }
 
     // Method: updateWaveBucketDisplay() -> bucketListId : void
-    this.updateWaveBucketDisplay = function(bucketListId) {
-        
-        selfOsc.wavebucket.updateDisplay(bucketListId);
-        
-
+    self.updateWaveBucketDisplay = function (bucketListId) {
+        self.wavebucket.updateDisplay(bucketListId);
     }
 
     // Method: updateDisplay(Oscillator)
-    this.updateDisplay = function (oscFreqId, oscTypeId) {
-
-        console.log("update Display oscillator reached");
-
+    self.updateDisplay = function (oscFreqId, oscTypeId) {
         // set field value to last value
-        $(oscFreqId).val(selfOsc.osc.frequency.value);
-        $(oscTypeId).val(selfOsc.oscTypeEnum);
-
+        $(oscFreqId).val(self.osc.frequency.value);
+        $(oscTypeId).val(self.oscTypeEnum);
     }
-    
 }

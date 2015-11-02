@@ -15,7 +15,6 @@ namespace Senken.Hubs
 {
     public class JamHub : Hub
     {
-
         /* group management methods */
         public Task JoinRoom(string roomName)
         {
@@ -27,74 +26,45 @@ namespace Senken.Hubs
             return Groups.Remove(Context.ConnectionId, roomName);
         }
 
-        
         /* WaveBucket(s) */
-
-        public bool AdjustWaveVolume(string roomName, string volume, string bucketNumber, string waveNumber) 
+        public bool AdjustWaveVolume(string roomName, string volume, string bucketNumber, string waveNumber)
         {
             if (int.Parse(bucketNumber) == 0)
             {
-              
                 Clients.Group(roomName).changeWaveVolumeInBucketIPointer(waveNumber, volume);
-              //  Clients.Group(roomName).updateWaveBucketDisplayPointerI();
-         
+
             }
             else if (int.Parse(bucketNumber) == 1)
             {
-                // do stuff for waveBucket II
                 Clients.Group(roomName).changeWaveVolumeInBucketIIPointer(waveNumber, volume);
-               // Clients.Group(roomName).updateWaveBucketDisplayPointerII();
-            }
-            else
-            {
-                // do nothing
             }
 
             return true;
+        }
 
-        }       
-  
-       
-        
-          public bool RemoveWaveByIndex(string roomName, string bucketNumber, string waveNumber) 
-          {
+        public bool RemoveWaveByIndex(string roomName, string bucketNumber, string waveNumber)
+        {
             if (int.Parse(bucketNumber) == 0)
             {
-
                 Clients.Group(roomName).removeWaveByIndexInBucketIPointer(waveNumber);
-              //  Clients.Group(roomName).updateWaveBucketDisplayPointerI();
-         
             }
             else if (int.Parse(bucketNumber) == 1)
             {
-                // do stuff for waveBucket II
                 Clients.Group(roomName).removeWaveByIndexInBucketIIPointer(waveNumber);
-              //  Clients.Group(roomName).updateWaveBucketDisplayPointerII();
-            }
-            else
-            {
-                // do nothing
+                // 
             }
 
             return true;
+        }
 
-        }   
-
-
-        
         /* OscillatorI */
-
         public bool StackASoundWaveI(string roomName, string OscIFrequency, string OscIType, bool updateConnectionsBool)
         {
-                      
-            
             Clients.Group(roomName).stackSoundWavePointerI(OscIFrequency, OscIType, updateConnectionsBool);
             Clients.Group(roomName).updateWaveBucketDisplayPointerI();
             Clients.Group(roomName).updateOscillatorDisplayPointerI();
             Clients.Group(roomName).saveWaveBucketPointerI();
             Clients.Group(roomName).updateConnectionsPointer();
-            
-            
 
             return true;
         }
@@ -104,14 +74,11 @@ namespace Senken.Hubs
             Clients.Group(roomName).waveRemoverPointerI();
             Clients.Group(roomName).saveWaveBucketPointerI();
             Clients.Group(roomName).updateWaveBucketDisplayPointerI();
-            //Clients.Group(roomName).updateConnectionsPointer();
-            //Clients.Group(roomName).updateOscillatorDisplayPointer();
 
             return true;
         }
 
         /* LFO I */
-
         public bool ActivateLFOI(string roomName, string LfoFreq, string LfoScale, string LfoType)
         {
             Clients.Group(roomName).lfoActivatorPointerI(LfoFreq, LfoScale, LfoType);
@@ -130,14 +97,11 @@ namespace Senken.Hubs
             return true;
         }
 
-
         /* BiQuadFilter I */
-
         public bool ChangeFilterTypeOne(string roomName, string type)
         {
             Clients.Group(roomName).changeFilterTypeOnePointer(type);
             Clients.Group(roomName).updateBiquadFilterIDisplayPointer();
-
 
             return true;
         }
@@ -184,11 +148,8 @@ namespace Senken.Hubs
         }
 
         /* OscillatorII */
-
         public bool StackASoundWaveII(string roomName, string OscIFrequency, string OscIType, bool updateConnectionsBool)
         {
-
-
             Clients.Group(roomName).stackSoundWavePointerII(OscIFrequency, OscIType, updateConnectionsBool);
             Clients.Group(roomName).updateConnectionsPointer();
             Clients.Group(roomName).saveWaveBucketPointerII();
@@ -203,8 +164,7 @@ namespace Senken.Hubs
             Clients.Group(roomName).waveRemoverPointerII();
             Clients.Group(roomName).saveWaveBucketPointerII();
             Clients.Group(roomName).updateWaveBucketDisplayPointerII();
-            //Clients.Group(roomName).updateConnectionsPointer();
-            //Clients.Group(roomName).updateOscillatorDisplayPointer();
+            Clients.Group(roomName).updateOscillatorDisplayPointer();
 
             return true;
         }
@@ -231,7 +191,6 @@ namespace Senken.Hubs
 
 
         /* BiQuadFilter II */
-
         public bool ChangeFilterTypeTwo(string roomName, string type)
         {
             Clients.Group(roomName).changeFilterTypeTwoPointer(type);
@@ -284,7 +243,6 @@ namespace Senken.Hubs
 
 
         /* Master Controls */
-
         public bool ChangeMasterGain(string roomName, string volume)
         {
             Clients.Group(roomName).masterGainAdjusterPointer(volume);
@@ -311,20 +269,14 @@ namespace Senken.Hubs
         {
             Clients.Group(roomName).masterVolumeRunner();
             Clients.Group(roomName).compressorRunner();
-            
             Clients.Group(roomName).startSessionPointer(); // must come first otherwise the session will not be flagged as started
-            
-           
+
             Clients.Group(roomName).startBucketPointerI(); // bucket activation must come before loading: NEW IMPLEMENTATION NEEDED
             Clients.Group(roomName).startBucketPointerII();
 
             Clients.Group(roomName).loadWaveBucketPointerI(); // LOAD BUCKET SHOULD STORE VALUE IN THE ARRAY AND NOT KICK OFF WAVES
             Clients.Group(roomName).loadWaveBucketPointerII();
-         
-            
-            
-            
-            
+
             Clients.Group(roomName).updateWaveBucketDisplayPointerI();
             Clients.Group(roomName).updateWaveBucketDisplayPointerII();
 
@@ -339,35 +291,17 @@ namespace Senken.Hubs
 
             Clients.Group(roomName).masterVolumeRunner();
 
-
             Clients.Group(roomName).updateEndControlDisplayPointer();
-
-           // Clients.Group(roomName).updateCompressorDisplayPointer();
-           // Clients.Group(roomName).updateLfoDisplayPointerI();
-           // Clients.Group(roomName).updateLfoDisplayPointerII();
-           // Clients.Group(roomName).updateOscillatorDisplayPointerI();
-           // Clients.Group(roomName).updateOscillatorDisplayPointerII();
-           // Clients.Group(roomName).updateBiquadFilterIDisplayPointer();
-           // Clients.Group(roomName).updateBiquadFilterIIDisplayPointer();
-
-           // Clients.Group(roomName).updateConnectionsPointer();
 
             return true;
         }
 
-       
-
-
         /* Compressor */
-
         public bool AdjustCompRatio(string roomName, string ratio)
         {
             Clients.Group(roomName).compRatioAdjusterPointer(ratio);
 
-         // Clients.Group(roomName).updateCompressorDisplayPointer();
-
             return true;
-
         }
 
         public bool AdjustCompKnee(string roomName, string knee)
@@ -376,9 +310,7 @@ namespace Senken.Hubs
             Clients.Group(roomName).updateCompressorDisplayPointer();
 
             return true;
-
         }
-        
 
         public bool AdjustCompThreshold(string roomName, string threshold)
         {
@@ -386,14 +318,6 @@ namespace Senken.Hubs
             Clients.Group(roomName).updateCompressorDisplayPointer();
 
             return true;
-
         }
-
-        
-
-      
-        
     }
-
-   
 }

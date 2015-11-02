@@ -1,78 +1,52 @@
-﻿
-
-/*------------------------------------------------------------------------------------------------------
+﻿/*------------------------------------------------------------------------------------------------------
 ** Object: Lfo(context) : prototype 
 --------------------------------------------------------------------------------------------------------
 ** This Lfo is can be connected to the gainNode of an oscillator and manipulates
 */
 
 function Lfo(context) {
+    // private
+    var self = this;
 
-    var selfLfo = this;
-
-    this.lfo;
-    selfLfo.lfo = context.createOscillator();
-    selfLfo.lfo.frequency.value = 1;
+    //initialize
+    self.lfo = context.createOscillator();
+    self.lfo.frequency.value = 1;
     this.gain = context.createGain();
     this.oscTypeEnum = 0; // enums: 0, 1, 2, 3 are valid. They correspond with sine, square, triangle and sawtooth.
     this.lfoActive = false;
-
-
-    // var gain = context.createGain();
-
 
     /* Method: this.lfoActivator = function (int lfoFreq, int scale, int lfoTypeEnum): void  
     -----------------------------------------------------------------------------------------------------------
     ** Activates Lfo's frequency, scale and shape. Sets member variable lfoActive to 'true'.
     */
-
-    this.lfoActivator = function (lfoFreq, scale, lfoTypeEnum) {
-
+    self.lfoActivator = function (lfoFreq, scale, lfoTypeEnum) {
         // Create oscillator.
-        
-        selfLfo.oscTypeEnum = lfoTypeEnum;
-           
-
-            if (!selfLfo.lfoActive) {
-                console.log("lfo started");
-                selfLfo.lfo = context.createOscillator();
-                selfLfo.lfo.type = selfLfo.translateLfoTypeEnumToString(lfoTypeEnum);
-                selfLfo.lfo.frequency.value = lfoFreq;
-                selfLfo.gain = context.createGain();
-                selfLfo.gain.gain.value = scale;
-
-                selfLfo.lfo.start(context.currentTime);
-
-                selfLfo.lfoActive = true;
-
-                console.log("lfo added");
-            }
-        
-
-
+        self.oscTypeEnum = lfoTypeEnum;
+        if (!self.lfoActive) {
+            self.lfo = context.createOscillator();
+            self.lfo.type = self.translateLfoTypeEnumToString(lfoTypeEnum);
+            self.lfo.frequency.value = lfoFreq;
+            self.gain = context.createGain();
+            self.gain.gain.value = scale;
+            self.lfo.start(context.currentTime);
+            self.lfoActive = true;
+        }
     };
 
     /* Method: this.lfoDeactivator = function (): void  
     -----------------------------------------------------------------------------------------------------------
     ** Deactivates Lfo and sets member variable lfoActive to 'false'.  
     */
-
-    this.lfoDeactivator = function () {
-        selfLfo.lfoActive = false;
-        selfLfo.lfo.stop(context.currentTime);
-        
-        console.log("lfo stopped");
+    self.lfoDeactivator = function () {
+        self.lfoActive = false;
+        self.lfo.stop(context.currentTime);
     };
 
     /* Method: this.translateLfoTypeEnumToString = function (int lfoTypeEnum): string lfoType  
     -----------------------------------------------------------------------------------------------------------
     ** Translates enum of lfoType into the corresponding string. Default value is sine. 
     */
-
-    this.translateLfoTypeEnumToString = function (lfoTypeEnum) {
-
-        console.log("oscType: " + typeof (lfoTypeEnum));
-
+    self.translateLfoTypeEnumToString = function (lfoTypeEnum) {
         switch (parseInt(lfoTypeEnum)) {
             case 0: return "sine";
             case 1: return "square";
@@ -82,40 +56,33 @@ function Lfo(context) {
         }
     }
 
-    this.readFrequency = function () {
-        return selfLfo.lfo.frequency.value;
+    self.readFrequency = function () {
+        return self.lfo.frequency.value;
     }
 
-    this.readScale = function () {
-        return selfLfo.gain.gain.value;
+    self.readScale = function () {
+        return self.gain.gain.value;
     }
 
-    this.readType = function () {
-        return selfLfo.oscTypeEnum;
+    self.readType = function () {
+        return self.oscTypeEnum;
     }
 
-    this.isActive = function () {
-        return selfLfo.lfoActive;
+    self.isActive = function () {
+        return self.lfoActive;
     }
-
 
     // (gain)OutputTo
-    this.outputTo = function (destination) {
-        console.log("lfo output refreshed");
-
-        selfLfo.lfo.connect(selfLfo.gain);
-        selfLfo.gain.connect(destination);
-
+    self.outputTo = function (destination) {
+        self.lfo.connect(self.gain);
+        self.gain.connect(destination);
         return true;
-
     }
 
-    this.updateDisplay = function (lfoActive, lfoFreqId, lfoScaleId, lfoTypeId) {
-        $(lfoActive).prop('checked', selfLfo.lfoActive); 
-        $(lfoFreqId).val(selfLfo.lfo.frequency.value);
-        $(lfoScaleId).val(selfLfo.gain.gain.value);
-        $(lfoTypeId).val(selfLfo.oscTypeEnum);
+    self.updateDisplay = function (lfoActive, lfoFreqId, lfoScaleId, lfoTypeId) {
+        $(lfoActive).prop('checked', self.lfoActive);
+        $(lfoFreqId).val(self.lfo.frequency.value);
+        $(lfoScaleId).val(self.gain.gain.value);
+        $(lfoTypeId).val(self.oscTypeEnum);
     }
-
-
 }
