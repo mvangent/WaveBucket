@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "karma": "^0.12.28",
+    "karma": "0.12.37",
     "karma-chrome-launcher": "0.1.12",
     "karma-cli": "0.0.4",
     "karma-coverage": "0.2.7",
